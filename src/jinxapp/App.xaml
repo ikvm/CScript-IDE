@@ -1,0 +1,53 @@
+﻿<Application x:Class="jinxapp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mywpf="clr-namespace:ExtendPropertyLib.WPF;assembly=ExtendPropertyLib.WPF"
+             xmlns:ae ="clr-namespace:ICSharpCode.AvalonEdit.CodeCompletion;assembly=ICSharpCode.AvalonEdit"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <mywpf:ShellBooter x:Key="bootstrapper" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="Resources/Application.xaml"/>
+                <ResourceDictionary Source="Resources/Business Data.xaml"/>
+                <ResourceDictionary Source="Resources/Windows Application.xaml"/>
+                <ResourceDictionary Source="Resources/Must Have.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="{x:Type ae:CompletionListBox }" TargetType="{x:Type ae:CompletionListBox}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="#FF303030"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderThickness">
+                            <Setter.Value>
+                                0
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style x:Key="{x:Type ae:CompletionList }" TargetType="{x:Type ae:CompletionList}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="#FF303030"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderThickness">
+                            <Setter.Value>
+                                0
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application> 

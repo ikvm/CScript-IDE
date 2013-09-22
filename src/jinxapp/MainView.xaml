@@ -1,0 +1,156 @@
+﻿<Controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:Custom="http://metro.mahapps.com/winfx/xaml/shared" 
+        xmlns:my="clr-namespace:EasyEntities.RIA.Controls;assembly=EasyEntities.RIA.Controls"
+        xmlns:Converters1="clr-namespace:ExtendPropertyLib.XAML.Converters;assembly=ExtendPropertyLib.WPF"
+        xmlns:local="clr-namespace:jinxapp" 
+        xmlns:editor ="clr-namespace:jinxapp.RoslynEditer"
+        x:Class="jinxapp.MainView"
+        Height="768" Width="1024"
+   
+        ShowTitleBar="True"
+        TextOptions.TextRenderingMode="ClearType"
+        ShowIconOnTitleBar="true" 
+        Icon="Images/window.png"
+    >
+    <Controls:MetroWindow.WindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="设置" />
+            <Button Content="帮助" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.WindowCommands>
+    <Controls:MetroWindow.Resources>
+        <Converters1:BoolToVisibilityConverter x:Key="bool2Visable"/>
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroContentControl>
+
+        <Grid x:Name="LeftBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"  >
+                <Border Margin="2,0,0,0"  BorderThickness="1,1,0.5,1" >
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF555454" Offset="0"/>
+                            <GradientStop Color="#FF8D8D8D" Offset="1"/>
+                            <GradientStop Color="#FF625E5E" Offset="0.501"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="1.993,0.356" StartPoint="-0.353,0.359">
+                            <GradientStop Color="#FF1D1D1D" Offset="0"/>
+                            <GradientStop Color="#FE191818" Offset="0.409"/>
+                            <GradientStop Color="#FE0F0F0F" Offset="0.649"/>
+                            <GradientStop Color="#FE0F0F0F" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top" BorderThickness="0.3" CornerRadius="1" Height="22">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF4B4B4B" Offset="0" />
+                                    <GradientStop Color="Black" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="目录列表" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
+                        </Border>
+                        <Grid Margin="0,5,0,0">
+
+
+
+
+                        </Grid>
+                    </DockPanel>
+
+                </Border>
+
+            </Grid>
+            <GridSplitter Background="Transparent"  BorderThickness="0"  Width="2" Grid.Column="0"/>
+            <Grid Grid.Column="1" Margin="2,0,0,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45"/>
+                    <ColumnDefinition Width="0.927*"/>
+                </Grid.ColumnDefinitions>
+
+
+
+                <Border Grid.Column="0" CornerRadius="3" BorderBrush="#FF8D8D8D" BorderThickness="0.7,0.7,0.7,0.7">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                            <GradientStop Color="#FF383838" Offset="0" />
+                            <GradientStop Color="#FF242020" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel>
+                        <Grid Height="45" Width="45" Margin="0,8,0,0">
+                            <Controls:AppBarButton x:Name="rotate" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="33" Width="33" MetroImageSource="{DynamicResource Previous}" Click="AppBarButton_Click"   ToolTip="说明:将元数据列表 dock left for hide。">
+                                <Controls:AppBarButton.LayoutTransform>
+                                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180" />
+                                </Controls:AppBarButton.LayoutTransform>
+                            </Controls:AppBarButton>
+                        </Grid>
+                        <Controls:AppBarButton Name="New" Margin="0,2,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource New}" ToolTip="Create new file and clear the workspace"  >
+                            <TextBlock Text="New" FontSize="9"/>
+                        </Controls:AppBarButton>
+                        <Controls:AppBarButton Name="Open" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Folder}"   ToolTip="Open file to the workspace" >
+                            <TextBlock Text="Open" FontSize="9"/>
+                        </Controls:AppBarButton>
+                        <Controls:AppBarButton Name="Save" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Floppy}"   ToolTip="Save to file" >
+                            <TextBlock Text="Save" FontSize="9"/>
+                        </Controls:AppBarButton>
+                        <Controls:AppBarButton Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Properties}"  ToolTip="Application settings">
+                            <TextBlock Text="Setting" FontSize="9" />
+                        </Controls:AppBarButton>
+
+                        <Border BorderThickness="0.7" BorderBrush="DarkGray" Width="30" Height="1" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                        <Controls:AppBarButton x:Name="ConnectionIDE"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
+                            <TextBlock Text="Make" FontSize="9"/>
+                        </Controls:AppBarButton>
+                        <Controls:AppBarButton x:Name="GenerationDocument"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
+                            <TextBlock Text="Build" FontSize="9"/>
+                        </Controls:AppBarButton>
+
+
+                    </StackPanel>
+                </Border>
+                <Grid Grid.Column="1" >
+
+                    <TabControl>
+                        <TabItem Header="CSharp">
+                            <editor:RoslynEditer EditerType="CSharp" Text="{Binding CSharpContent}" Margin="0,0,0,23"/>
+                        </TabItem>
+                        <TabItem Header="Javascript">
+                            <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                        </TabItem>
+                    </TabControl>
+                    <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="8,0,0,2">
+                        <Expander.Header>
+                            <Border CornerRadius="1.5" Background="#FF0F0F0F" Width="145" Opacity="0.8">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock  Text="Application Log" Width="145"    Foreground="WhiteSmoke" TextAlignment="Center" />
+                                    <Rectangle Fill="#FF66B2F5" Height="4" Width="140" />
+                                </StackPanel >
+                            </Border>
+                        </Expander.Header>
+
+                        <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.9">
+                            <TextBox Text="{Binding Model.Log.Message}" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap"  AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5" TextChanged="TextBox_TextChanged_1" FontFamily="Microsoft YaHei" FontSize="12" />
+                        </Border>
+                    </Expander>
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </Controls:MetroContentControl>
+
+</Controls:MetroWindow>

@@ -18,7 +18,7 @@ namespace jinx
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            string className = node.Identifier.GetText();
+            string className = node.Identifier.ValueText;
 
             _writer.WriteLine("var {0} = function() {{", className);
             _writer.WriteLine("  var self = this;");
@@ -38,11 +38,11 @@ namespace jinx
 
             bool bPublic = modifiers.Any(c => c.Kind == SyntaxKind.PublicKeyword);
 
-            string initValue = DefaultValueEmitter.FromType(node.Type.PlainName);
+            string initValue = DefaultValueEmitter.FromType(node.Type.GetText().ToString());
 
             foreach (var variable in node.Variables)
             {
-                var nodeName = variable.Identifier.GetText().ToLowerCamelCase();
+                var nodeName = variable.Identifier.ValueText.ToLowerCamelCase();
 
                 if (variable.Initializer != null)
                     initValue = EmitExpression(variable.Initializer.Value);
@@ -78,8 +78,8 @@ namespace jinx
                 }
             }
 */
-            string nodeName = node.Identifier.GetText().ToLowerCamelCase();
-            string initValue = DefaultValueEmitter.FromType(node.Type.PlainName);
+            string nodeName = node.Identifier.ValueText.ToLowerCamelCase();
+            string initValue = DefaultValueEmitter.FromType(node.Type.GetText().ToString());
 
             if (bPublic)
                 _publicCode.WriteLine("    {0}: {1},", nodeName, initValue);
@@ -97,7 +97,7 @@ namespace jinx
             if (modifiers.Any(c => c.Kind == SyntaxKind.PublicKeyword))
                 bPublic = true;
 
-            var name = node.Identifier.GetText().ToLowerCamelCase();
+            var name = node.Identifier.ValueText.ToLowerCamelCase();
             var @params = VisitParameterList(node.ParameterList);
 
             _writer.WriteLine("  function {0}({1}) {{", name, @params);
@@ -119,7 +119,7 @@ namespace jinx
                 if (@params.Length != 0)
                     @params.Append(", ");
 
-                @params.Append(param.Identifier.GetText());
+                @params.Append(param.Identifier.ValueText);
             }
 
             return @params.ToString();
@@ -174,7 +174,7 @@ namespace jinx
 
         private string EmitBinaryExpression(BinaryExpressionSyntax node)
         {
-            switch (node.OperatorToken.GetText())
+            switch (node.OperatorToken.ValueText)
             {
                 case "+":
                 case "-":
@@ -183,14 +183,14 @@ namespace jinx
                     break;
 
                 default:
-                    System.Diagnostics.Trace.WriteLine("Unsupported operator: " + node.OperatorToken.GetText());
+                    System.Diagnostics.Trace.WriteLine("Unsupported operator: " + node.OperatorToken.ValueText);
                     break;
             }
 
             var expr = new StringBuilder();
             expr.Append(EmitExpression(node.Left));
             expr.Append(' ');
-            expr.Append(node.OperatorToken.GetText());
+            expr.Append(node.OperatorToken.ValueText);
             expr.Append(' ');
             expr.Append(EmitExpression(node.Right));
 
@@ -230,17 +230,17 @@ namespace jinx
             }
             */
 
-            return node.GetText();
+            return node.GetText().ToString();
         }
 
         private string EmitIdentifierName(IdentifierNameSyntax node)
         {
-            return node.Identifier.GetText().ToLowerCamelCase();
+            return node.Identifier.ValueText.ToLowerCamelCase();
         }
 
         public override void VisitForEachStatement(ForEachStatementSyntax node)
         {
-            var variable = node.Identifier.GetText();
+            var variable = node.Identifier.ValueText;
             var coll = EmitExpression(node.Expression);
             _writer.WriteLine("    for(var {0} in {1}) {{", variable, coll);
 

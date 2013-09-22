@@ -11,7 +11,7 @@ namespace jinx
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            if (node.Attributes.Any(a => a.DescendantNodes().OfType<AttributeSyntax>().Any(s => s.Name.GetText() == typeof(JavaScript).Name)))
+            if (node.AttributeLists.Any(a => a.DescendantNodes().OfType<AttributeSyntax>().Any(s => s.Name.GetText().ToString() == typeof(JavaScript).Name)))
                 Classes.Add(node);
 
             base.VisitClassDeclaration(node);

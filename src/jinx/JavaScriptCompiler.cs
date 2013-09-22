@@ -27,7 +27,7 @@ namespace jinx
 
         public void EmitJs(TextWriter output, string content)
         {
-            var tree = SyntaxTree.ParseCompilationUnit(content);
+            var tree = SyntaxTree.ParseText(content);
 
             var root = (CompilationUnitSyntax)tree.GetRoot();
 
@@ -37,7 +37,7 @@ namespace jinx
 
         private void Compile(TextWriter output, string content, string path)
         {
-            var tree = SyntaxTree.ParseCompilationUnit(content, path);
+            var tree = SyntaxTree.ParseText(content, path);
 
             var root = (CompilationUnitSyntax)tree.GetRoot();
 

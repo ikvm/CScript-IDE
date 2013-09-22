@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinxc", "jinxc\jinxc.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinx.types", "jinx.types\jinx.types.csproj", "{028FBE67-FF48-43DD-A1FA-A2FBA6B0F7F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinxapp", "jinxapp\jinxapp.csproj", "{372235C2-6A61-402B-9542-D0435EC5FCF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{028FBE67-FF48-43DD-A1FA-A2FBA6B0F7F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{028FBE67-FF48-43DD-A1FA-A2FBA6B0F7F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{028FBE67-FF48-43DD-A1FA-A2FBA6B0F7F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Debug|x86.ActiveCfg = Debug|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Debug|x86.Build.0 = Debug|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Release|Any CPU.ActiveCfg = Release|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Release|x86.ActiveCfg = Release|x86
+		{372235C2-6A61-402B-9542-D0435EC5FCF6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

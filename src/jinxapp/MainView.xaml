@@ -125,28 +125,60 @@
                 </Border>
                 <Grid Grid.Column="1" >
 
-                    <TabControl>
+                    <TabControl Margin="0,0,0,23">
                         <TabItem Header="CSharp">
-                            <editor:RoslynEditer EditerType="CSharp" Text="{Binding CSharpContent,Mode=TwoWay}" Margin="0,0,0,23"/>
+                            <editor:RoslynEditer Foreground="White" Background="DarkGray" EditerType="CSharp" Text="{Binding CSharpContent,Mode=TwoWay}" />
                         </TabItem>
-                        <TabItem Header="Javascript">
-                            <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                        <TabItem Header="Web">
+                            
+                            <TabControl>
+                                <TabItem Header="WebBrowser">
+                                    <WebBrowser Source="http://www.cnblogs.com"/>
+                                </TabItem>
+                                <TabItem Header="Html">
+                                    <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                                </TabItem>
+                                <TabItem Header="Javascript">
+                                    <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                                </TabItem>
+                            </TabControl>
+                         
+                        </TabItem>
+                        <TabItem Header="Regex">
+                          
                         </TabItem>
                     </TabControl>
                     <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="0,0,0,2">
                         <Expander.Header>
-                            <Border CornerRadius="1.5" Background="#FF0F0F0F" Width="145" Opacity="0.8">
+                            <Border CornerRadius="2.5" Background="#FF0F0F0F"  Opacity="0.8">
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <TextBlock  Text="Application Log" Width="145"    Foreground="WhiteSmoke" TextAlignment="Center" />
                                     <Rectangle Fill="#FF66B2F5" Height="4" Width="140" />
                                 </StackPanel >
                             </Border>
                         </Expander.Header>
-
-                        <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
-                            <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
-                        </Border>
+                        <TabControl>
+                            <TabItem Header="Running Log">
+                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
+                                    <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
+                                </Border>
+                            </TabItem>
+                            <TabItem Header="Command">
+                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
+                                    <RichTextBox Name="log1"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
+                                </Border>
+                            </TabItem>
+                            <TabItem Header="Regex">
+                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
+                                    <RichTextBox Name="log2"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
+                                </Border>
+                            </TabItem>
+                        </TabControl>
+                    
                     </Expander>
+
+                  
+
                 </Grid>
             </Grid>
         </Grid>

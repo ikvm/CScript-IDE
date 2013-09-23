@@ -21,8 +21,8 @@
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
-            <Button Content="设置" />
-            <Button Content="帮助" />
+            <Button Content="Setting" />
+            <Button Content="Help" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.WindowCommands>
     <Controls:MetroWindow.Resources>
@@ -62,7 +62,7 @@
                                     <GradientStop Color="Black" Offset="1" />
                                 </LinearGradientBrush>
                             </Border.Background>
-                            <TextBlock Text="目录列表" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
+                            <TextBlock Text="File Expolor" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
                         </Border>
                         <Grid Margin="0,5,0,0">
 

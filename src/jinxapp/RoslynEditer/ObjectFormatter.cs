@@ -8,7 +8,7 @@ using RoslynPad.Utilities;
 
 namespace RoslynPad.Formatting
 {
-    class ObjectFormatter
+    public class ObjectFormatter
     {
         private readonly FlowDocument _document;
 

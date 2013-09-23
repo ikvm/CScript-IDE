@@ -14,6 +14,7 @@ using System.ComponentModel.Composition;
 using ExtendPropertyLib;
 using System.Windows.Media.Animation;
 using ExtendPropertyLib.WPF;
+using RoslynPad.Formatting;
 
 namespace jinxapp
 {
@@ -21,14 +22,25 @@ namespace jinxapp
     /// <summary>
     /// Interaction logic for WindowTestView.xaml
     /// </summary>
-    public partial class MainView : MahApps.Metro.Controls.MetroWindow
+    public partial class MainView : MahApps.Metro.Controls.MetroWindow,IMainView
     {
+        private readonly ObjectFormatter _formatter;
+        public ObjectFormatter Formatter
+        {
+            get { return _formatter; }
+        }
         public MainView()
         {
           
             InitializeComponent();
             width = new GridLength(260, GridUnitType.Pixel);
             this.Closed += MainView_Closed;
+
+            var document = new FlowDocument { FontFamily = new FontFamily("Consolas"), FontSize = 12 };
+            _formatter = new ObjectFormatter(document);
+            log.Document = document;
+
+
         }
 
         void MainView_Closed(object sender, EventArgs e)
@@ -92,6 +104,10 @@ namespace jinxapp
             var txtBox = e.OriginalSource as TextBox;
             txtBox.ScrollToEnd();
         }
+
+    
+     
+
 
     }
 }

@@ -7,7 +7,7 @@
              d:DesignHeight="30" d:DesignWidth="500">
     <Grid  Height="28">
         <StackPanel Orientation="Horizontal"  >
-            <TextBlock x:Name="t1" Text="{Binding .}"  Foreground="#FF474747" Margin="7" />
+            <TextBlock x:Name="t1" Text="{Binding .}"  Foreground="#FF474747" Margin="3" />
         </StackPanel>
     </Grid>
 </UserControl>

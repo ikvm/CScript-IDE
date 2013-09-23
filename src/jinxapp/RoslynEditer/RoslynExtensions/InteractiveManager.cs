@@ -10,6 +10,7 @@ using Roslyn.Services;
 using System.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
+using RoslynPad.Runtime;
 
 
 namespace RoslynPad.RoslynExtensions
@@ -27,8 +28,8 @@ namespace RoslynPad.RoslynExtensions
                                                                 typeof(DataSet),
                                                                 typeof(Queryable),
                                                                 typeof(ObservableCollection<>),
-                                                                typeof(BlockingCollection<>)
-
+                                                                typeof(BlockingCollection<>),
+                                                                typeof (ObjectExtensions)
                                                                 //,typeof (ObjectExtensions)
                                                             };
 

@@ -113,7 +113,7 @@
                         </Controls:AppBarButton>
 
                         <Border BorderThickness="0.7" BorderBrush="DarkGray" Width="30" Height="1" Margin="0,8,0,0" HorizontalAlignment="Center"/>
-                        <Controls:AppBarButton x:Name="ConnectionIDE"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
+                        <Controls:AppBarButton x:Name="MakeAndRun"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
                             <TextBlock Text="Make" FontSize="9"/>
                         </Controls:AppBarButton>
                         <Controls:AppBarButton x:Name="GenerationDocument"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
@@ -127,13 +127,13 @@
 
                     <TabControl>
                         <TabItem Header="CSharp">
-                            <editor:RoslynEditer EditerType="CSharp" Text="{Binding CSharpContent}" Margin="0,0,0,23"/>
+                            <editor:RoslynEditer EditerType="CSharp" Text="{Binding CSharpContent,Mode=TwoWay}" Margin="0,0,0,23"/>
                         </TabItem>
                         <TabItem Header="Javascript">
                             <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
                         </TabItem>
                     </TabControl>
-                    <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="8,0,0,2">
+                    <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="0,0,0,2">
                         <Expander.Header>
                             <Border CornerRadius="1.5" Background="#FF0F0F0F" Width="145" Opacity="0.8">
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -143,8 +143,8 @@
                             </Border>
                         </Expander.Header>
 
-                        <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.9">
-                            <TextBox Text="{Binding Model.Log.Message}" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap"  AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5" TextChanged="TextBox_TextChanged_1" FontFamily="Microsoft YaHei" FontSize="12" />
+                        <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
+                            <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" />
                         </Border>
                     </Expander>
                 </Grid>

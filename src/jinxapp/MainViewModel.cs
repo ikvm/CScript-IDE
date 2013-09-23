@@ -7,6 +7,7 @@ using ExtendPropertyLib.WPF;
 using System.ComponentModel.Composition;
 using MaxZhang.EasyEntities.Dynamic.Aop;
 using System.Windows.Input;
+using RoslynPad.RoslynExtensions;
 
 namespace jinxapp
 {
@@ -20,14 +21,32 @@ namespace jinxapp
 
         }
 
-
+        public static ExtendProperty CSharpContentProperty = RegisterProperty<MainViewModel>(v => v.CSharpContent);
+        public string CSharpContent { set { SetValue(CSharpContentProperty, value); } get { return (string)GetValue(CSharpContentProperty); } }
 
         public override string GetViewTitle()
         {
             return "jinx - CSharp and Javascript Compiler base on Roslyn";
         }
 
+        public void MakeAndRun()
+        {
+            var mv = this.View as IMainView;
+            //mv.Formatter.Clear();
 
+            try
+            {
+                var scriptEngine = InteractiveManager.GetScriptEngine();
+                var session = scriptEngine.CreateSession();
+                session.Execute(CSharpContent);
+            }
+            catch (Exception ex)
+            {
+                mv.Formatter.WriteError(ex);
+            }
+
+
+        }
 
     }
 }

@@ -123,6 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IMainView.cs" />
     <Compile Include="MainViewInfo.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -153,6 +154,7 @@
     <Compile Include="RoslynEditer\RoslynExtensions\InteractiveManager.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\InteractiveWorkspace.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\RoslynExtensions.cs" />
+    <Compile Include="RoslynEditer\Runtime\ObjectExtensions.cs" />
     <Compile Include="RoslynEditer\Utilities\ReferenceEqualityComparer.cs" />
     <Compile Include="RoslynEditer\Utilities\ReflectionExtensions.cs" />
     <Compile Include="RoslynEditer\Utilities\StaticReflection.cs" />
@@ -221,7 +223,6 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="DomainServices\" />
-    <Folder Include="RoslynEditer\Runtime\" />
     <Folder Include="UserViews\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
@@ -265,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Keyword.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ExtensionMethod.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using RoslynPad.Editor;
@@ -64,6 +65,9 @@ namespace jinxapp.RoslynEditer
                 Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
                 Editor.TextArea.TextEntering += OnTextEntering;
                 Editor.TextArea.TextEntered += OnTextEntered;
+                Editor.TextArea.KeyDown += TextArea_KeyDown;
+                Editor.MouseHover += Editor_MouseHover;
+                Editor.MouseHoverStopped += Editor_MouseHoverStopped;
             }
             else if(EditerType == EditerType.Javascript)
             {
@@ -96,6 +100,64 @@ namespace jinxapp.RoslynEditer
             _completionWindow = null;
         }
 
+
+
+        ToolTip toolTip = new ToolTip();
+
+        void Editor_MouseHoverStopped(object sender, MouseEventArgs e)
+        {
+            toolTip.IsOpen = false;
+        }
+
+        void Editor_MouseHover(object sender, MouseEventArgs e)
+        {
+            var pos = Editor.GetPositionFromPoint(e.GetPosition(Editor));
+            if (pos != null)
+            {
+                toolTip.PlacementTarget = this; // required for property inheritance
+                var docLine = Editor.TextArea.Document.Lines[pos.Value.Line - 1];
+                int startOfWord = TextUtilities.GetNextCaretPosition(Editor.TextArea.Document, docLine.Offset + pos.Value.Column, LogicalDirection.Backward, CaretPositioningMode.WordBorderOrSymbol);
+
+                int endOfWord = TextUtilities.GetNextCaretPosition(Editor.TextArea.Document, docLine.Offset + pos.Value.Column, LogicalDirection.Forward,
+                                                                   CaretPositioningMode.WordBorder);
+
+
+
+                string msg = null;
+                if (startOfWord < endOfWord && startOfWord >= 0)
+                    msg = Editor.TextArea.Document.GetText(startOfWord, endOfWord - startOfWord).Replace(".","").Trim();
+                
+                var position = Editor.CaretOffset;
+                var completions = _interactiveManager.GetCompletion(1);
+
+                var comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                if (comp == null)
+                {
+                    completions = _interactiveManager.GetCompletion(position);
+                    comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                }
+
+
+                if (comp != null)
+                {
+                    CompletionDescription cd = new CompletionDescription();
+                    cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
+                    toolTip.Content = cd;
+                    toolTip.IsOpen = true;
+                }
+               
+                e.Handled = true;
+            }
+        }
+
+        void TextArea_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyStates == Keyboard.GetKeyStates(Key.J) && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                OnTextEntered(this, null);
+            }
+        }
+
         private void OnTextEntered(object sender, TextCompositionEventArgs e)
         {
             var position = Editor.CaretOffset;
@@ -118,7 +180,15 @@ namespace jinxapp.RoslynEditer
                     _completionWindow = null;
                 };
             }
+
+            istypeset = true;
+            SetValue(TextProperty, Editor.Text);
+            
+
         }
+
+        bool istypeset = false;
+
 
         private void OnTextEntering(object sender, TextCompositionEventArgs e)
         {
@@ -149,8 +219,9 @@ namespace jinxapp.RoslynEditer
         static void TextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var that = d as RoslynEditer;
-            if (e.NewValue != null)
-                that.Editor.Text = e.NewValue.ToString();
+            if (e.OldValue == null && !that.istypeset)
+                that.Editor.AppendText(e.NewValue.ToString());
+           
         }
 
         static void EditerTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

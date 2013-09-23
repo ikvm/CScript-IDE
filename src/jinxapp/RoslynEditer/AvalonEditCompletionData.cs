@@ -86,6 +86,12 @@ namespace RoslynPad.Editor
                case Glyph.Keyword:
                    imageName = "Keyword";
                    break;
+               case Glyph.ExtensionMethodPublic:
+               case Glyph.ExtensionMethodProtected:
+               case Glyph.ExtensionMethodPrivate:
+               case Glyph.ExtensionMethodInternal:
+                   imageName = "ExtensionMethod";
+                   break;
                default:
                    imageName = "Type";
                    break;

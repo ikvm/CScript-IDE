@@ -144,7 +144,7 @@
                         </Expander.Header>
 
                         <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
-                            <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" />
+                            <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
                         </Border>
                     </Expander>
                 </Grid>

@@ -161,7 +161,7 @@ namespace jinxapp.RoslynEditer
         private void OnTextEntered(object sender, TextCompositionEventArgs e)
         {
             var position = Editor.CaretOffset;
-            if (position > 0 && _interactiveManager.IsCompletionTriggerCharacter(position - 1))
+            if (position > 0 && _interactiveManager.IsCompletionTriggerCharacter(position-1))
             {
                 _completionWindow = new CompletionWindow(Editor.TextArea);
                 _completionWindow.Width = 300;

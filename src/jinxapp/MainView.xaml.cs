@@ -36,7 +36,7 @@ namespace jinxapp
             width = new GridLength(260, GridUnitType.Pixel);
             this.Closed += MainView_Closed;
 
-            var document = new FlowDocument { FontFamily = new FontFamily("Consolas"), FontSize = 12 };
+            var document = new FlowDocument { FontFamily = new FontFamily("Consolas"), FontSize = 14 };
             _formatter = new ObjectFormatter(document);
             log.Document = document;
 
@@ -99,9 +99,11 @@ namespace jinxapp
 
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+     
+
+        private void log_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var txtBox = e.OriginalSource as TextBox;
+            var txtBox = e.OriginalSource as RichTextBox;
             txtBox.ScrollToEnd();
         }
 

@@ -126,7 +126,7 @@ namespace RoslynPad.RoslynExtensions
                                                  CompletionTriggerInfo.CreateInvokeCompletionTriggerInfo(),
                                                  _completionService.GetDefaultCompletionProviders(),
                                                  CancellationToken.None);
-            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderBy(t=>t.Glyph).ToArray();
+            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderBy(t=>t.SortText).ToArray();
         }
 
         private IDocument GetCurrentDocument()

@@ -9,6 +9,6 @@
     <UserControl.Resources>
     </UserControl.Resources>
     <Grid>
-        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True"  WordWrap="True"   FontSize="15" Background="WhiteSmoke"/>
+        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True" LineNumbersForeground="BurlyWood"  WordWrap="True"   FontSize="15" Background="WhiteSmoke"/>
     </Grid>
 </UserControl>

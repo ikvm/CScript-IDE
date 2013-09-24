@@ -26,7 +26,7 @@ namespace jinxapp
 
         public override string GetViewTitle()
         {
-            return "jinx - CSharp and Javascript Compiler base on Roslyn";
+            return "CSharp and Javascript Compiler base on Roslyn";
         }
 
         public void MakeAndRun()

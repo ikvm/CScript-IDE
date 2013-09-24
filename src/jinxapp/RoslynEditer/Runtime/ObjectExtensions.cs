@@ -6,10 +6,9 @@ namespace RoslynPad.Runtime
     public static class ObjectExtensions
     {
         //[UsedImplicitly]
-        public static T Dump<T>(this T o)
+        public static void Dump(this object o)
         {
             ((MainView)Application.Current.MainWindow).Formatter.WriteObject(o);
-            return o;
         }
     }
 }

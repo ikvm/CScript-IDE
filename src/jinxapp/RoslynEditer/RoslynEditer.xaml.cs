@@ -111,11 +111,11 @@ namespace jinxapp.RoslynEditer
         #region SyntaxVisualizer
         private void NavigateToSource(TextSpan span)
         {
-            if(span.Start> 0)
+            if(span.Start>= 0 && span.Length>0)
                 SelectText(span.Start, span.Length);
         }
 
-        private void SelectText(int spanStart, int spanLength)
+        private async void SelectText(int spanStart, int spanLength)
         {
             Editor.Select(spanStart, spanLength);
 
@@ -131,7 +131,7 @@ namespace jinxapp.RoslynEditer
 
         bool istypeset = false;
 
-        void Editor_TextChanged(object sender, EventArgs e)
+        async void Editor_TextChanged(object sender, EventArgs e)
         {
             if (!istypeset)
                 istypeset = true;

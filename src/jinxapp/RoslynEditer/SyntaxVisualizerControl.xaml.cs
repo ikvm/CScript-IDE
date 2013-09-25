@@ -55,6 +55,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
 
         #region Private State
         private TreeViewItem currentSelection = null;
+        private TreeViewItem root;
         private Brush currentSelectionForeground = null;
         private bool isNavigatingFromSourceToTree = false;
         private bool isNavigatingFromTreeToSource = false;
@@ -85,7 +86,14 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
         public SyntaxVisualizerControl()
         {
             InitializeComponent();
-
+            root = new TreeViewItem()
+            {
+                IsExpanded = true,
+                Foreground = Brushes.Blue,
+                FontSize = 10,
+                Header = "Root"
+            };
+            treeView.Items.Add(root);
             //propertyGrid = new System.Windows.Forms.PropertyGrid();
             //propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             //propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
@@ -118,7 +126,8 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 SourceLanguage = language;
                 IsLazy = lazy;
                 SyntaxTree = tree;
-                AddNode(null, SyntaxTree.GetRoot());
+           
+                AddNode(root, SyntaxTree.GetRoot());
             
             }
         }
@@ -134,7 +143,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 SourceLanguage = language;
                 IsLazy = lazy;
                 SyntaxTree = node.SyntaxTree;
-                AddNode(null, node);
+                AddNode(root, node);
             
             }
         }
@@ -245,7 +254,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
         {
             TreeViewItem match = null;
 
-            if (current != null)
+            if (current != null && current != root)
             {
                 SyntaxTag currentTag = (SyntaxTag)current.Tag;
                 if (currentTag.FullSpan.Contains(position))
@@ -278,7 +287,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
         {
             TreeViewItem match = null;
 
-            if (current != null)
+            if (current != null && current != root)
             {
                 SyntaxTag currentTag = (SyntaxTag)current.Tag;
                 if (currentTag.FullSpan.Contains(span))
@@ -347,7 +356,8 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 Tag = tag,
                 IsExpanded = false,
                 Foreground = Brushes.Blue,
-                Background = node.ContainsDiagnostics ? Brushes.Pink : Brushes.Green,
+                FontSize=13,
+                Background = node.ContainsDiagnostics ? Brushes.Pink : Brushes.AliceBlue,
                 Header = tag.Kind + " " + node.Span.ToString()
             };
 
@@ -362,7 +372,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 item.ToolTip = item.ToolTip.ToString().Trim();
             }
 
-            item.Selected += new RoutedEventHandler((sender, e) =>
+            item.Selected += new RoutedEventHandler(async (sender, e) =>
             {
                 isNavigatingFromTreeToSource = true;
 
@@ -377,14 +387,10 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 {
                     SyntaxNodeNavigationToSourceRequested(node);
                 }
-
+                propertyGrid.Instance = node;
                 isNavigatingFromTreeToSource = false;
                 e.Handled = true;
             });
-
-            item.MouseDoubleClick += (sender, e) => {
-                propertyGrid.Instance = node;
-            };
 
 
             item.Expanded += new RoutedEventHandler((sender, e) =>
@@ -400,10 +406,11 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 }
             });
 
-            if (parentItem == null)
+            if (parentItem == root)
             {
-                treeView.Items.Clear();
-                treeView.Items.Add(item);
+                parentItem.Items.Clear();
+                parentItem.Items.Add(item);
+                parentItem.IsExpanded = true;
             }
             else
             {
@@ -500,10 +507,12 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 }
             });
 
-            if (parentItem == null)
+           
+            if (parentItem == root)
             {
-                treeView.Items.Clear();
-                treeView.Items.Add(item);
+                parentItem.Items.Clear();
+                parentItem.Items.Add(item);
+                parentItem.IsExpanded = true;
             }
             else
             {
@@ -597,13 +606,14 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 }
             });
 
-            if (parentItem == null)
+
+            if (parentItem == root)
             {
-                treeView.Items.Clear();
-                treeView.Items.Add(item);
+                parentItem.Items.Clear();
+                parentItem.Items.Add(item);
+                parentItem.IsExpanded = true;
                 typeTextLabel.Visibility = Visibility.Hidden;
                 kindTextLabel.Visibility = Visibility.Hidden;
-                
                 kindValueLabel.Content = string.Empty;
             }
             else

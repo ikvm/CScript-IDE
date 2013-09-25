@@ -116,10 +116,12 @@
                         <Controls:AppBarButton x:Name="MakeAndRun"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
                             <TextBlock Text="Make" FontSize="9"/>
                         </Controls:AppBarButton>
-                        <Controls:AppBarButton x:Name="GenerationDocument"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
+                        <Controls:AppBarButton x:Name="Build"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
                             <TextBlock Text="Build" FontSize="9"/>
                         </Controls:AppBarButton>
-
+                        <Controls:AppBarButton x:Name="Debug"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
+                            <TextBlock Text="Debug" FontSize="9"/>
+                        </Controls:AppBarButton>
 
                     </StackPanel>
                 </Border>
@@ -136,10 +138,10 @@
                                     <WebBrowser Source="http://www.cnblogs.com"/>
                                 </TabItem>
                                 <TabItem Header="Html">
-                                    <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                                    <editor:RoslynEditer EditerType="Javascript" />
                                 </TabItem>
                                 <TabItem Header="Javascript">
-                                    <editor:RoslynEditer EditerType="Javascript" Text="{Binding JavsscriptContent}"/>
+                                    <editor:RoslynEditer EditerType="Javascript" InitText="{Binding JSharpContent,Mode=TwoWay}"/>
                                 </TabItem>
                             </TabControl>
                          
@@ -150,7 +152,7 @@
                     </TabControl>
                     <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="0,0,0,2">
                         <Expander.Header>
-                            <Border CornerRadius="2.5" Background="#FF0F0F0F"  Opacity="0.8">
+                            <Border CornerRadius="2.5" Background="#FF0F0F0F"  Opacity="0.8" Width="300">
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <TextBlock  Text="Application Log" Width="145"    Foreground="WhiteSmoke" TextAlignment="Center" />
                                     <Rectangle Fill="#FF66B2F5" Height="4" Width="140" />

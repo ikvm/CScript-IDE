@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="jinxapp.RoslynEditer.RoslynEditer"
+﻿<UserControl  xmlns:Control="clr-namespace:jinx.Roslyn.SyntaxVisualizer.Control"  
+             x:Class="jinxapp.RoslynEditer.RoslynEditer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:avalon="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
@@ -8,7 +9,15 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Grid>
-        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True" LineNumbersForeground="BurlyWood"  WordWrap="True"   FontSize="15" Background="WhiteSmoke"/>
+    <Grid Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="220"/>
+        </Grid.ColumnDefinitions>
+        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True" LineNumbersForeground="BurlyWood"  WordWrap="True"   FontSize="15" Background="WhiteSmoke" Grid.Column="0"/>
+        <GridSplitter Grid.Column="0" Background="#FF66B2F5" Width="2"/>
+        <Grid Grid.Column="1">
+            <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />
+        </Grid>
     </Grid>
 </UserControl>

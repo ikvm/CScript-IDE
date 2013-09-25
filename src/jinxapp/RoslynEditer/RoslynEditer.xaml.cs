@@ -2,6 +2,10 @@
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
+using jinx.Roslyn.SyntaxVisualizer.Debugger;
+using Roslyn.Compilers;
+using Roslyn.Compilers.Common;
+using Roslyn.Compilers.CSharp;
 using RoslynPad.Editor;
 using RoslynPad.Formatting;
 using RoslynPad.RoslynExtensions;
@@ -53,8 +57,6 @@ namespace jinxapp.RoslynEditer
 
             _interactiveManager = new InteractiveManager();
             _interactiveManager.SetDocument(Editor.AsTextContainer());
-          
-       
         }
 
         private void ConfigureEditor()
@@ -65,9 +67,15 @@ namespace jinxapp.RoslynEditer
                 Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
                 Editor.TextArea.TextEntering += OnTextEntering;
                 Editor.TextArea.TextEntered += OnTextEntered;
+                Editor.TextChanged += Editor_TextChanged;
                 Editor.TextArea.KeyDown += TextArea_KeyDown;
                 Editor.MouseHover += Editor_MouseHover;
                 Editor.MouseHoverStopped += Editor_MouseHoverStopped;
+
+                syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => NavigateToSource(node.Span);
+                syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => NavigateToSource(token.Span);
+                syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => NavigateToSource(trivia.Span);
+
             }
             else if(EditerType == EditerType.Javascript)
             {
@@ -100,7 +108,59 @@ namespace jinxapp.RoslynEditer
             _completionWindow = null;
         }
 
+        #region SyntaxVisualizer
+        private void NavigateToSource(TextSpan span)
+        {
+            if(span.Start> 0)
+                SelectText(span.Start, span.Length);
+        }
 
+        private void SelectText(int spanStart, int spanLength)
+        {
+            Editor.Select(spanStart, spanLength);
+
+            var docLine = Editor.TextArea.Document.GetLineByOffset(spanStart);
+       
+            Editor.ScrollToLine(docLine.LineNumber);
+        
+        }
+        #endregion
+
+
+        #region editor event
+
+        bool istypeset = false;
+
+        void Editor_TextChanged(object sender, EventArgs e)
+        {
+            if (!istypeset)
+                istypeset = true;
+            SetValue(TextProperty, Editor.Text);
+            if (istypeset)
+                istypeset = false;
+
+            if (this.EditerType == jinxapp.RoslynEditer.EditerType.CSharp)
+            {
+
+                if (!string.IsNullOrEmpty(Editor.Text))
+                {
+                    var tree = SyntaxTree.ParseText(Editor.Text);
+                    var node = (CommonSyntaxTree)tree;
+                    SyntaxTransporter transporter = new SyntaxTransporter(node);
+                    var root = transporter.GetSyntaxNode();
+
+                    syntaxVisualizer.DisplaySyntaxNode(root, transporter.SourceLanguage);
+
+                    //SelectText(transporter.ItemSpan.Start, transporter.ItemSpan.Length);
+
+                    if (!syntaxVisualizer.NavigateToBestMatch(transporter.ItemSpan,
+                                                                transporter.ItemKind,
+                                                                transporter.ItemCategory,
+                                                                highlightMatch: true,
+                                                                highlightLegendDescription: "Under Inspection")) ;
+                }
+            }
+        }
 
         ToolTip toolTip = new ToolTip();
 
@@ -181,17 +241,13 @@ namespace jinxapp.RoslynEditer
                 };
             }
 
-            istypeset = true;
-            SetValue(TextProperty, Editor.Text);
-            
+            istypeset = false;
 
         }
 
-        bool istypeset = false;
-
-
         private void OnTextEntering(object sender, TextCompositionEventArgs e)
         {
+            istypeset = true;
             if (e.Text.Length > 0 && _completionWindow != null)
             {
                 if (!char.IsLetterOrDigit(e.Text[0]))
@@ -201,6 +257,11 @@ namespace jinxapp.RoslynEditer
             }
         }
 
+        #endregion
+
+
+        #region DependencyProperty
+        
 
         public static DependencyProperty EditerTypeProperty = DependencyProperty.Register("EditerType", typeof(EditerType), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(EditerTypeChanged)));
         public EditerType EditerType
@@ -216,12 +277,17 @@ namespace jinxapp.RoslynEditer
 
         }
 
+        static void InitTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var that = d as RoslynEditer;
+            that.Editor.Text= e.NewValue.ToString();
+        }
+
         static void TextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var that = d as RoslynEditer;
             if (e.OldValue == null && !that.istypeset)
                 that.Editor.AppendText(e.NewValue.ToString());
-           
         }
 
         static void EditerTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -229,23 +295,52 @@ namespace jinxapp.RoslynEditer
             var that = d as RoslynEditer;
             that.Editor.TextArea.TextEntering -= that.OnTextEntering;
             that.Editor.TextArea.TextEntered -= that.OnTextEntered;
-     
+            that.Editor.TextChanged -= that.Editor_TextChanged;
+            that.Editor.TextArea.KeyDown -= that.TextArea_KeyDown;
+            that.Editor.MouseHover -= that.Editor_MouseHover;
+            that.Editor.MouseHoverStopped -= that.Editor_MouseHoverStopped;
+            that.syntaxVisualizer.SyntaxNodeNavigationToSourceRequested -= node => that.NavigateToSource(node.Span);
+            that.syntaxVisualizer.SyntaxTokenNavigationToSourceRequested -= token => that.NavigateToSource(token.Span);
+            that.syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested -= trivia => that.NavigateToSource(trivia.Span);
+
+
+
             if ((EditerType)(e.NewValue) == EditerType.CSharp)
             {
 
                 that.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                that.Editor.TextArea.TextEntering -= that.OnTextEntering;
+                that.Editor.TextArea.TextEntered -= that.OnTextEntered;
                 that.Editor.TextArea.TextEntering += that.OnTextEntering;
                 that.Editor.TextArea.TextEntered += that.OnTextEntered;
+                that.Editor.TextChanged += that.Editor_TextChanged;
+                that.Editor.TextArea.KeyDown += that.TextArea_KeyDown;
+                that.Editor.MouseHover += that.Editor_MouseHover;
+                that.Editor.MouseHoverStopped += that.Editor_MouseHoverStopped;
+                that.syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => that.NavigateToSource(node.Span);
+                that.syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => that.NavigateToSource(token.Span);
+                that.syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => that.NavigateToSource(trivia.Span);
             }
             else if ((EditerType)(e.NewValue) == EditerType.Javascript)
             {
                 that.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript");
-             
+                that.grid1.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Pixel);
             }
         }
 
+        public static DependencyProperty InitTextProperty = DependencyProperty.Register("InitText", typeof(string), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(InitTextChanged)));
 
-
+        public string InitText
+        {
+            set
+            {
+                SetValue(InitTextProperty, value);
+            }
+            get
+            {
+                return Editor.Text;
+            }
+        }
 
         public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(TextChanged)));
 
@@ -274,7 +369,7 @@ namespace jinxapp.RoslynEditer
 
             return text;
         }
-
+        #endregion
 
         #region Folding
         FoldingManager foldingManager;

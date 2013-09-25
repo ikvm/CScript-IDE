@@ -103,6 +103,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -117,6 +118,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="wpg, Version=2.0.5016.27833, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\debug\wpg.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -155,9 +160,14 @@
     <Compile Include="RoslynEditer\RoslynExtensions\InteractiveWorkspace.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\RoslynExtensions.cs" />
     <Compile Include="RoslynEditer\Runtime\ObjectExtensions.cs" />
+    <Compile Include="RoslynEditer\SyntaxTransporter.cs" />
     <Compile Include="RoslynEditer\Utilities\ReferenceEqualityComparer.cs" />
     <Compile Include="RoslynEditer\Utilities\ReflectionExtensions.cs" />
     <Compile Include="RoslynEditer\Utilities\StaticReflection.cs" />
+    <Compile Include="RoslynEditer\SyntaxKindHelper.cs" />
+    <Compile Include="RoslynEditer\SyntaxVisualizerControl.xaml.cs">
+      <DependentUpon>SyntaxVisualizerControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -189,6 +199,10 @@
     <Page Include="RoslynEditer\RoslynEditer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RoslynEditer\SyntaxVisualizerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +283,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ExtensionMethod.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SyntaxGraph.ico" />
+    <Resource Include="Images\SyntaxTree.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

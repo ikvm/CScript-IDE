@@ -288,6 +288,18 @@
     <Resource Include="Images\SyntaxGraph.ico" />
     <Resource Include="Images\SyntaxTree.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="libs\EasyEntities.RIA.Controls.dll" />
+    <Content Include="libs\ExtendPropertyLib.dll" />
+    <Content Include="libs\ExtendPropertyLib.WPF.dll" />
+    <Content Include="libs\ICSharpCode.AvalonEdit.dll" />
+    <Content Include="libs\MahApps.Metro.dll" />
+    <Content Include="libs\MahApps.Metro.Resources.dll" />
+    <Content Include="libs\MaxZhang.EasyEntities.Dynamic.Aop.dll" />
+    <Content Include="libs\Microsoft.Expression.Interactions.dll" />
+    <Content Include="libs\System.Windows.Interactivity.dll" />
+    <Content Include="libs\WPG.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

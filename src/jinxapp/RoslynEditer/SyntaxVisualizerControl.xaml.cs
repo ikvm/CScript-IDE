@@ -26,6 +26,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
+using System;
+using jinxapp.DomainServices;
 
 namespace jinx.Roslyn.SyntaxVisualizer.Control
 {
@@ -80,6 +82,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
         public delegate void SyntaxTriviaDelegate(CommonSyntaxTrivia trivia);
         public event SyntaxTriviaDelegate SyntaxTriviaDirectedGraphRequested;
         public event SyntaxTriviaDelegate SyntaxTriviaNavigationToSourceRequested;
+        public event EventHandler<SyntaxLoadedArgs> SyntaxTreeLoaded;
         #endregion
 
         #region Public Methods
@@ -106,8 +109,11 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
         public void Clear()
         {
             treeView.Items.Clear();
-            
-            propertyGrid.Instance = null;
+            try
+            {
+                propertyGrid.Instance = null;
+            }
+            catch { }
             typeTextLabel.Visibility = Visibility.Hidden;
             kindTextLabel.Visibility = Visibility.Hidden;
     
@@ -128,7 +134,8 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 SyntaxTree = tree;
            
                 AddNode(root, SyntaxTree.GetRoot());
-            
+                if (SyntaxTreeLoaded != null && SyntaxTree != null)
+                    SyntaxTreeLoaded(this,new SyntaxLoadedArgs(SyntaxTree.GetRoot()));
             }
         }
 
@@ -144,7 +151,8 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 IsLazy = lazy;
                 SyntaxTree = node.SyntaxTree;
                 AddNode(root, node);
-            
+                if (SyntaxTreeLoaded != null && node != null)
+                    SyntaxTreeLoaded(this, new SyntaxLoadedArgs(node));
             }
         }
 
@@ -387,7 +395,11 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 {
                     SyntaxNodeNavigationToSourceRequested(node);
                 }
-                propertyGrid.Instance = node;
+                try
+                {
+                    propertyGrid.Instance = node;
+                }
+                catch { }
                 isNavigatingFromTreeToSource = false;
                 e.Handled = true;
             });
@@ -476,8 +488,11 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 kindTextLabel.Visibility = Visibility.Visible;
          
                 kindValueLabel.Content = kind;
-                propertyGrid.Instance = token;
-
+                try
+                {
+                    propertyGrid.Instance = token;
+                }
+                catch { }
                 item.IsExpanded = true;
 
                 if (!isNavigatingFromSourceToTree && SyntaxTokenNavigationToSourceRequested != null)
@@ -583,8 +598,11 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 kindTextLabel.Visibility = Visibility.Visible;
              
                 kindValueLabel.Content = kind;
-                propertyGrid.Instance = trivia;
-
+                try
+                {
+                    propertyGrid.Instance = trivia;
+                }
+                catch { }
                 item.IsExpanded = true;
 
                 if (!isNavigatingFromSourceToTree && SyntaxTriviaNavigationToSourceRequested != null)

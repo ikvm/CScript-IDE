@@ -132,7 +132,7 @@ namespace RoslynPad.Editor
                 
     
                 _description = new CompletionDescription();
-                
+            
                 _description.DataContext = descriptionContent;
 
 

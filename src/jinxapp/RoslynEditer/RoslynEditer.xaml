@@ -6,17 +6,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
+        <DataTemplate x:Key="comboItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Image Name="image1"/>
+                <TextBlock FontSize="13" Text="{Binding Path=Name}" Margin="2,0,0,0" />
+            </StackPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding GrammarDefineType}" Value="Class">
+                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Class.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding GrammarDefineType}" Value="Interface">
+                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Interface.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding GrammarDefineType}" Value="Method">
+                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Method.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding GrammarDefineType}" Value="Property">
+                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Property.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding GrammarDefineType}" Value="Field">
+                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Field.png"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Name="grid1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="91*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="41*"/>
             <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
-        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True" LineNumbersForeground="BurlyWood"  WordWrap="True"   FontSize="15" Background="WhiteSmoke" Grid.Column="0"/>
-        <GridSplitter Grid.Column="0" Background="#FF66B2F5" Width="2"/>
-        <Grid Grid.Column="1">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox  Name="definitionDropDown" ItemTemplate="{StaticResource comboItemTemplate}" Grid.Column="0"  Background="WhiteSmoke" Foreground="CornflowerBlue" SelectionChanged="definitionDropDown_SelectionChanged">
+            </ComboBox>
+            <ComboBox Name="childrenDropDown" ItemTemplate="{StaticResource comboItemTemplate}"  Grid.Column="1"  Background="WhiteSmoke" Foreground="CornflowerBlue" SelectionChanged="childrenDropDown_SelectionChanged"></ComboBox>
+        </Grid>
+        <avalon:TextEditor Name="Editor"  ShowLineNumbers="True" LineNumbersForeground="#FF66B2F5"   FontSize="15" Background="WhiteSmoke" Grid.Column="0" Grid.Row="1"/>
+        <GridSplitter Grid.Column="0" Background="#FF66B2F5" Width="2" Grid.RowSpan="2"/>
+        <Grid Grid.Column="1" Grid.RowSpan="2">
             <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />
         </Grid>
     </Grid>

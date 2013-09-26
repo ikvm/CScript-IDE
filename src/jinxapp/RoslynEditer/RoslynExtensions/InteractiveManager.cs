@@ -120,10 +120,16 @@ namespace RoslynPad.RoslynExtensions
 
         #region Completion
 
-        public IList<CompletionItem> GetCompletion(int position)
+        public IList<CompletionItem> GetCompletion(int position,string text=null)
         {
+            CompletionTriggerInfo triggerInfo;
+            if(!string.IsNullOrEmpty(text))
+                triggerInfo = CompletionTriggerInfo.CreateTypeCharTriggerInfo(char.Parse(text)); 
+            else
+                triggerInfo = CompletionTriggerInfo.CreateInvokeCompletionTriggerInfo(); 
+
             var groups = _completionService.GetGroups(GetCurrentDocument(), position,
-                                                 CompletionTriggerInfo.CreateInvokeCompletionTriggerInfo(),
+                                                 triggerInfo,
                                                  _completionService.GetDefaultCompletionProviders(),
                                                  CancellationToken.None);
             return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderBy(t=>t.SortText).ToArray();

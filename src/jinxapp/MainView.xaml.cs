@@ -107,6 +107,11 @@ namespace jinxapp
             txtBox.ScrollToEnd();
         }
 
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
     
      
 

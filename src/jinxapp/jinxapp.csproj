@@ -128,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DomainServices\GrammarDefinition\GrammarDefinition.cs" />
+    <Compile Include="DomainServices\GrammarDefinition\GrammarDefinitionService.cs" />
+    <Compile Include="DomainServices\GrammarType.cs" />
+    <Compile Include="DomainServices\SyntaxLoadedArgs.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainViewInfo.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -236,7 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="DomainServices\" />
     <Folder Include="UserViews\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

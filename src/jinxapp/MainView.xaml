@@ -17,7 +17,7 @@
         ShowTitleBar="True"
         TextOptions.TextRenderingMode="ClearType"
         ShowIconOnTitleBar="true" 
-        Icon="Images/window.png"
+        Icon="Images/window.png" Loaded="MetroWindow_Loaded"
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
@@ -129,7 +129,7 @@
 
                     <TabControl Margin="0,0,0,23">
                         <TabItem Header="CSharp">
-                            <editor:RoslynEditer Foreground="White" Background="DarkGray" EditerType="CSharp" Text="{Binding CSharpContent,Mode=TwoWay}" />
+                            <editor:RoslynEditer Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
                         </TabItem>
                         <TabItem Header="Web">
                             

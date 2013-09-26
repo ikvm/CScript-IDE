@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using jinx.Roslyn.SyntaxVisualizer.Debugger;
+using jinxapp.DomainServices.GrammarDefinition;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
@@ -10,6 +11,7 @@ using RoslynPad.Editor;
 using RoslynPad.Formatting;
 using RoslynPad.RoslynExtensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -75,6 +77,7 @@ namespace jinxapp.RoslynEditer
                 syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => NavigateToSource(node.Span);
                 syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => NavigateToSource(token.Span);
                 syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => NavigateToSource(trivia.Span);
+                syntaxVisualizer.SyntaxTreeLoaded += syntaxVisualizer_SyntaxTreeLoaded;
 
             }
             else if(EditerType == EditerType.Javascript)
@@ -108,7 +111,20 @@ namespace jinxapp.RoslynEditer
             _completionWindow = null;
         }
 
+
+    
+
         #region SyntaxVisualizer
+
+        void syntaxVisualizer_SyntaxTreeLoaded(object sender, DomainServices.SyntaxLoadedArgs e)
+        {
+            GrammarDefinitionService service = new GrammarDefinitionService();
+            service.Visit((SyntaxNode)e.SyntaxTreeRoot);
+            var definitions = service.GrammarDefinitionList;
+            this.childrenDropDown.ItemsSource = null;
+            this.definitionDropDown.ItemsSource = definitions;
+
+        }
         private void NavigateToSource(TextSpan span)
         {
             if(span.Start>= 0 && span.Length>0)
@@ -186,24 +202,27 @@ namespace jinxapp.RoslynEditer
                 string msg = null;
                 if (startOfWord < endOfWord && startOfWord >= 0)
                     msg = Editor.TextArea.Document.GetText(startOfWord, endOfWord - startOfWord).Replace(".","").Trim();
-                
-                var position = Editor.CaretOffset;
-                var completions = _interactiveManager.GetCompletion(1);
 
-                var comp = completions.FirstOrDefault(c => c.DisplayText == msg);
-                if (comp == null)
+                if (!string.IsNullOrEmpty(msg))
                 {
-                    completions = _interactiveManager.GetCompletion(position);
-                    comp = completions.FirstOrDefault(c => c.DisplayText == msg);
-                }
+                    var position = Editor.CaretOffset;
+                    var completions = _interactiveManager.GetCompletion(endOfWord - 1);
+
+                    var comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                    if (comp == null)
+                    {
+                        completions = _interactiveManager.GetCompletion(position);
+                        comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                    }
 
 
-                if (comp != null)
-                {
-                    CompletionDescription cd = new CompletionDescription();
-                    cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
-                    toolTip.Content = cd;
-                    toolTip.IsOpen = true;
+                    if (comp != null)
+                    {
+                        CompletionDescription cd = new CompletionDescription();
+                        cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
+                        toolTip.Content = cd;
+                        toolTip.IsOpen = true;
+                    }
                 }
                
                 e.Handled = true;
@@ -220,6 +239,7 @@ namespace jinxapp.RoslynEditer
 
         private void OnTextEntered(object sender, TextCompositionEventArgs e)
         {
+            if (e == null) return;
             var position = Editor.CaretOffset;
             if (position > 0 && _interactiveManager.IsCompletionTriggerCharacter(position-1))
             {
@@ -229,7 +249,7 @@ namespace jinxapp.RoslynEditer
                 _completionWindow.BorderThickness = new Thickness(0);
 
                 var data = _completionWindow.CompletionList.CompletionData;
-                foreach (var completionData in _interactiveManager.GetCompletion(position))
+                foreach (var completionData in _interactiveManager.GetCompletion(position,e.Text))
                 {
                     data.Add(new AvalonEditCompletionData(completionData));
                 }
@@ -257,11 +277,30 @@ namespace jinxapp.RoslynEditer
             }
         }
 
+        private void definitionDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count > 0)
+            {
+                var definition = e.AddedItems[0] as GrammarDefinition;
+                childrenDropDown.ItemsSource = null;
+                childrenDropDown.ItemsSource = definition.Children;
+            }
+        }
+
+        private void childrenDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count > 0)
+            {
+                var definition = e.AddedItems[0] as GrammarDefinition;
+                this.NavigateToSource(definition.SyntaxNode.Span);
+            }
+        }
+
+
         #endregion
 
 
         #region DependencyProperty
-        
 
         public static DependencyProperty EditerTypeProperty = DependencyProperty.Register("EditerType", typeof(EditerType), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(EditerTypeChanged)));
         public EditerType EditerType
@@ -286,7 +325,7 @@ namespace jinxapp.RoslynEditer
         static void TextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var that = d as RoslynEditer;
-            if (e.OldValue == null && !that.istypeset)
+            if (e.OldValue == null && e.OldValue != e.NewValue && !that.istypeset)
                 that.Editor.AppendText(e.NewValue.ToString());
         }
 
@@ -325,6 +364,7 @@ namespace jinxapp.RoslynEditer
             {
                 that.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript");
                 that.grid1.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Pixel);
+                that.grid1.RowDefinitions[0].Height = new GridLength(0, GridUnitType.Pixel);
             }
         }
 
@@ -386,6 +426,12 @@ namespace jinxapp.RoslynEditer
         }
         #endregion
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Editor.TextArea.Focus();
+        }
+
+     
 
     }
 }

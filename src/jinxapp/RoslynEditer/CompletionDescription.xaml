@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="500">
-    <Grid  Height="28">
-        <StackPanel Orientation="Horizontal"  >
-            <TextBlock x:Name="t1" Text="{Binding .}"  Foreground="#FF474747" Margin="3" />
+    <Grid  >
+        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" >
+            <TextBlock x:Name="t1" Text="{Binding .}"  Foreground="#FF28BEEA"  TextWrapping="Wrap" FontSize="13"  />
         </StackPanel>
     </Grid>
 </UserControl>

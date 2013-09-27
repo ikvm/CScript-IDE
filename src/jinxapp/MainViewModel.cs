@@ -12,6 +12,12 @@ using Roslyn.Scripting;
 using jinx;
 using Microsoft.Win32;
 using System.IO;
+using Roslyn.Scripting.CSharp;
+using Roslyn.Compilers.CSharp;
+using Roslyn.Compilers;
+using Roslyn.Compilers.Common;
+using System.Reflection;
+using System.Windows;
 
 namespace jinxapp
 {
@@ -65,12 +71,72 @@ namespace jinxapp
         //构建Javascript
         public void Build()
         {
-            string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
+            //string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
 
-            this.JSharpContent = js;
+            //this.JSharpContent = js;
+
+            string CompiledScriptClass = "Submission#0";
+            string CompiledScriptMethod = "<Factory>";
+            string path = "e:\\debug";
+            string outputPath = "temp.dll";
+            string pdbPath = "temp.pdb";
+
+
+            var scriptEngine = new ScriptEngine();
+            scriptEngine.AddReference("System");
+            scriptEngine.AddReference("System.Core");
+            var session = scriptEngine.CreateSession();
+            
+            Submission<object> submission = session.CompileSubmission<object>(CSharpContent);
+
+            var exeBytes = new byte[0];
+            var pdbBytes = new byte[0];
+            var compileSuccess = false;
+
+            using (var exeStream = new MemoryStream())
+            using (var pdbStream = new MemoryStream())
+            {
+                var result = submission.Compilation.Emit(exeStream, pdbStream: pdbStream);
+                compileSuccess = result.Success;
+
+                if (result.Success)
+                {
+                 
+                    exeBytes = exeStream.ToArray();
+                    pdbBytes = pdbStream.ToArray();
+                }
+                else
+                {
+                    var errors = String.Join(Environment.NewLine, result.Diagnostics.Select(x => x.ToString()));
+                  
+                }
+            }
+
+            if (compileSuccess)
+            {
+                Console.WriteLine("Compilation successful");
+                Console.WriteLine(string.Format("Output .dll at {0}", outputPath));
+                Console.WriteLine(string.Format("Output .pdb at {0}", pdbPath));
+
+                try
+                {
+                    Assembly assembly = AppDomain.CurrentDomain.Load(exeBytes, pdbBytes);
+
+                    var type = assembly.GetType(CompiledScriptClass);
+                
+                    var method = type.GetMethod(CompiledScriptMethod, BindingFlags.Static | BindingFlags.Public);
+
+                    method.Invoke(null, new[] { session });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
 
         }
-
+     
         public void Open()
         {
             OpenFileDialog odf = new OpenFileDialog();

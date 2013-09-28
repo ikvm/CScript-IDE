@@ -89,7 +89,7 @@ namespace jinxapp.RoslynEditer
             foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
             foldingUpdateTimer.Tick += foldingUpdateTimer_Tick;
             foldingUpdateTimer.Start();
-
+            
             Editor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(Editor.Options);
             foldingStrategy = new BraceFoldingStrategy();
 
@@ -234,12 +234,15 @@ namespace jinxapp.RoslynEditer
             if (e.KeyStates == Keyboard.GetKeyStates(Key.J) && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 OnTextEntered(this, null);
+                e.Handled = false;
+
             }
         }
 
         private void OnTextEntered(object sender, TextCompositionEventArgs e)
         {
-            if (e == null) return;
+            string keystring = string.Empty;
+            keystring = e == null ? "" : e.Text;  
             var position = Editor.CaretOffset;
             if (position > 0 && _interactiveManager.IsCompletionTriggerCharacter(position-1))
             {
@@ -249,7 +252,7 @@ namespace jinxapp.RoslynEditer
                 _completionWindow.BorderThickness = new Thickness(0);
 
                 var data = _completionWindow.CompletionList.CompletionData;
-                foreach (var completionData in _interactiveManager.GetCompletion(position,e.Text))
+                foreach (var completionData in _interactiveManager.GetCompletion(position, keystring))
                 {
                     data.Add(new AvalonEditCompletionData(completionData));
                 }

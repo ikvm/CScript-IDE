@@ -71,6 +71,7 @@ namespace RoslynPad.Editor
 			int lastNewLineOffset = 0;
 			char openingBrace = this.OpeningBrace;
 			char closingBrace = this.ClosingBrace;
+
 			for (int i = 0; i < document.TextLength; i++) {
 				char c = document.GetCharAt(i);
 				if (c == openingBrace) {
@@ -81,8 +82,6 @@ namespace RoslynPad.Editor
 					if (startOffset < lastNewLineOffset) {
 						newFoldings.Add(new NewFolding(startOffset, i + 1));
 					}
-				} else if (c == '\n' || c == '\r') {
-					lastNewLineOffset = i + 1;
 				}
 
                 int slen = document.Text.Length < openingBraceStr.Length + i ? 1 : openingBraceStr.Length;
@@ -101,12 +100,23 @@ namespace RoslynPad.Editor
                     if (startOffset < lastNewLineOffset)
                     {
                         var textDocument = (TextDocument)document;
-                        var line = textDocument.GetLineByOffset(startOffset + slen);
-                        string foldingName = document.GetText(startOffset + slen, line.EndOffset).Trim();
-                        var folding = new NewFolding(startOffset, i + elen);
-                        folding.Name = foldingName;
-                        newFoldings.Add(folding);
+                        int regionOffset = startOffset + slen;
+                        var line = textDocument.GetLineByOffset(regionOffset);
+                        if (regionOffset < line.EndOffset)
+                        {
+                            int regionToLineEndOffset = line.EndOffset - regionOffset;
+                            string foldingName = document.GetText(startOffset + slen, regionToLineEndOffset);
+                            var folding = new NewFolding(startOffset, i + elen);
+                            folding.Name = foldingName;
+                            newFoldings.Add(folding);
+                        }
                     }
+                }
+
+
+                if (c == '\n' || c == '\r')
+                {
+                    lastNewLineOffset = i + 1;
                 }
 
 

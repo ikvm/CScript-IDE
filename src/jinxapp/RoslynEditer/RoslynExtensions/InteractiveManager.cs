@@ -135,7 +135,7 @@ namespace RoslynPad.RoslynExtensions
             return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderByDescending(t=>t.SortText).ToArray();
         }
 
-        private IDocument GetCurrentDocument()
+        public IDocument GetCurrentDocument()
         {
             return _workspace.CurrentSolution.GetDocument(_currentDocumenId);
         }

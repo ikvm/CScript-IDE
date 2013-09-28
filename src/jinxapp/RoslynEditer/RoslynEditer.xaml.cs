@@ -246,22 +246,29 @@ namespace jinxapp.RoslynEditer
             var position = Editor.CaretOffset;
             if (position > 0 && _interactiveManager.IsCompletionTriggerCharacter(position-1))
             {
-                _completionWindow = new CompletionWindow(Editor.TextArea);
-                _completionWindow.Width = 300;
-                _completionWindow.Background = Brushes.Black;
-                _completionWindow.BorderThickness = new Thickness(0);
-
-                var data = _completionWindow.CompletionList.CompletionData;
-                foreach (var completionData in _interactiveManager.GetCompletion(position, keystring))
+                if (keystring != "(")
                 {
-                    data.Add(new AvalonEditCompletionData(completionData));
+                    _completionWindow = new CompletionWindow(Editor.TextArea);
+                    _completionWindow.Width = 300;
+                    _completionWindow.Background = Brushes.Black;
+                    _completionWindow.BorderThickness = new Thickness(0);
+
+                    var data = _completionWindow.CompletionList.CompletionData;
+                    foreach (var completionData in _interactiveManager.GetCompletion(position, keystring))
+                    {
+                        data.Add(new AvalonEditCompletionData(completionData));
+                    }
+
+                    _completionWindow.Show();
+                    _completionWindow.Closed += delegate
+                    {
+                        _completionWindow = null;
+                    };
                 }
-
-                _completionWindow.Show();
-                _completionWindow.Closed += delegate
+                else
                 {
-                    _completionWindow = null;
-                };
+
+                }
             }
 
             istypeset = false;

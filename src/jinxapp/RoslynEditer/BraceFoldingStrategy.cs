@@ -37,7 +37,11 @@ namespace RoslynPad.Editor
 		/// Gets/Sets the closing brace. The default value is '}'.
 		/// </summary>
 		public char ClosingBrace { get; set; }
-		
+
+
+        public string openingBraceStr = "#region";
+        public string closingBraceStr = "#endregion";
+
 		/// <summary>
 		/// Creates a new BraceFoldingStrategy.
 		/// </summary>
@@ -80,7 +84,36 @@ namespace RoslynPad.Editor
 				} else if (c == '\n' || c == '\r') {
 					lastNewLineOffset = i + 1;
 				}
+
+                int slen = document.Text.Length < openingBraceStr.Length + i ? 1 : openingBraceStr.Length;
+                string st = document.GetText(i, slen).ToLower();
+                int elen = document.Text.Length < closingBraceStr.Length + i ? 1 : closingBraceStr.Length;
+                string et = document.GetText(i, elen).ToLower();
+                if (st == openingBraceStr)
+                {
+
+                    startOffsets.Push(i);
+                }
+                else if (et == closingBraceStr && startOffsets.Count > 0)
+                {
+                    int startOffset = startOffsets.Pop();
+                    // don't fold if opening and closing brace are on the same line
+                    if (startOffset < lastNewLineOffset)
+                    {
+                        var textDocument = (TextDocument)document;
+                        var line = textDocument.GetLineByOffset(startOffset + slen);
+                        string foldingName = document.GetText(startOffset + slen, line.EndOffset).Trim();
+                        var folding = new NewFolding(startOffset, i + elen);
+                        folding.Name = foldingName;
+                        newFoldings.Add(folding);
+                    }
+                }
+
+
+
 			}
+
+
 			newFoldings.Sort((a,b) => a.StartOffset.CompareTo(b.StartOffset));
 			return newFoldings;
 		}

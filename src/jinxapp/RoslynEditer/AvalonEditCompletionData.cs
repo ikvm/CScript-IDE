@@ -15,6 +15,7 @@ namespace RoslynPad.Editor
     {
         private readonly CompletionItem _item;
         private CompletionDescription _description;
+        private const char CompletionChar  = '.';
 
         public AvalonEditCompletionData(CompletionItem item)
         {
@@ -105,8 +106,18 @@ namespace RoslynPad.Editor
 
         public void Complete(TextArea textArea, ISegment completionSegment, EventArgs e)
         {
-            textArea.Document.Replace(completionSegment.Offset - 1, completionSegment.Length + 1, Text);
+            char dot = textArea.Document.GetCharAt(completionSegment.Offset - 1);
+            int offset = completionSegment.Offset;
+            int length = completionSegment.Length;
+            if (dot != CompletionChar)
+            {
+                offset--;
+                length++;
+            }
+         
+            textArea.Document.Replace(offset, length, Text);
         }
+            
 
         public ImageSource Image { get; private set; }
         public string Text { get; private set; }

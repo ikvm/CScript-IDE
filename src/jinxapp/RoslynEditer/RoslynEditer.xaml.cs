@@ -71,6 +71,7 @@ namespace jinxapp.RoslynEditer
                 Editor.TextArea.TextEntered += OnTextEntered;
                 Editor.TextChanged += Editor_TextChanged;
                 Editor.TextArea.KeyDown += TextArea_KeyDown;
+                Editor.TextArea.KeyUp += TextArea_KeyUp;
                 Editor.MouseHover += Editor_MouseHover;
                 Editor.MouseHoverStopped += Editor_MouseHoverStopped;
 
@@ -237,9 +238,29 @@ namespace jinxapp.RoslynEditer
                 e.Handled = false;
 
             }
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                if (_completionWindow != null)
+                {
+                    _completionWindow.Opacity = 0.5;
+                    e.Handled = false;
+                }
+            }
         }
 
-        private void OnTextEntered(object sender, TextCompositionEventArgs e)
+        void TextArea_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                if (_completionWindow != null)
+                {
+                    _completionWindow.Opacity = 0.9;
+                }
+            }
+        }
+
+
+        private async void OnTextEntered(object sender, TextCompositionEventArgs e)
         {
             string keystring = string.Empty;
             keystring = e == null ? "" : e.Text;  
@@ -249,12 +270,16 @@ namespace jinxapp.RoslynEditer
                 if (keystring != "(")
                 {
                     _completionWindow = new CompletionWindow(Editor.TextArea);
+                    _completionWindow.Opacity = 0.8;
+                    _completionWindow.WindowStyle = WindowStyle.None;
                     _completionWindow.Width = 300;
                     _completionWindow.Background = Brushes.Black;
                     _completionWindow.BorderThickness = new Thickness(0);
-
                     var data = _completionWindow.CompletionList.CompletionData;
-                    foreach (var completionData in _interactiveManager.GetCompletion(position, keystring))
+
+                    var completionDataList = await _interactiveManager.GetCompletionAsync(position, keystring);
+
+                    foreach (var completionData in completionDataList)
                     {
                         data.Add(new AvalonEditCompletionData(completionData));
                     }

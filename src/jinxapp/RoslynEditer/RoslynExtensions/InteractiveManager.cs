@@ -11,6 +11,7 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using RoslynPad.Runtime;
+using System.Threading.Tasks;
 
 
 namespace RoslynPad.RoslynExtensions
@@ -120,6 +121,12 @@ namespace RoslynPad.RoslynExtensions
 
         #region Completion
 
+        public Task<IList<CompletionItem>> GetCompletionAsync(int position, string text = null)
+        {
+            return Task.Factory.StartNew<IList<CompletionItem>>(()=>GetCompletion(position,text));
+        }
+
+
         public IList<CompletionItem> GetCompletion(int position,string text=null)
         {
             CompletionTriggerInfo triggerInfo;
@@ -132,7 +139,7 @@ namespace RoslynPad.RoslynExtensions
                                                  triggerInfo,
                                                  _completionService.GetDefaultCompletionProviders(),
                                                  CancellationToken.None);
-            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderByDescending(t=>t.SortText).ToArray();
+            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).ToArray();
         }
 
         public IDocument GetCurrentDocument()

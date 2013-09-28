@@ -4,6 +4,7 @@ using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using jinx.Roslyn.SyntaxVisualizer.Debugger;
 using jinxapp.DomainServices.GrammarDefinition;
+using jinxapp.RoslynEditer.RoslynExtensions;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
@@ -48,7 +49,7 @@ namespace jinxapp.RoslynEditer
     {
     
         private readonly InteractiveManager _interactiveManager;
-
+        private RoslynEditorInsightWindow _insightWindow;
         private CompletionWindow _completionWindow;
 
         public RoslynEditer()
@@ -292,7 +293,18 @@ namespace jinxapp.RoslynEditer
                 }
                 else
                 {
-
+                     _insightWindow = new RoslynEditorInsightWindow(Editor.TextArea);
+                     _insightWindow.Foreground = Brushes.LightSkyBlue;
+                     _insightWindow.Background = Brushes.LightSlateGray;
+                     _insightWindow.Opacity = .8;
+                    
+                    _insightWindow.Items.Add(new InsightItemData("header1","welkfjiowejfojweofjiwj"));
+                    _insightWindow.Items.Add(new InsightItemData("header2", "123fjiowejfojw123123123j"));
+                    _insightWindow.Show();
+                    _insightWindow.Closed += delegate
+                    {
+                        _insightWindow = null;
+                    };
                 }
             }
 

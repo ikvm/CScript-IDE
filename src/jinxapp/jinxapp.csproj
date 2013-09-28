@@ -161,6 +161,7 @@
     <Compile Include="RoslynEditer\RoslynExtensions\CompletionServiceWrapper.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\ICompletionService.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\IInsightItem.cs" />
+    <Compile Include="RoslynEditer\RoslynExtensions\InsightItemData.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\InteractiveManager.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\InteractiveWorkspace.cs" />
     <Compile Include="RoslynEditer\RoslynExtensions\RoslynEditorInsightWindow.cs" />

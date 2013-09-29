@@ -79,7 +79,6 @@ namespace jinxapp.RoslynEditer
                 syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => NavigateToSource(node.Span);
                 syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => NavigateToSource(token.Span);
                 syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => NavigateToSource(trivia.Span);
-                syntaxVisualizer.SyntaxTreeLoaded += syntaxVisualizer_SyntaxTreeLoaded;
 
             }
             else if(EditerType == EditerType.Javascript)
@@ -118,15 +117,6 @@ namespace jinxapp.RoslynEditer
 
         #region SyntaxVisualizer
 
-        void syntaxVisualizer_SyntaxTreeLoaded(object sender, DomainServices.SyntaxLoadedArgs e)
-        {
-            GrammarDefinitionService service = new GrammarDefinitionService();
-            service.Visit((SyntaxNode)e.SyntaxTreeRoot);
-            var definitions = service.GrammarDefinitionList;
-            this.childrenDropDown.ItemsSource = null;
-            this.definitionDropDown.ItemsSource = definitions;
-
-        }
         private void NavigateToSource(TextSpan span)
         {
             if(span.Start>= 0 && span.Length>0)
@@ -157,25 +147,25 @@ namespace jinxapp.RoslynEditer
             if (istypeset)
                 istypeset = false;
 
-            if (this.EditerType == jinxapp.RoslynEditer.EditerType.CSharp)
+            if (this.EditerType == EditerType.CSharp)
             {
 
                 if (!string.IsNullOrEmpty(Editor.Text))
                 {
-                    var tree = SyntaxTree.ParseText(Editor.Text);
-                    var node = (CommonSyntaxTree)tree;
-                    SyntaxTransporter transporter = new SyntaxTransporter(node);
-                    var root = transporter.GetSyntaxNode();
-
-                    syntaxVisualizer.DisplaySyntaxNode(root, transporter.SourceLanguage);
-
-                    //SelectText(transporter.ItemSpan.Start, transporter.ItemSpan.Length);
+                    var tree = _interactiveManager.CurrentDocumentSyntaxTree;
+                    SyntaxTransporter transporter = new SyntaxTransporter(tree);
+                    
+                    syntaxVisualizer.DisplaySyntaxTree(tree, transporter.SourceLanguage);
 
                     if (!syntaxVisualizer.NavigateToBestMatch(transporter.ItemSpan,
                                                                 transporter.ItemKind,
                                                                 transporter.ItemCategory,
                                                                 highlightMatch: true,
                                                                 highlightLegendDescription: "Under Inspection")) ;
+
+                    var definitions = _interactiveManager.GetGrammarDefinitionList();
+                    this.childrenDropDown.ItemsSource = null;
+                    this.definitionDropDown.ItemsSource = definitions;
                 }
             }
         }
@@ -198,9 +188,6 @@ namespace jinxapp.RoslynEditer
 
                 int endOfWord = TextUtilities.GetNextCaretPosition(Editor.TextArea.Document, docLine.Offset + pos.Value.Column, LogicalDirection.Forward,
                                                                    CaretPositioningMode.WordBorder);
-
-
-
                 string msg = null;
                 if (startOfWord < endOfWord && startOfWord >= 0)
                     msg = Editor.TextArea.Document.GetText(startOfWord, endOfWord - startOfWord).Replace(".","").Trim();
@@ -271,7 +258,7 @@ namespace jinxapp.RoslynEditer
                 if (keystring != "(")
                 {
                     _completionWindow = new CompletionWindow(Editor.TextArea);
-                    _completionWindow.Opacity = 0.8;
+                    _completionWindow.Opacity = 0.9;
                     _completionWindow.WindowStyle = WindowStyle.None;
                     _completionWindow.Width = 300;
                     _completionWindow.Background = Brushes.Black;
@@ -291,15 +278,17 @@ namespace jinxapp.RoslynEditer
                         _completionWindow = null;
                     };
                 }
-                else
+                else if(keystring == "(" || keystring == ",")
                 {
-                     _insightWindow = new RoslynEditorInsightWindow(Editor.TextArea);
-                     _insightWindow.Foreground = Brushes.LightSkyBlue;
-                     _insightWindow.Background = Brushes.LightSlateGray;
-                     _insightWindow.Opacity = .8;
-                    
-                    _insightWindow.Items.Add(new InsightItemData("header1","welkfjiowejfojweofjiwj"));
-                    _insightWindow.Items.Add(new InsightItemData("header2", "123fjiowejfojw123123123j"));
+                    _insightWindow = new RoslynEditorInsightWindow(Editor.TextArea);
+                    _insightWindow.Foreground = Brushes.LightSkyBlue;
+                    _insightWindow.Background = Brushes.LightSlateGray;
+
+                    var items = _interactiveManager.GetInsightTip(Editor.CaretOffset);
+
+                    foreach(var item in items)
+                        _insightWindow.Items.Add(item);
+
                     _insightWindow.Show();
                     _insightWindow.Closed += delegate
                     {

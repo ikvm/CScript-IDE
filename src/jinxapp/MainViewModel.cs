@@ -78,17 +78,22 @@ namespace jinxapp
                 .AddReferences(mscorlib)
                 .AddSyntaxTrees(tree);
             var model = compilation.GetSemanticModel(tree);
+           
+
             var invocationSyntax = root.DescendantNodes()
                 .OfType<InvocationExpressionSyntax>()
-                .First();
-            var symbolInfo = model.GetSymbolInfo(invocationSyntax);
-            var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
+                .ToList();
 
-            foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
-            {
-                // also look at overload.Parameters
-                Console.WriteLine(overload);
-            }
+          
+
+            //var symbolInfo = model.GetSymbolInfo(invocationSyntax);
+            //var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
+
+            //foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
+            //{
+            //    // also look at overload.Parameters
+            //    Console.WriteLine(overload);
+            //}
 
             //string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
 

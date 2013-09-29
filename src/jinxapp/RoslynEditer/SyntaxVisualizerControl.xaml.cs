@@ -176,10 +176,9 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
             {
                 match.Background = Brushes.Yellow;
                 match.BorderBrush = Brushes.Black;
-                match.BorderThickness = DefaultBorderThickness;
-              
+                match.BorderThickness = DefaultBorderThickness; 
             }
-
+            
             return matchFound;
         }
 
@@ -212,7 +211,7 @@ namespace jinx.Roslyn.SyntaxVisualizer.Control
                 match.Background = Brushes.Yellow;
                 match.BorderBrush = Brushes.Black;
                 match.BorderThickness = DefaultBorderThickness;
-               
+                match.IsSelected = true;             
             }
 
             return matchFound;

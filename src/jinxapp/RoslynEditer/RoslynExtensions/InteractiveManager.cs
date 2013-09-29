@@ -12,6 +12,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using RoslynPad.Runtime;
 using System.Threading.Tasks;
+using jinxapp.DomainServices.GrammarDefinition;
+using Roslyn.Compilers.Common;
+using jinxapp.RoslynEditer.RoslynExtensions;
 
 
 namespace RoslynPad.RoslynExtensions
@@ -20,19 +23,16 @@ namespace RoslynPad.RoslynExtensions
     {
         #region Fields
 
-        private static readonly Type[] _assemblyTypes = new[]
-                                                            {
-                                                                typeof (object), 
-                                                                typeof (Uri), 
-                                                                typeof (Enumerable),
-                                                                typeof(List<>),
-                                                                typeof(DataSet),
-                                                                typeof(Queryable),
-                                                                typeof(ObservableCollection<>),
-                                                                typeof(BlockingCollection<>),
-                                                                typeof (ObjectExtensions)
-                                                                //,typeof (ObjectExtensions)
-                                                            };
+        private static readonly Type[] _assemblyTypes = new[]{
+                                                        typeof (object), 
+                                                        typeof (Uri), 
+                                                        typeof (Enumerable),
+                                                        typeof(List<>),
+                                                        typeof(DataSet),
+                                                        typeof(Queryable),
+                                                        typeof(ObservableCollection<>),
+                                                        typeof (ObjectExtensions)
+                                                    };
 
         private readonly InteractiveWorkspace _workspace;
         private readonly ParseOptions _parseOptions;
@@ -65,6 +65,52 @@ namespace RoslynPad.RoslynExtensions
             _completionService = Solution.LanguageServicesFactory.CreateLanguageServiceProvider(LanguageNames.CSharp)
                 .GetCompletionService();
         }
+
+
+        #region SyntaxTree
+        private Dictionary<DocumentId, SyntaxTree> syntaxTreeDic = new Dictionary<DocumentId,SyntaxTree>();
+
+        /// <summary>
+        /// 得到当前文档的文法树
+        /// </summary>
+        public SyntaxTree CurrentDocumentSyntaxTree
+        {
+            get
+            {
+                var document = GetCurrentDocument();
+                var iText = document.GetText() as StringText;
+                string source = iText.Source;
+                SyntaxTree tree = SyntaxTree.ParseText(source);
+                syntaxTreeDic[document.Id] = tree;
+
+                return tree;
+            }
+        }
+
+        /// <summary>
+        /// 得到类型定义树，指的是（类/接口 -> 方法），只包含一层结构。
+        /// </summary>
+        /// <returns></returns>
+        public List<GrammarDefinition> GetGrammarDefinitionList()
+        {
+            SyntaxTree tree = this.getCurrentExitsSyntaxTree();
+            var service = new GrammarDefinitionService();
+            service.Visit(tree.GetRoot());
+            return service.GrammarDefinitionList;
+        }
+
+        private SyntaxTree getCurrentExitsSyntaxTree()
+        {
+            SyntaxTree tree = null;
+            SyntaxNode node = null;
+            if (!syntaxTreeDic.TryGetValue(_currentDocumenId, out tree))
+                    tree = CurrentDocumentSyntaxTree;
+            return tree;
+        }
+
+
+
+        #endregion
 
         #region Documents
 
@@ -139,7 +185,7 @@ namespace RoslynPad.RoslynExtensions
                                                  triggerInfo,
                                                  _completionService.GetDefaultCompletionProviders(),
                                                  CancellationToken.None);
-            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).ToArray();
+            return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderByDescending(t=>t.SortText).ToArray();
         }
 
         public IDocument GetCurrentDocument()
@@ -154,6 +200,63 @@ namespace RoslynPad.RoslynExtensions
         }
 
         #endregion
+
+        #region Symbol
+        /// <summary>
+        /// 得到当前文档的编译符号集合
+        /// </summary>
+        /// <returns></returns>
+        public SemanticModel GetCurrentDocumentSymbol()
+        {
+            SyntaxTree tree = this.getCurrentExitsSyntaxTree();
+
+            var root = (CompilationUnitSyntax)tree.GetRoot();
+            var compilation = Compilation.Create("MyCompilation")
+                .AddReferences(_references)
+                .AddSyntaxTrees(tree);
+            return compilation.GetSemanticModel(tree);
+        }
+        #endregion
+
+
+        #region Insight
+
+        public List<IInsightItem> GetInsightTip(int postion)
+        {
+            List<IInsightItem> itemList = new List<IInsightItem>();
+            var tree = this.getCurrentExitsSyntaxTree();
+            var model = GetCurrentDocumentSymbol();
+
+            var invocationSyntaxList = tree.GetRoot().DescendantNodes()
+                .OfType<InvocationExpressionSyntax>();
+
+            if (invocationSyntaxList.Count() > 0)
+            {
+                var invocationSyntaxQuery = from syntaxNode in invocationSyntaxList
+                                            where postion >= syntaxNode.Span.Start && postion <= syntaxNode.Span.End
+                                            select syntaxNode;
+
+                int maxPostion = invocationSyntaxQuery.Max(s => s.Span.Start);
+                var invocationSyntax = invocationSyntaxQuery.FirstOrDefault(s => s.Span.Start == maxPostion);
+
+                var symbolInfo = model.GetSymbolInfo(invocationSyntax);
+                var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
+                if (methodSymbol != null)
+                {
+                    foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
+                    {
+                        itemList.Add(new InsightItemData(methodSymbol.Name, overload.ToDisplayString()));
+                    }
+                }
+            }
+
+
+            return itemList;
+        }
+
+        #endregion
+
+
 
         #region Script Engine
 

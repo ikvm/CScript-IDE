@@ -47,7 +47,7 @@ namespace jinxapp
 
         public override string GetViewTitle()
         {
-            return "RoslynEditor a CSharp Script Compiler base on Roslyn";
+            return "RoslynEditor - C#";
         }
 
         //编译运行
@@ -93,7 +93,7 @@ namespace jinxapp
         public void New()
         {
             if (MessageBox.Show("新建文件会覆盖现有内容，要继续操作吗？", "提示"
-                                    , MessageBoxButton.OK) == MessageBoxResult.OK)
+                                    , MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 string content = File.ReadAllText("NewFile.cs", Encoding.UTF8);
                 OpenContent = content;

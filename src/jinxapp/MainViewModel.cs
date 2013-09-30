@@ -47,7 +47,7 @@ namespace jinxapp
 
         public override string GetViewTitle()
         {
-            return "CSharp to Javascript Compiler base on Roslyn";
+            return "RoslynEditor a CSharp Script Compiler base on Roslyn";
         }
 
         //编译运行

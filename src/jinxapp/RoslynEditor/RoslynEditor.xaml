@@ -1,10 +1,10 @@
-﻿<UserControl  xmlns:Control="clr-namespace:jinx.Roslyn.SyntaxVisualizer.Control"  
-             x:Class="jinxapp.RoslynEditer.RoslynEditer"
+﻿<UserControl  x:Class="jinx.RoslynEditor.RoslynEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:avalon="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Control ="clr-namespace:jinx.RoslynEditor.SyntaxVisualizer"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -15,19 +15,19 @@
             </StackPanel>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Class">
-                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Class.png"/>
+                    <Setter TargetName="image1" Property="Source" Value="/Images/Class.png"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Interface">
-                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Interface.png"/>
+                    <Setter TargetName="image1" Property="Source" Value="/Images/Interface.png"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Method">
-                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Method.png"/>
+                    <Setter TargetName="image1" Property="Source" Value="/Images/Method.png"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Property">
-                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Property.png"/>
+                    <Setter TargetName="image1" Property="Source" Value="/Images/Property.png"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Field">
-                    <Setter TargetName="image1" Property="Source" Value="/jinxapp;component/Images/Field.png"/>
+                    <Setter TargetName="image1" Property="Source" Value="/Images/Field.png"/>
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>

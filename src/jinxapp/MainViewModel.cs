@@ -7,7 +7,6 @@ using ExtendPropertyLib.WPF;
 using System.ComponentModel.Composition;
 using MaxZhang.EasyEntities.Dynamic.Aop;
 using System.Windows.Input;
-using RoslynPad.RoslynExtensions;
 using Roslyn.Scripting;
 using jinx;
 using Microsoft.Win32;
@@ -18,6 +17,7 @@ using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using System.Reflection;
 using System.Windows;
+using jinx.RoslynEditor.RoslynExtensions;
 
 namespace jinxapp
 {
@@ -71,97 +71,12 @@ namespace jinxapp
         //构建Javascript
         public void Build()
         {
-            var tree = SyntaxTree.ParseText(CSharpContent);
-            MetadataReference mscorlib = MetadataReference.CreateAssemblyReference("mscorlib");
-            var root = (CompilationUnitSyntax)tree.GetRoot();
-            var compilation = Compilation.Create("MyCompilation")
-                .AddReferences(mscorlib)
-                .AddSyntaxTrees(tree);
-            var model = compilation.GetSemanticModel(tree);
-           
+            string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
+            this.JSharpContent = js;
 
-            var invocationSyntax = root.DescendantNodes()
-                .OfType<InvocationExpressionSyntax>()
-                .ToList();
-
-          
-
-            //var symbolInfo = model.GetSymbolInfo(invocationSyntax);
-            //var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
-
-            //foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
-            //{
-            //    // also look at overload.Parameters
-            //    Console.WriteLine(overload);
-            //}
-
-            //string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
-
-            //this.JSharpContent = js;
-            //#region debug
-        
-            //string CompiledScriptClass = "Submission#0";
-            //string CompiledScriptMethod = "<Factory>";
-            //string path = "e:\\debug";
-            //string outputPath = "temp.dll";
-            //string pdbPath = "temp.pdb";
-
-
-            //var scriptEngine = new ScriptEngine();
-            //scriptEngine.AddReference("System");
-            //scriptEngine.AddReference("System.Core");
-            //var session = scriptEngine.CreateSession();
-            
-            //Submission<object> submission = session.CompileSubmission<object>(CSharpContent);
-
-            //var exeBytes = new byte[0];
-            //var pdbBytes = new byte[0];
-            //var compileSuccess = false;
-
-            //using (var exeStream = new MemoryStream())
-            //using (var pdbStream = new MemoryStream())
-            //{
-            //    var result = submission.Compilation.Emit(exeStream, pdbStream: pdbStream);
-            //    compileSuccess = result.Success;
-
-            //    if (result.Success)
-            //    {
-                 
-            //        exeBytes = exeStream.ToArray();
-            //        pdbBytes = pdbStream.ToArray();
-            //    }
-            //    else
-            //    {
-            //        var errors = String.Join(Environment.NewLine, result.Diagnostics.Select(x => x.ToString()));
-                  
-            //    }
-            //}
-
-            //if (compileSuccess)
-            //{
-            //    Console.WriteLine("Compilation successful");
-            //    Console.WriteLine(string.Format("Output .dll at {0}", outputPath));
-            //    Console.WriteLine(string.Format("Output .pdb at {0}", pdbPath));
-
-            //    try
-            //    {
-            //        Assembly assembly = AppDomain.CurrentDomain.Load(exeBytes, pdbBytes);
-
-            //        var type = assembly.GetType(CompiledScriptClass);
-                
-            //        var method = type.GetMethod(CompiledScriptMethod, BindingFlags.Static | BindingFlags.Public);
-
-            //        method.Invoke(null, new[] { session });
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
-            //}
-
-            //#endregion
         }
      
+        //打开文件
         public void Open()
         {
             OpenFileDialog odf = new OpenFileDialog();
@@ -170,12 +85,21 @@ namespace jinxapp
             {
                 string fileName = odf.FileName;
                 string content = File.ReadAllText(fileName, Encoding.UTF8);
-
-
                 OpenContent = content;
-
             }
         }
+
+        //新建文件
+        public void New()
+        {
+            if (MessageBox.Show("新建文件会覆盖现有内容，要继续操作吗？", "提示"
+                                    , MessageBoxButton.OK) == MessageBoxResult.OK)
+            {
+                string content = File.ReadAllText("NewFile.cs", Encoding.UTF8);
+                OpenContent = content;
+            }
+        }
+
 
 
 

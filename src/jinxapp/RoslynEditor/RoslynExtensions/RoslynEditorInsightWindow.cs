@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.RoslynEditer.RoslynExtensions
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     public class RoslynEditorInsightWindow : OverloadInsightWindow
     {
@@ -104,10 +104,17 @@ namespace jinxapp.RoslynEditer.RoslynExtensions
             AttachEvents();
         }
 
-        public IList<IInsightItem> Items
+        public ObservableCollection<IInsightItem> Items
         {
             get { return items; }
         }
+
+        public void AddRangeItems(IList<IInsightItem> itemlist)
+        {
+            foreach (var item in itemlist)
+                Items.Add(item);
+        }
+
 
         public IInsightItem SelectedItem
         {

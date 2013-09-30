@@ -1,12 +1,13 @@
-﻿using System;
+﻿using jinx.RoslynEditor.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using RoslynPad.Utilities;
 
-namespace RoslynPad.Formatting
+
+namespace jinx.RoslynEditor
 {
     public class ObjectFormatter
     {

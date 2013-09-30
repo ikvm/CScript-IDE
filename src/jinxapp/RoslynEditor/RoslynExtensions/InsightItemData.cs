@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.RoslynEditer.RoslynExtensions
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     public class InsightItemData:IInsightItem
     {

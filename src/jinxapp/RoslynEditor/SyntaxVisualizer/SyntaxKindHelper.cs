@@ -25,7 +25,7 @@ using Roslyn.Compilers.Common;
 using CSharp = Roslyn.Compilers.CSharp;
 using VisualBasic = Roslyn.Compilers.VisualBasic;
 
-namespace jinx.Roslyn.SyntaxVisualizer.Control
+namespace jinx.RoslynEditor.SyntaxVisualizer
 {
     public static class SyntaxKindHelper
     {

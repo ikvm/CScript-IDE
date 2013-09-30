@@ -2,15 +2,12 @@
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
-using jinx.Roslyn.SyntaxVisualizer.Debugger;
+using jinx.RoslynEditor.SyntaxVisualizer;
+using jinx.RoslynEditor.RoslynExtensions;
 using jinxapp.DomainServices.GrammarDefinition;
-using jinxapp.RoslynEditer.RoslynExtensions;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
-using RoslynPad.Editor;
-using RoslynPad.Formatting;
-using RoslynPad.RoslynExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace jinxapp.RoslynEditer
+namespace jinx.RoslynEditor
 {
     public enum EditerType
     {
@@ -43,16 +40,16 @@ namespace jinxapp.RoslynEditer
     }
 
     /// <summary>
-    /// Interaction logic for RoslynEditer.xaml
+    ///
     /// </summary>
-    public partial class RoslynEditer : UserControl,IEditer
+    public partial class RoslynEditor : UserControl,IEditer
     {
     
         private readonly InteractiveManager _interactiveManager;
         private RoslynEditorInsightWindow _insightWindow;
         private CompletionWindow _completionWindow;
 
-        public RoslynEditer()
+        public RoslynEditor()
         {
             InitializeComponent();
 
@@ -208,6 +205,7 @@ namespace jinxapp.RoslynEditer
                     if (comp != null)
                     {
                         CompletionDescription cd = new CompletionDescription();
+                        
                         cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
                         toolTip.Content = cd;
                         toolTip.IsOpen = true;
@@ -285,9 +283,8 @@ namespace jinxapp.RoslynEditer
                     _insightWindow.Background = Brushes.LightSlateGray;
 
                     var items = _interactiveManager.GetInsightTip(Editor.CaretOffset);
-
-                    foreach(var item in items)
-                        _insightWindow.Items.Add(item);
+                    if(items!=null && items.Count > 0)
+                        _insightWindow.AddRangeItems(items);
 
                     _insightWindow.Show();
                     _insightWindow.Closed += delegate
@@ -338,7 +335,7 @@ namespace jinxapp.RoslynEditer
 
         #region DependencyProperty
 
-        public static DependencyProperty EditerTypeProperty = DependencyProperty.Register("EditerType", typeof(EditerType), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(EditerTypeChanged)));
+        public static DependencyProperty EditerTypeProperty = DependencyProperty.Register("EditerType", typeof(EditerType), typeof(RoslynEditor), new UIPropertyMetadata(new PropertyChangedCallback(EditerTypeChanged)));
         public EditerType EditerType
         {
             set
@@ -354,20 +351,20 @@ namespace jinxapp.RoslynEditer
 
         static void InitTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var that = d as RoslynEditer;
+            var that = d as RoslynEditor;
             that.Editor.Text= e.NewValue.ToString();
         }
 
         static void TextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var that = d as RoslynEditer;
+            var that = d as RoslynEditor;
             if (e.OldValue == null && e.OldValue != e.NewValue && !that.istypeset)
                 that.Editor.AppendText(e.NewValue.ToString());
         }
 
         static void EditerTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var that = d as RoslynEditer;
+            var that = d as RoslynEditor;
             that.Editor.TextArea.TextEntering -= that.OnTextEntering;
             that.Editor.TextArea.TextEntered -= that.OnTextEntered;
             that.Editor.TextChanged -= that.Editor_TextChanged;
@@ -404,7 +401,7 @@ namespace jinxapp.RoslynEditer
             }
         }
 
-        public static DependencyProperty InitTextProperty = DependencyProperty.Register("InitText", typeof(string), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(InitTextChanged)));
+        public static DependencyProperty InitTextProperty = DependencyProperty.Register("InitText", typeof(string), typeof(RoslynEditor), new UIPropertyMetadata(new PropertyChangedCallback(InitTextChanged)));
 
         public string InitText
         {
@@ -418,7 +415,7 @@ namespace jinxapp.RoslynEditer
             }
         }
 
-        public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(RoslynEditer), new UIPropertyMetadata(new PropertyChangedCallback(TextChanged)));
+        public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(RoslynEditor), new UIPropertyMetadata(new PropertyChangedCallback(TextChanged)));
 
         public string Text
         {

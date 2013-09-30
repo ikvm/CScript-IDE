@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using Roslyn.Services;
-using RoslynPad.Utilities;
+using jinx.RoslynEditor.Utilities;
 
-namespace RoslynPad.RoslynExtensions
+
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     internal static class RoslynExtensions
     {

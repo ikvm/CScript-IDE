@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace RoslynPad.Utilities
+namespace jinx.RoslynEditor.Utilities
 {
     public static class StaticReflection
     {

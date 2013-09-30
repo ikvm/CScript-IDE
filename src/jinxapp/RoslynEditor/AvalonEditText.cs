@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit;
 using Roslyn.Compilers;
 
-namespace RoslynPad.Editor
+namespace jinx.RoslynEditor
 {
     class AvalonEditText : TextBase
     {

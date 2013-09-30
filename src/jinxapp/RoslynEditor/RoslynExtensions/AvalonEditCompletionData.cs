@@ -7,9 +7,9 @@ using Roslyn.Compilers;
 using Roslyn.Services;
 using System.Reflection;
 using System.Windows.Media.Imaging;
-using jinxapp.RoslynEditer;
+using jinx.RoslynEditor;
 
-namespace RoslynPad.Editor
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     public class AvalonEditCompletionData : ICompletionData
     {

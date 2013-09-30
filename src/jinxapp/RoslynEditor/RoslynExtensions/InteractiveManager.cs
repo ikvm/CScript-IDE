@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Threading;
 using Roslyn.Compilers;
@@ -10,14 +9,11 @@ using Roslyn.Services;
 using System.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
-using RoslynPad.Runtime;
 using System.Threading.Tasks;
 using jinxapp.DomainServices.GrammarDefinition;
-using Roslyn.Compilers.Common;
-using jinxapp.RoslynEditer.RoslynExtensions;
+using jinx.RoslynEditor.Runtime;
 
-
-namespace RoslynPad.RoslynExtensions
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     public class InteractiveManager
     {

@@ -24,11 +24,11 @@ using System;
 using System.IO;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
-using jinx.Roslyn.SyntaxVisualizer.Control;
+using jinx.RoslynEditor.SyntaxVisualizer;
 using CSharp = Roslyn.Compilers.CSharp;
 using VisualBasic = Roslyn.Compilers.VisualBasic;
 
-namespace jinx.Roslyn.SyntaxVisualizer.Debugger
+namespace jinx.RoslynEditor.SyntaxVisualizer
 {
     // A transporter that represents a serialized SyntaxTree / SyntaxNode / SyntaxToken / SyntaxTrivia.
     [Serializable]

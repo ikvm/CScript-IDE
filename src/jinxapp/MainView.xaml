@@ -10,7 +10,7 @@
         xmlns:my="clr-namespace:EasyEntities.RIA.Controls;assembly=EasyEntities.RIA.Controls"
         xmlns:Converters1="clr-namespace:ExtendPropertyLib.XAML.Converters;assembly=ExtendPropertyLib.WPF"
         xmlns:local="clr-namespace:jinxapp" 
-        xmlns:editor ="clr-namespace:jinxapp.RoslynEditer"
+        xmlns:editor ="clr-namespace:jinx.RoslynEditor"
         x:Class="jinxapp.MainView"
         Height="768" Width="1024"
    
@@ -129,7 +129,7 @@
 
                     <TabControl Margin="0,0,0,23">
                         <TabItem Header="CSharp">
-                            <editor:RoslynEditer Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
+                            <editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
                         </TabItem>
                         <TabItem Header="Web">
                             
@@ -138,10 +138,10 @@
                                     <WebBrowser Source="http://www.cnblogs.com"/>
                                 </TabItem>
                                 <TabItem Header="Html">
-                                    <editor:RoslynEditer EditerType="Javascript" />
+                                    <editor:RoslynEditor EditerType="Javascript" />
                                 </TabItem>
                                 <TabItem Header="Javascript">
-                                    <editor:RoslynEditer EditerType="Javascript" InitText="{Binding JSharpContent,Mode=TwoWay}"/>
+                                    <editor:RoslynEditor EditerType="Javascript" InitText="{Binding JSharpContent,Mode=TwoWay}"/>
                                 </TabItem>
                             </TabControl>
                          

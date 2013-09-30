@@ -2,7 +2,7 @@
 using Roslyn.Services;
 using Roslyn.Services.Host;
 
-namespace RoslynPad.RoslynExtensions
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     internal class InteractiveWorkspace : TrackingWorkspace
     {

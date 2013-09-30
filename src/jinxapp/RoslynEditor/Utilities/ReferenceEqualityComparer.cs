@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace RoslynPad.Utilities
+namespace jinx.RoslynEditor.Utilities
 {
     internal class ReferenceEqualityComparer : IEqualityComparer<object>
     {

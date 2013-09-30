@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
-namespace RoslynPad.Utilities
+namespace jinx.RoslynEditor.Utilities
 {
     public static class ReflectionExtensions
     {

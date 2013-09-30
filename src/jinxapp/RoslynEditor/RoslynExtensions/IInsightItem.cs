@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.RoslynEditer.RoslynExtensions
+namespace jinx.RoslynEditor.RoslynExtensions
 {
     /// <summary>
     /// An item in the insight window.

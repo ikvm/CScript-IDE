@@ -14,7 +14,8 @@ using System.ComponentModel.Composition;
 using ExtendPropertyLib;
 using System.Windows.Media.Animation;
 using ExtendPropertyLib.WPF;
-using RoslynPad.Formatting;
+using jinx.RoslynEditor;
+
 
 namespace jinxapp
 {

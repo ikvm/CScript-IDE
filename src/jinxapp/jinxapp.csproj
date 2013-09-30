@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>jinxapp</RootNamespace>
-    <AssemblyName>jinxapp</AssemblyName>
+    <AssemblyName>RoslynEditor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -146,33 +146,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RoslynEditer\AvalonEditCompletionData.cs" />
-    <Compile Include="RoslynEditer\AvalonEditText.cs" />
-    <Compile Include="RoslynEditer\AvalonEditTextContainer.cs" />
-    <Compile Include="RoslynEditer\BraceFoldingStrategy.cs" />
-    <Compile Include="RoslynEditer\CompletionDescription.xaml.cs">
+    <Compile Include="RoslynEditor\RoslynExtensions\AvalonEditCompletionData.cs" />
+    <Compile Include="RoslynEditor\AvalonEditText.cs" />
+    <Compile Include="RoslynEditor\AvalonEditTextContainer.cs" />
+    <Compile Include="RoslynEditor\BraceFoldingStrategy.cs" />
+    <Compile Include="RoslynEditor\CompletionDescription.xaml.cs">
       <DependentUpon>CompletionDescription.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RoslynEditer\EditorExtensions.cs" />
-    <Compile Include="RoslynEditer\ObjectFormatter.cs" />
-    <Compile Include="RoslynEditer\RoslynEditer.xaml.cs">
-      <DependentUpon>RoslynEditer.xaml</DependentUpon>
+    <Compile Include="RoslynEditor\EditorExtensions.cs" />
+    <Compile Include="RoslynEditor\ObjectFormatter.cs" />
+    <Compile Include="RoslynEditor\RoslynEditor.xaml.cs">
+      <DependentUpon>RoslynEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RoslynEditer\RoslynExtensions\CompletionServiceWrapper.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\ICompletionService.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\IInsightItem.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\InsightItemData.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\InteractiveManager.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\InteractiveWorkspace.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\RoslynEditorInsightWindow.cs" />
-    <Compile Include="RoslynEditer\RoslynExtensions\RoslynExtensions.cs" />
-    <Compile Include="RoslynEditer\Runtime\ObjectExtensions.cs" />
-    <Compile Include="RoslynEditer\SyntaxTransporter.cs" />
-    <Compile Include="RoslynEditer\Utilities\ReferenceEqualityComparer.cs" />
-    <Compile Include="RoslynEditer\Utilities\ReflectionExtensions.cs" />
-    <Compile Include="RoslynEditer\Utilities\StaticReflection.cs" />
-    <Compile Include="RoslynEditer\SyntaxKindHelper.cs" />
-    <Compile Include="RoslynEditer\SyntaxVisualizerControl.xaml.cs">
+    <Compile Include="RoslynEditor\RoslynExtensions\CompletionServiceWrapper.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\ICompletionService.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\IInsightItem.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\InsightItemData.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\InteractiveManager.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\InteractiveWorkspace.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\RoslynEditorInsightWindow.cs" />
+    <Compile Include="RoslynEditor\RoslynExtensions\RoslynExtensions.cs" />
+    <Compile Include="RoslynEditor\Runtime\ObjectExtensions.cs" />
+    <Compile Include="RoslynEditor\SyntaxVisualizer\SyntaxTransporter.cs" />
+    <Compile Include="RoslynEditor\Utilities\ReferenceEqualityComparer.cs" />
+    <Compile Include="RoslynEditor\Utilities\ReflectionExtensions.cs" />
+    <Compile Include="RoslynEditor\Utilities\StaticReflection.cs" />
+    <Compile Include="RoslynEditor\SyntaxVisualizer\SyntaxKindHelper.cs" />
+    <Compile Include="RoslynEditor\SyntaxVisualizer\SyntaxVisualizerControl.xaml.cs">
       <DependentUpon>SyntaxVisualizerControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainView.xaml">
@@ -199,15 +199,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RoslynEditer\CompletionDescription.xaml">
+    <Page Include="RoslynEditor\CompletionDescription.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RoslynEditer\RoslynEditer.xaml">
+    <Page Include="RoslynEditor\RoslynEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RoslynEditer\SyntaxVisualizerControl.xaml">
+    <Page Include="RoslynEditor\SyntaxVisualizer\SyntaxVisualizerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

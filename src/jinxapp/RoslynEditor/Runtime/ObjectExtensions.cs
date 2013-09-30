@@ -1,7 +1,7 @@
 ﻿using jinxapp;
 using System.Windows;
 
-namespace RoslynPad.Runtime
+namespace jinx.RoslynEditor.Runtime
 {
     public static class ObjectExtensions
     {

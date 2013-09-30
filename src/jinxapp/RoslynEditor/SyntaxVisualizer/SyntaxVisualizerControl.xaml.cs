@@ -29,7 +29,7 @@ using Roslyn.Compilers.Common;
 using System;
 using jinxapp.DomainServices;
 
-namespace jinx.Roslyn.SyntaxVisualizer.Control
+namespace jinx.RoslynEditor.SyntaxVisualizer
 {
     public enum SyntaxCategory
     {

@@ -1,4 +1,4 @@
-﻿using RoslynPad.Formatting;
+﻿using jinx.RoslynEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,5 @@ namespace jinxapp
     interface IMainView
     {
         ObjectFormatter Formatter { get; }
-
-
     }
 }

@@ -110,7 +110,7 @@ namespace jinx.RoslynEditor.RoslynExtensions
 
         #region Documents
 
-        public void SetDocument(ITextContainer textContainer)
+        public DocumentId SetDocument(ITextContainer textContainer)
         {
             IProject project;
             ISolution currentSolution = _workspace.CurrentSolution;
@@ -125,7 +125,20 @@ namespace jinx.RoslynEditor.RoslynExtensions
             project = CreateSubmissionProject(currentSolution);
             var currentDocument = SetSubmissionDocument(textContainer, project);
             _currentDocumenId = currentDocument.Id;
+            _documentList.Add(_currentDocumenId);
+            return _currentDocumenId;
         }
+
+        private List<DocumentId> _documentList = new List<DocumentId>();
+
+        public List<DocumentId> DocumentList
+        {
+            get
+            {
+                return _documentList;
+            }
+        }
+
 
         private static IText CreateUsingText()
         {
@@ -184,6 +197,11 @@ namespace jinx.RoslynEditor.RoslynExtensions
             return (groups ?? Enumerable.Empty<CompletionItemGroup>()).SelectMany(t => t.Items).OrderByDescending(t=>t.SortText).ToArray();
         }
 
+        public void SetCurrentDocumentByID(DocumentId id)
+        {
+            _currentDocumenId = id;
+        }
+
         public IDocument GetCurrentDocument()
         {
             return _workspace.CurrentSolution.GetDocument(_currentDocumenId);
@@ -212,6 +230,9 @@ namespace jinx.RoslynEditor.RoslynExtensions
                 .AddSyntaxTrees(tree);
             return compilation.GetSemanticModel(tree);
         }
+
+
+
         #endregion
 
 

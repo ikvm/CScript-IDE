@@ -17,6 +17,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using jinxapp;
+using Roslyn.Services;
+using System.Threading.Tasks;
 
 namespace jinx.RoslynEditor
 {
@@ -44,8 +47,8 @@ namespace jinx.RoslynEditor
     /// </summary>
     public partial class RoslynEditor : UserControl,IEditer
     {
-    
-        private readonly InteractiveManager _interactiveManager;
+
+        private InteractiveManager _interactiveManager;
         private RoslynEditorInsightWindow _insightWindow;
         private CompletionWindow _completionWindow;
 
@@ -55,8 +58,8 @@ namespace jinx.RoslynEditor
 
             ConfigureEditor();
 
-            _interactiveManager = new InteractiveManager();
-            _interactiveManager.SetDocument(Editor.AsTextContainer());
+            _interactiveManager = ApplicationService.Services.Take<InteractiveManager>();
+            var documentid = _interactiveManager.SetDocument(Editor.AsTextContainer());
         }
 
         private void ConfigureEditor()
@@ -232,6 +235,15 @@ namespace jinx.RoslynEditor
                     e.Handled = false;
                 }
             }
+
+           
+            if (e.KeyStates == Keyboard.GetKeyStates(Key.M) && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                foreach (var foldingItem in foldingManager.AllFoldings)
+                {
+                    foldingItem.IsFolded = !foldingItem.IsFolded;
+                }
+            }
         }
 
         void TextArea_KeyUp(object sender, KeyEventArgs e)
@@ -279,8 +291,8 @@ namespace jinx.RoslynEditor
                 else if(keystring == "(" || keystring == ",")
                 {
                     _insightWindow = new RoslynEditorInsightWindow(Editor.TextArea);
-                    _insightWindow.Foreground = Brushes.LightSkyBlue;
-                    _insightWindow.Background = Brushes.LightSlateGray;
+                    _insightWindow.Foreground = Brushes.WhiteSmoke;
+                    _insightWindow.Background = Brushes.Black;
 
                     var items = _interactiveManager.GetInsightTip(Editor.CaretOffset);
                     if(items!=null && items.Count > 0)
@@ -297,6 +309,8 @@ namespace jinx.RoslynEditor
             istypeset = false;
 
         }
+
+
 
         private void OnTextEntering(object sender, TextCompositionEventArgs e)
         {
@@ -428,6 +442,31 @@ namespace jinx.RoslynEditor
                 return Editor.Text;
             }
         }
+
+        public static DependencyProperty DocumentIdProperty = DependencyProperty.Register("DocumentID", typeof(DocumentId), typeof(RoslynEditor), new UIPropertyMetadata(new PropertyChangedCallback(DocumentIdChanged)));
+
+        public DocumentId DocumentID
+        {
+            set
+            {
+                SetValue(DocumentIdProperty, value);
+            }
+            get
+            {
+                return (DocumentId)GetValue(DocumentIdProperty);
+            }
+
+        }
+
+        private static void DocumentIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var that = d as RoslynEditor;
+            that._interactiveManager.SetCurrentDocumentByID((DocumentId)e.NewValue);
+        }
+
+
+
+
 
         public void SetText(string text)
         {

@@ -77,13 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=0.3.0.17, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=0.10.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\MahApps.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\MahApps.Metro.Resources.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MaxZhang.EasyEntities.Dynamic.Aop, Version=0.2.9.53, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -123,7 +119,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -211,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Must Have.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -257,6 +259,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -312,6 +315,7 @@
     <Resource Include="Images\SyntaxTree.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Images\window.ico" />
     <Resource Include="Images\window.png" />
     <Content Include="Images\twindow.ico" />
@@ -320,7 +324,6 @@
     <Content Include="libs\ExtendPropertyLib.WPF.dll" />
     <Content Include="libs\ICSharpCode.AvalonEdit.dll" />
     <Content Include="libs\MahApps.Metro.dll" />
-    <Content Include="libs\MahApps.Metro.Resources.dll" />
     <Content Include="libs\MaxZhang.EasyEntities.Dynamic.Aop.dll" />
     <Content Include="libs\Microsoft.Expression.Interactions.dll" />
     <Content Include="libs\System.Windows.Interactivity.dll" />

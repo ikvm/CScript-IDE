@@ -114,14 +114,14 @@ namespace jinx.RoslynEditor.RoslynExtensions
         {
             IProject project;
             ISolution currentSolution = _workspace.CurrentSolution;
-            if (_previousProjectId == null)
-            {
-                DocumentId id;
-                project = CreateSubmissionProject(currentSolution);
-                var usingText = CreateUsingText();
-                currentSolution = project.Solution.AddDocument(project.Id, project.Name, usingText, out id);
-                _previousProjectId = project.Id;
-            }
+            //if (_previousProjectId == null)
+            //{
+            //    DocumentId id;
+            //    project = CreateSubmissionProject(currentSolution);
+            //    var usingText = CreateUsingText();
+            //    currentSolution = project.Solution.AddDocument(project.Id, project.Name, usingText, out id);
+            //    _previousProjectId = project.Id;
+            //}
             project = CreateSubmissionProject(currentSolution);
             var currentDocument = SetSubmissionDocument(textContainer, project);
             _currentDocumenId = currentDocument.Id;

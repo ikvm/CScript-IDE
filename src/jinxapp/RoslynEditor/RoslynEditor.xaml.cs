@@ -44,7 +44,7 @@ namespace jinx.RoslynEditor
         /// <summary>
         /// 编辑器容器
         /// </summary>
-        ITextContainer TextContainer { private set; get; }
+        ITextContainer TextContainer {  get; }
 
         /// <summary>
         /// 编辑器对应文档ID
@@ -494,7 +494,6 @@ namespace jinx.RoslynEditor
 
         public ITextContainer TextContainer
         {
-            private set;
             get
             {
 

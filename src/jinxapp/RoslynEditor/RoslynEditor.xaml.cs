@@ -494,7 +494,9 @@ namespace jinx.RoslynEditor
 
         public ITextContainer TextContainer
         {
-            get {
+            private set;
+            get
+            {
 
                 return Editor.AsTextContainer();
             }

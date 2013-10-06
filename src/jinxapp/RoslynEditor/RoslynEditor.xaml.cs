@@ -40,6 +40,16 @@ namespace jinx.RoslynEditor
         /// </summary>
         /// <param name="text"></param>
         string GetText();
+
+        /// <summary>
+        /// 编辑器容器
+        /// </summary>
+        ITextContainer TextContainer { private set; get; }
+
+        /// <summary>
+        /// 编辑器对应文档ID
+        /// </summary>
+        DocumentId DocumentID { set; get; }
     }
 
     /// <summary>
@@ -481,6 +491,15 @@ namespace jinx.RoslynEditor
 
             return text;
         }
+
+        public ITextContainer TextContainer
+        {
+            get {
+
+                return Editor.AsTextContainer();
+            }
+        }
+
         #endregion
 
         #region Folding
@@ -503,7 +522,10 @@ namespace jinx.RoslynEditor
             Editor.TextArea.Focus();
         }
 
-     
 
+
+
+
+       
     }
 }

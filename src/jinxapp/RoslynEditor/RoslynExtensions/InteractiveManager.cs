@@ -64,7 +64,7 @@ namespace jinx.RoslynEditor.RoslynExtensions
 
 
         #region SyntaxTree
-        private Dictionary<DocumentId, SyntaxTree> syntaxTreeDic = new Dictionary<DocumentId,SyntaxTree>();
+   
 
         /// <summary>
         /// 得到当前文档的文法树
@@ -74,12 +74,8 @@ namespace jinx.RoslynEditor.RoslynExtensions
             get
             {
                 var document = GetCurrentDocument();
-                var iText = document.GetText() as StringText;
-                string source = iText.Source;
-                SyntaxTree tree = SyntaxTree.ParseText(source);
-                syntaxTreeDic[document.Id] = tree;
 
-                return tree;
+                return (SyntaxTree)document.GetSyntaxTree();
             }
         }
 
@@ -89,20 +85,13 @@ namespace jinx.RoslynEditor.RoslynExtensions
         /// <returns></returns>
         public List<GrammarDefinition> GetGrammarDefinitionList()
         {
-            SyntaxTree tree = this.getCurrentExitsSyntaxTree();
+            SyntaxTree tree = this.CurrentDocumentSyntaxTree;
             var service = new GrammarDefinitionService();
             service.Visit(tree.GetRoot());
             return service.GrammarDefinitionList;
         }
 
-        private SyntaxTree getCurrentExitsSyntaxTree()
-        {
-            SyntaxTree tree = null;
-            SyntaxNode node = null;
-            if (!syntaxTreeDic.TryGetValue(_currentDocumenId, out tree))
-                    tree = CurrentDocumentSyntaxTree;
-            return tree;
-        }
+   
 
 
 
@@ -140,12 +129,12 @@ namespace jinx.RoslynEditor.RoslynExtensions
         }
 
 
-        private static IText CreateUsingText()
-        {
-            return
-                new StringText(string.Join(Environment.NewLine,
-                                           _assemblyTypes.Select(t => string.Format("using {0};", t.Namespace))));
-        }
+        //private static IText CreateUsingText()
+        //{
+        //    return
+        //        new StringText(string.Join(Environment.NewLine,
+        //                                   _assemblyTypes.Select(t => string.Format("using {0};", t.Namespace))));
+        //}
 
         private IDocument SetSubmissionDocument(ITextContainer textContainer, IProject project)
         {
@@ -209,7 +198,10 @@ namespace jinx.RoslynEditor.RoslynExtensions
 
         public bool IsCompletionTriggerCharacter(int position)
         {
-            return _completionService.IsTriggerCharacter(GetCurrentDocument().GetText(), position,
+
+            var text =GetCurrentDocument().GetText();
+
+            return _completionService.IsTriggerCharacter(text, position,
                 _completionService.GetDefaultCompletionProviders());
         }
 
@@ -222,13 +214,8 @@ namespace jinx.RoslynEditor.RoslynExtensions
         /// <returns></returns>
         public SemanticModel GetCurrentDocumentSymbol()
         {
-            SyntaxTree tree = this.getCurrentExitsSyntaxTree();
 
-            var root = (CompilationUnitSyntax)tree.GetRoot();
-            var compilation = Compilation.Create("MyCompilation")
-                .AddReferences(_references)
-                .AddSyntaxTrees(tree);
-            return compilation.GetSemanticModel(tree);
+            return (SemanticModel)this.GetCurrentDocument().GetSemanticModel();
         }
 
 
@@ -241,7 +228,7 @@ namespace jinx.RoslynEditor.RoslynExtensions
         public List<IInsightItem> GetInsightTip(int postion)
         {
             List<IInsightItem> itemList = new List<IInsightItem>();
-            var tree = this.getCurrentExitsSyntaxTree();
+            var tree = this.CurrentDocumentSyntaxTree;
             var model = GetCurrentDocumentSymbol();
 
             var invocationSyntaxList = tree.GetRoot().DescendantNodes()

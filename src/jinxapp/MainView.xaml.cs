@@ -39,7 +39,7 @@ namespace jinxapp
 
             var document = new FlowDocument { FontFamily = new FontFamily("Consolas"), FontSize = 14 };
             _formatter = new ObjectFormatter(document);
-            log.Document = document;
+            //log.Document = document;
 
 
         }

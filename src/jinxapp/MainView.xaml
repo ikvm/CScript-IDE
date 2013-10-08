@@ -11,6 +11,7 @@
         xmlns:Converters1="clr-namespace:ExtendPropertyLib.XAML.Converters;assembly=ExtendPropertyLib.WPF"
         xmlns:local="clr-namespace:jinxapp" 
         xmlns:editor ="clr-namespace:jinx.RoslynEditor"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         x:Class="jinxapp.MainView"
         Height="768" Width="1024"
    
@@ -30,8 +31,19 @@
     </Controls:MetroWindow.Resources>
 
     <Controls:MetroContentControl>
-
-        <Grid x:Name="LeftBar">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top" Height="22"  Background="#FF494949" >
+                <Menu  Foreground="White" VerticalAlignment="Center" Background="{x:Null}">
+                    <MenuItem Header="FILE"/>
+                    <MenuItem Header="EDIT"/>
+                    <MenuItem Header="VIEW"/>
+                    <MenuItem Header="DEBUG"/>
+                    <MenuItem Header="TOOLS"/>
+                    <MenuItem Header="WINDOW"/>
+                    <MenuItem Header="HELP"/>
+                </Menu>
+            </Grid>
+            <Grid x:Name="LeftBar">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5" />
                 <ColumnDefinition />
@@ -62,7 +74,7 @@
                                     <GradientStop Color="Black" Offset="1" />
                                 </LinearGradientBrush>
                             </Border.Background>
-                            <TextBlock Text="File Expolor" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
+                            <TextBlock Text="File Expolor" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
                         </Border>
                         <Grid Margin="0,5,0,0">
 
@@ -126,65 +138,58 @@
                     </StackPanel>
                 </Border>
                 <Grid Grid.Column="1" >
+                    <avalonDock:DockingManager  x:Name="dockManager"  AllowMixedOrientation="True"  >
+                        <avalonDock:DockingManager.Theme>
+                            <avalonDock:ExpressionDarkTheme/>
+                        </avalonDock:DockingManager.Theme>
+                        <avalonDock:LayoutRoot>
+                            <avalonDock:LayoutPanel  Orientation="Horizontal"  >
+                                <avalonDock:LayoutPanel  Orientation="Vertical"  >
+                                    <avalonDock:LayoutDocumentPaneGroup Orientation="Horizontal">
+                                        <avalonDock:LayoutDocumentPane   >
+                                         
+                                            <avalonDock:LayoutDocument Title="new1">
+                                                    <editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
+                                                </avalonDock:LayoutDocument>
+                                                <avalonDock:LayoutDocument Title="new2">
+                                                    <!--<editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />-->
+                                                </avalonDock:LayoutDocument>
+                                             
+                                            </avalonDock:LayoutDocumentPane>
 
-                    <TabControl Margin="0,0,0,23">
-                        <TabItem Header="CSharp">
-                            <editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
-                        </TabItem>
-                        <TabItem Header="Web">
-                            
-                            <TabControl>
-                                <TabItem Header="WebBrowser">
-                                    <WebBrowser Source="http://www.cnblogs.com"/>
-                                </TabItem>
-                                <TabItem Header="Html">
-                                    <editor:RoslynEditor EditerType="Javascript" />
-                                </TabItem>
-                                <TabItem Header="Javascript">
-                                    <editor:RoslynEditor EditerType="Javascript" InitText="{Binding JSharpContent,Mode=TwoWay}"/>
-                                </TabItem>
-                            </TabControl>
-                         
-                        </TabItem>
-                        <TabItem Header="Regex">
-                          
-                        </TabItem>
-                    </TabControl>
-                    <Expander  IsExpanded="False" ExpandDirection="Up"   HorizontalAlignment="Left" VerticalAlignment="Bottom"   Margin="0,0,0,2">
-                        <Expander.Header>
-                            <Border CornerRadius="2.5" Background="#FF0F0F0F"  Opacity="0.8" Width="300">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock  Text="Application Log" Width="145"    Foreground="WhiteSmoke" TextAlignment="Center" />
-                                    <Rectangle Fill="#FF66B2F5" Height="4" Width="140" />
-                                </StackPanel >
-                            </Border>
-                        </Expander.Header>
-                        <TabControl>
-                            <TabItem Header="Running Log">
-                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
-                                    <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
-                                </Border>
-                            </TabItem>
-                            <TabItem Header="Command">
-                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
-                                    <RichTextBox Name="log1"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
-                                </Border>
-                            </TabItem>
-                            <TabItem Header="Regex">
-                                <Border   Height="160" MinWidth="730"  BorderThickness="1" CornerRadius="1.7" BorderBrush="Azure"  Opacity="0.8">
-                                    <RichTextBox Name="log2"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"   Foreground="#FFDA1793" Background="#FF0F0F0F" BorderBrush="#FF66B2F5"  FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" />
-                                </Border>
-                            </TabItem>
-                        </TabControl>
-                    
-                    </Expander>
+                                    </avalonDock:LayoutDocumentPaneGroup>
+                                    <avalonDock:LayoutAnchorablePaneGroup DockHeight="100"   Orientation="Horizontal"  >
+                                        <avalonDock:LayoutAnchorablePane  >
+                                            <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
+                                                <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
+                                                         Foreground="White" Background="#FF464646" BorderBrush="#FF404040"  
+                                                         FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" />
+                                            </avalonDock:LayoutAnchorable>
+                                            <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
+                                             
+                                            </avalonDock:LayoutAnchorable>
+                                        </avalonDock:LayoutAnchorablePane>
+                                    </avalonDock:LayoutAnchorablePaneGroup>
+                                </avalonDock:LayoutPanel>
+                                <avalonDock:LayoutAnchorablePaneGroup DockWidth="200"    Orientation="Horizontal"  >
+                                    <avalonDock:LayoutAnchorablePane >
+                                        <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
+                                           
+                                        </avalonDock:LayoutAnchorable>
+                                        <avalonDock:LayoutAnchorable Title="Property" ToolTip="Property"  CanClose="False" CanHide="False"></avalonDock:LayoutAnchorable>
+                                    </avalonDock:LayoutAnchorablePane>
+                                </avalonDock:LayoutAnchorablePaneGroup>
+                            </avalonDock:LayoutPanel>
 
-                  
+                        </avalonDock:LayoutRoot>
+                    </avalonDock:DockingManager>
+
+
 
                 </Grid>
             </Grid>
         </Grid>
-
+        </DockPanel>
     </Controls:MetroContentControl>
 
 </Controls:MetroWindow>

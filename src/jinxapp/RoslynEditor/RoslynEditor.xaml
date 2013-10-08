@@ -11,7 +11,7 @@
         <DataTemplate x:Key="comboItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <Image Name="image1"/>
-                <TextBlock FontSize="13" Text="{Binding Path=Name}" Margin="2,0,0,0" />
+                <TextBlock FontSize="13" Text="{Binding Path=Name}" Margin="2,0,0,0" Foreground="White" />
             </StackPanel>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding GrammarDefineType}" Value="Class">
@@ -34,7 +34,7 @@
     </UserControl.Resources>
     <Grid Name="grid1">
         <Grid.RowDefinitions>
-            <RowDefinition Height="27"/>
+            <RowDefinition Height="21"/>
             <RowDefinition Height="91*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

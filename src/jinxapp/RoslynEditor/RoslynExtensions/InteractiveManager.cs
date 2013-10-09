@@ -49,7 +49,7 @@ namespace jinx.RoslynEditor.RoslynExtensions
 
         public InteractiveManager()
         {
-            _workspace = new InteractiveWorkspace(DefaultServices.WorkspaceServicesFactory.CreateWorkspaceServiceProvider("RoslynPad"));
+            _workspace = new InteractiveWorkspace(DefaultServices.WorkspaceServicesFactory.CreateWorkspaceServiceProvider("RoslynEditor"));
 
             _parseOptions = new ParseOptions(CompatibilityMode.None, LanguageVersion.CSharp6, true, SourceCodeKind.Interactive);
             _compilationOptions = new CompilationOptions(OutputKind.DynamicallyLinkedLibrary);

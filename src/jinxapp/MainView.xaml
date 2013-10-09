@@ -172,7 +172,7 @@
                                             </avalonDock:LayoutAnchorablePane>
                                         </avalonDock:LayoutAnchorablePaneGroup>
                                     </avalonDock:LayoutPanel>
-                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="200"    Orientation="Horizontal"  >
+                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="300"    Orientation="Horizontal"  >
                                         <avalonDock:LayoutAnchorablePane >
                                             <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
                                                 <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />

@@ -209,6 +209,9 @@
     <Compile Include="RoslynEditor\SyntaxVisualizer\SyntaxVisualizerControl.xaml.cs">
       <DependentUpon>SyntaxVisualizerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -248,6 +251,10 @@
     <Page Include="RoslynEditor\SyntaxVisualizer\SyntaxVisualizerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

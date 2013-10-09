@@ -158,7 +158,7 @@ namespace jinxapp
         private void dockManager_ActiveContentChanged(object sender, EventArgs e)
         {
             var activeDoc = dockManager.ActiveContent as IEditor;
-            if (activeDoc != null)
+            if (activeDoc != null && viewmodel.CurrentDocument.DocumentID!= activeDoc.DocumentID)
             {
                 syntaxVisualizer.Clear();
                 viewmodel.SetCurrentDocument(activeDoc.DocumentID);

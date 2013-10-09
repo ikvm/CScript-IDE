@@ -175,7 +175,7 @@ namespace jinxapp
 
         public bool CloseDocument(DocumentId id)
         {
-            if (OpenDocuments.Count > 0)
+            if (OpenDocuments.Count > 1)
             {
                 var docInfo = OpenDocuments.First(d => d.DocumentID == id);
                 docInfo.Editor.EditorTextChanged -= editor_EditorTextChanged;

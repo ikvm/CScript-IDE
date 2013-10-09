@@ -28,7 +28,7 @@ namespace jinx.RoslynEditor
         CSharp,
         Javascript
     }
-    public interface IEditer
+    public interface IEditor
     {
         /// <summary>
         /// 设置文字 
@@ -40,12 +40,24 @@ namespace jinx.RoslynEditor
         /// </summary>
         /// <param name="text"></param>
         string GetText();
-
+        /// <summary>
+        /// 编辑器内容属性
+        /// </summary>
+        string Text { get; }
+        /// <summary>
+        /// 选择编辑器中的内容
+        /// </summary>
+        /// <param name="spanStart">开始位置</param>
+        /// <param name="spanLength">长度</param>
+        void SelectText(int spanStart, int spanLength);
         /// <summary>
         /// 编辑器容器
         /// </summary>
         ITextContainer TextContainer {  get; }
-
+        /// <summary>
+        /// 编辑器内容改变事件
+        /// </summary>
+        event EventHandler EditorTextChanged;
         /// <summary>
         /// 编辑器对应文档ID
         /// </summary>
@@ -55,7 +67,7 @@ namespace jinx.RoslynEditor
     /// <summary>
     ///
     /// </summary>
-    public partial class RoslynEditor : UserControl,IEditer
+    public partial class RoslynEditor : UserControl,IEditor ,IDisposable
     {
 
         private InteractiveManager _interactiveManager;
@@ -66,10 +78,9 @@ namespace jinx.RoslynEditor
         {
             InitializeComponent();
 
-            ConfigureEditor();
-
             _interactiveManager = ApplicationService.Services.Take<InteractiveManager>();
-            var documentid = _interactiveManager.SetDocument(Editor.AsTextContainer());
+            ConfigureEditor();
+         
         }
 
         private void ConfigureEditor()
@@ -85,11 +96,6 @@ namespace jinx.RoslynEditor
                 Editor.TextArea.KeyUp += TextArea_KeyUp;
                 Editor.MouseHover += Editor_MouseHover;
                 Editor.MouseHoverStopped += Editor_MouseHoverStopped;
-
-                syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => NavigateToSource(node.Span);
-                syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => NavigateToSource(token.Span);
-                syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => NavigateToSource(trivia.Span);
-
             }
             else if(EditerType == EditerType.Javascript)
             {
@@ -133,13 +139,16 @@ namespace jinx.RoslynEditor
                 SelectText(span.Start, span.Length);
         }
 
-        private async void SelectText(int spanStart, int spanLength)
+        public async void SelectText(int spanStart, int spanLength)
         {
-            Editor.Select(spanStart, spanLength);
+            if (spanStart >= 0 && spanLength > 0)
+            {
+                Editor.Select(spanStart, spanLength);
 
-            var docLine = Editor.TextArea.Document.GetLineByOffset(spanStart);
-       
-            Editor.ScrollToLine(docLine.LineNumber);
+                var docLine = Editor.TextArea.Document.GetLineByOffset(spanStart);
+
+                Editor.ScrollToLine(docLine.LineNumber);
+            }
         
         }
         #endregion
@@ -162,16 +171,8 @@ namespace jinx.RoslynEditor
 
                 if (!string.IsNullOrEmpty(Editor.Text))
                 {
-                    var tree = _interactiveManager.CurrentDocumentSyntaxTree;
-                    SyntaxTransporter transporter = new SyntaxTransporter(tree);
-                    
-                    syntaxVisualizer.DisplaySyntaxTree(tree, transporter.SourceLanguage);
-
-                    if (!syntaxVisualizer.NavigateToBestMatch(transporter.ItemSpan,
-                                                                transporter.ItemKind,
-                                                                transporter.ItemCategory,
-                                                                highlightMatch: true,
-                                                                highlightLegendDescription: "Under Inspection")) ;
+                    if (EditorTextChanged != null)
+                        EditorTextChanged(this, null);
 
                     var definitions = _interactiveManager.GetGrammarDefinitionList();
                     this.childrenDropDown.ItemsSource = null;
@@ -395,11 +396,7 @@ namespace jinx.RoslynEditor
             that.Editor.TextArea.KeyDown -= that.TextArea_KeyDown;
             that.Editor.MouseHover -= that.Editor_MouseHover;
             that.Editor.MouseHoverStopped -= that.Editor_MouseHoverStopped;
-            that.syntaxVisualizer.SyntaxNodeNavigationToSourceRequested -= node => that.NavigateToSource(node.Span);
-            that.syntaxVisualizer.SyntaxTokenNavigationToSourceRequested -= token => that.NavigateToSource(token.Span);
-            that.syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested -= trivia => that.NavigateToSource(trivia.Span);
-
-
+           
 
             if ((EditerType)(e.NewValue) == EditerType.CSharp)
             {
@@ -413,9 +410,7 @@ namespace jinx.RoslynEditor
                 that.Editor.TextArea.KeyDown += that.TextArea_KeyDown;
                 that.Editor.MouseHover += that.Editor_MouseHover;
                 that.Editor.MouseHoverStopped += that.Editor_MouseHoverStopped;
-                that.syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => that.NavigateToSource(node.Span);
-                that.syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => that.NavigateToSource(token.Span);
-                that.syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => that.NavigateToSource(trivia.Span);
+         
             }
             else if ((EditerType)(e.NewValue) == EditerType.Javascript)
             {
@@ -453,7 +448,7 @@ namespace jinx.RoslynEditor
             }
         }
 
-        public static DependencyProperty DocumentIdProperty = DependencyProperty.Register("DocumentID", typeof(DocumentId), typeof(RoslynEditor), new UIPropertyMetadata(new PropertyChangedCallback(DocumentIdChanged)));
+        public static DependencyProperty DocumentIdProperty = DependencyProperty.Register("DocumentID", typeof(DocumentId), typeof(RoslynEditor));
 
         public DocumentId DocumentID
         {
@@ -468,12 +463,7 @@ namespace jinx.RoslynEditor
 
         }
 
-        private static void DocumentIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var that = d as RoslynEditor;
-            that._interactiveManager.SetCurrentDocumentByID((DocumentId)e.NewValue);
-        }
-
+ 
 
 
 
@@ -501,6 +491,7 @@ namespace jinx.RoslynEditor
             }
         }
 
+        public event EventHandler EditorTextChanged;
         #endregion
 
         #region Folding
@@ -527,6 +518,21 @@ namespace jinx.RoslynEditor
 
 
 
-       
+
+
+
+
+
+
+        public void Dispose()
+        {
+            Editor.TextArea.TextEntering -= OnTextEntering;
+            Editor.TextArea.TextEntered -= OnTextEntered;
+            Editor.TextChanged -= Editor_TextChanged;
+            Editor.TextArea.KeyDown -= TextArea_KeyDown;
+            Editor.TextArea.KeyUp -= TextArea_KeyUp;
+            Editor.MouseHover -= Editor_MouseHover;
+            Editor.MouseHoverStopped -= Editor_MouseHoverStopped;
+        }
     }
 }

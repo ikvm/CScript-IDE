@@ -92,7 +92,7 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             root = new TreeViewItem()
             {
                 IsExpanded = true,
-                Foreground = Brushes.Blue,
+                Foreground = Brushes.DarkSlateBlue,
                 FontSize = 10,
                 Header = "Root"
             };
@@ -108,7 +108,7 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
 
         public void Clear()
         {
-            treeView.Items.Clear();
+            root.Items.Clear();
             try
             {
                 propertyGrid.Instance = null;

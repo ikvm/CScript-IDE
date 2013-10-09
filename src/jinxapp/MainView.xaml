@@ -12,6 +12,7 @@
         xmlns:local="clr-namespace:jinxapp" 
         xmlns:editor ="clr-namespace:jinx.RoslynEditor"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:Control ="clr-namespace:jinx.RoslynEditor.SyntaxVisualizer"
         x:Class="jinxapp.MainView"
         Height="768" Width="1024"
    
@@ -32,7 +33,14 @@
 
     <Controls:MetroContentControl>
         <DockPanel>
-            <Grid DockPanel.Dock="Top" Height="22"  Background="#FF494949" >
+            <Grid DockPanel.Dock="Top" Height="22" >
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF1F1F1F" Offset="0"/>
+                        <GradientStop Color="#FF303030" Offset="0.518"/>
+                        <GradientStop Color="#FF474747" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
                 <Menu  Foreground="White" VerticalAlignment="Center" Background="{x:Null}">
                     <MenuItem Header="FILE"/>
                     <MenuItem Header="EDIT"/>
@@ -44,151 +52,144 @@
                 </Menu>
             </Grid>
             <Grid x:Name="LeftBar">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0"  >
-                <Border Margin="2,0,0,0"  BorderThickness="1,1,0.5,1" >
-                    <Border.BorderBrush>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF555454" Offset="0"/>
-                            <GradientStop Color="#FF8D8D8D" Offset="1"/>
-                            <GradientStop Color="#FF625E5E" Offset="0.501"/>
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="1.993,0.356" StartPoint="-0.353,0.359">
-                            <GradientStop Color="#FF1D1D1D" Offset="0"/>
-                            <GradientStop Color="#FE191818" Offset="0.409"/>
-                            <GradientStop Color="#FE0F0F0F" Offset="0.649"/>
-                            <GradientStop Color="#FE0F0F0F" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-
-                    <DockPanel>
-                        <Border DockPanel.Dock="Top" BorderThickness="0.3" CornerRadius="1" Height="22">
-                            <Border.Background>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#FF4B4B4B" Offset="0" />
-                                    <GradientStop Color="Black" Offset="1" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock Text="File Expolor" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
-                        </Border>
-                        <Grid Margin="0,5,0,0">
-
-
-
-
-                        </Grid>
-                    </DockPanel>
-
-                </Border>
-
-            </Grid>
-            <GridSplitter Background="Transparent"  BorderThickness="0"  Width="2" Grid.Column="0"/>
-            <Grid Grid.Column="1" Margin="2,0,0,0" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45"/>
-                    <ColumnDefinition Width="0.927*"/>
+                    <ColumnDefinition Width="0.5" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0"  >
+                    <Border Margin="2,0,0,0"  BorderThickness="1,1,0.5,1" >
+                        <Border.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF555454" Offset="0"/>
+                                <GradientStop Color="#FF8D8D8D" Offset="1"/>
+                                <GradientStop Color="#FF625E5E" Offset="0.501"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="1.993,0.356" StartPoint="-0.353,0.359">
+                                <GradientStop Color="#FF1D1D1D" Offset="0"/>
+                                <GradientStop Color="#FE191818" Offset="0.409"/>
+                                <GradientStop Color="#FE0F0F0F" Offset="0.649"/>
+                                <GradientStop Color="#FE0F0F0F" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top" BorderThickness="0.3" CornerRadius="1" Height="22">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF4B4B4B" Offset="0" />
+                                        <GradientStop Color="Black" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="File Expolor" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="13" Foreground="WhiteSmoke" FontWeight="Bold" />
+                            </Border>
+                            <Grid Margin="0,5,0,0">
 
 
 
-                <Border Grid.Column="0" CornerRadius="3" BorderBrush="#FF8D8D8D" BorderThickness="0.7,0.7,0.7,0.7">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                            <GradientStop Color="#FF383838" Offset="0" />
-                            <GradientStop Color="#FF242020" Offset="1" />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel>
-                        <Grid Height="45" Width="45" Margin="0,8,0,0">
-                            <Controls:AppBarButton x:Name="rotate" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="33" Width="33" MetroImageSource="{DynamicResource Previous}" Click="AppBarButton_Click"   ToolTip="说明:将元数据列表 dock left for hide。">
-                                <Controls:AppBarButton.LayoutTransform>
-                                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180" />
-                                </Controls:AppBarButton.LayoutTransform>
+
+                            </Grid>
+                        </DockPanel>
+
+                    </Border>
+
+                </Grid>
+                <GridSplitter Background="Transparent"  BorderThickness="0"  Width="2" Grid.Column="0"/>
+                <Grid Grid.Column="1" Margin="2,0,0,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"/>
+                        <ColumnDefinition Width="0.927*"/>
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <Border Grid.Column="0" CornerRadius="3" BorderBrush="#FF8D8D8D" BorderThickness="0.7,0.7,0.7,0.7">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                <GradientStop Color="#FF383838" Offset="0" />
+                                <GradientStop Color="#FF242020" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <Grid Height="45" Width="45" Margin="0,8,0,0">
+                                <Controls:AppBarButton x:Name="rotate" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="33" Width="33" MetroImageSource="{DynamicResource Previous}" Click="AppBarButton_Click"   ToolTip="说明:将元数据列表 dock left for hide。">
+                                    <Controls:AppBarButton.LayoutTransform>
+                                        <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180" />
+                                    </Controls:AppBarButton.LayoutTransform>
+                                </Controls:AppBarButton>
+                            </Grid>
+                            <Controls:AppBarButton Name="New" Margin="0,2,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource New}" ToolTip="Create new file and clear the workspace"  >
+                                <TextBlock Text="New" FontSize="9"/>
                             </Controls:AppBarButton>
-                        </Grid>
-                        <Controls:AppBarButton Name="New" Margin="0,2,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource New}" ToolTip="Create new file and clear the workspace"  >
-                            <TextBlock Text="New" FontSize="9"/>
-                        </Controls:AppBarButton>
-                        <Controls:AppBarButton Name="Open" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Folder}"   ToolTip="Open file to the workspace" >
-                            <TextBlock Text="Open" FontSize="9"/>
-                        </Controls:AppBarButton>
-                        <Controls:AppBarButton Name="Save" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Floppy}"   ToolTip="Save to file" >
-                            <TextBlock Text="Save" FontSize="9"/>
-                        </Controls:AppBarButton>
-                        <Controls:AppBarButton Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Properties}"  ToolTip="Application settings">
-                            <TextBlock Text="Setting" FontSize="9" />
-                        </Controls:AppBarButton>
+                            <Controls:AppBarButton Name="Open" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Folder}"   ToolTip="Open file to the workspace" >
+                                <TextBlock Text="Open" FontSize="9"/>
+                            </Controls:AppBarButton>
+                            <Controls:AppBarButton Name="Save" Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Floppy}"   ToolTip="Save to file" >
+                                <TextBlock Text="Save" FontSize="9"/>
+                            </Controls:AppBarButton>
+                            <Controls:AppBarButton Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Properties}"  ToolTip="Application settings">
+                                <TextBlock Text="Setting" FontSize="9" />
+                            </Controls:AppBarButton>
 
-                        <Border BorderThickness="0.7" BorderBrush="DarkGray" Width="30" Height="1" Margin="0,8,0,0" HorizontalAlignment="Center"/>
-                        <Controls:AppBarButton x:Name="MakeAndRun"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
-                            <TextBlock Text="Make" FontSize="9"/>
-                        </Controls:AppBarButton>
-                        <Controls:AppBarButton x:Name="Build"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
-                            <TextBlock Text="Build" FontSize="9"/>
-                        </Controls:AppBarButton>
-                        <Controls:AppBarButton x:Name="Debug"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
-                            <TextBlock Text="Debug" FontSize="9"/>
-                        </Controls:AppBarButton>
+                            <Border BorderThickness="0.7" BorderBrush="DarkGray" Width="30" Height="1" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                            <Controls:AppBarButton x:Name="MakeAndRun"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Window New}" ToolTip="Compile C#，check the errors"  >
+                                <TextBlock Text="Make" FontSize="9"/>
+                            </Controls:AppBarButton>
+                            <Controls:AppBarButton x:Name="Build"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
+                                <TextBlock Text="Build" FontSize="9"/>
+                            </Controls:AppBarButton>
+                            <Controls:AppBarButton x:Name="Debug"  Margin="0,8,0,0" Height="45" Width="40" MetroImageSource="{DynamicResource Data Down}" ToolTip="C# to Javascript language"  >
+                                <TextBlock Text="Debug" FontSize="9"/>
+                            </Controls:AppBarButton>
 
-                    </StackPanel>
-                </Border>
-                <Grid Grid.Column="1" >
-                    <avalonDock:DockingManager  x:Name="dockManager"  AllowMixedOrientation="True"  >
-                        <avalonDock:DockingManager.Theme>
-                            <avalonDock:ExpressionDarkTheme/>
-                        </avalonDock:DockingManager.Theme>
-                        <avalonDock:LayoutRoot>
-                            <avalonDock:LayoutPanel  Orientation="Horizontal"  >
-                                <avalonDock:LayoutPanel  Orientation="Vertical"  >
-                                    <avalonDock:LayoutDocumentPaneGroup Orientation="Horizontal">
-                                        <avalonDock:LayoutDocumentPane   >
-                                         
-                                            <avalonDock:LayoutDocument Title="new1">
-                                                    <editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />
-                                                </avalonDock:LayoutDocument>
-                                                <avalonDock:LayoutDocument Title="new2">
-                                                    <!--<editor:RoslynEditor Foreground="White" Background="DarkGray" EditerType="CSharp" InitText="{Binding OpenContent}" Text="{Binding CSharpContent,Mode=TwoWay}" />-->
-                                                </avalonDock:LayoutDocument>
-                                             
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Column="1" >
+                        <avalonDock:DockingManager  x:Name="dockManager"  AllowMixedOrientation="True" ActiveContentChanged="dockManager_ActiveContentChanged" DocumentClosing="dockManager_DocumentClosing"   >
+                            <avalonDock:DockingManager.Theme>
+                                <avalonDock:ExpressionDarkTheme/>
+                            </avalonDock:DockingManager.Theme>
+                            <avalonDock:LayoutRoot>
+                                <avalonDock:LayoutPanel  Orientation="Horizontal"  >
+                                    <avalonDock:LayoutPanel  Orientation="Vertical"  >
+                                        <avalonDock:LayoutDocumentPaneGroup Orientation="Horizontal">
+                                            <avalonDock:LayoutDocumentPane x:Name="documentPane">
+
                                             </avalonDock:LayoutDocumentPane>
 
-                                    </avalonDock:LayoutDocumentPaneGroup>
-                                    <avalonDock:LayoutAnchorablePaneGroup DockHeight="100"   Orientation="Horizontal"  >
-                                        <avalonDock:LayoutAnchorablePane  >
-                                            <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
-                                                <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
+                                        </avalonDock:LayoutDocumentPaneGroup>
+                                        <avalonDock:LayoutAnchorablePaneGroup DockHeight="100"   Orientation="Horizontal"  >
+                                            <avalonDock:LayoutAnchorablePane  >
+                                                <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
+                                                    <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
                                                          Foreground="White" Background="#FF464646" BorderBrush="#FF404040"  
                                                          FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" />
+                                                </avalonDock:LayoutAnchorable>
+                                                <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
+
+                                                </avalonDock:LayoutAnchorable>
+                                            </avalonDock:LayoutAnchorablePane>
+                                        </avalonDock:LayoutAnchorablePaneGroup>
+                                    </avalonDock:LayoutPanel>
+                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="200"    Orientation="Horizontal"  >
+                                        <avalonDock:LayoutAnchorablePane >
+                                            <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
+                                                <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />
                                             </avalonDock:LayoutAnchorable>
-                                            <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
-                                             
-                                            </avalonDock:LayoutAnchorable>
+                                            <avalonDock:LayoutAnchorable Title="Property" ToolTip="Property"  CanClose="False" CanHide="False"></avalonDock:LayoutAnchorable>
                                         </avalonDock:LayoutAnchorablePane>
                                     </avalonDock:LayoutAnchorablePaneGroup>
                                 </avalonDock:LayoutPanel>
-                                <avalonDock:LayoutAnchorablePaneGroup DockWidth="200"    Orientation="Horizontal"  >
-                                    <avalonDock:LayoutAnchorablePane >
-                                        <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
-                                           
-                                        </avalonDock:LayoutAnchorable>
-                                        <avalonDock:LayoutAnchorable Title="Property" ToolTip="Property"  CanClose="False" CanHide="False"></avalonDock:LayoutAnchorable>
-                                    </avalonDock:LayoutAnchorablePane>
-                                </avalonDock:LayoutAnchorablePaneGroup>
-                            </avalonDock:LayoutPanel>
 
-                        </avalonDock:LayoutRoot>
-                    </avalonDock:DockingManager>
+                            </avalonDock:LayoutRoot>
+                        </avalonDock:DockingManager>
 
 
 
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
         </DockPanel>
     </Controls:MetroContentControl>
 

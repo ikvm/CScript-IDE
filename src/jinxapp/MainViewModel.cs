@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Windows;
 using jinx.RoslynEditor.RoslynExtensions;
 using Editor = jinx.RoslynEditor;
+using System.Collections.ObjectModel;
 namespace jinxapp
 {
     [Export(typeof(IShell))]
@@ -27,30 +28,29 @@ namespace jinxapp
     {
         private InteractiveManager InteractiveManager = new InteractiveManager();
         private Editor.ObjectFormatter Formatter;
-
+        private IMainView mv;
         public override void OnDoCreate(ExtendPropertyLib.ExtendObject item, params object[] args)
         {
             base.OnDoCreate(item, args);
+            OpenDocuments = new ObservableCollection<DocumentInfo>();
             ApplicationService.Services.Add<InteractiveManager>(InteractiveManager);
         }
 
-        //当前文档
-        public static ExtendProperty CurrentDocumentIDProperty = RegisterProperty<MainViewModel>(v => v.CurrentDocumentID);
-        public DocumentId CurrentDocumentID { set { SetValue(CurrentDocumentIDProperty, value); } get { return (DocumentId)GetValue(CurrentDocumentIDProperty); } }
+        #region ExtentProperty
+      
+        public static ExtendProperty CurrentDocumentProperty = RegisterProperty<MainViewModel>(v => v.CurrentDocument);
+        /// <summary>
+        /// 当前正在编辑的文档
+        /// </summary>
+        public DocumentInfo CurrentDocument { set { SetValue(CurrentDocumentProperty, value); } get { return (DocumentInfo)GetValue(CurrentDocumentProperty); } }
 
-
-
-        //JS脚本内容
-        public static ExtendProperty JSharpContentProperty = RegisterProperty<MainViewModel>(v => v.JSharpContent);
-        public string JSharpContent { set { SetValue(JSharpContentProperty, value); } get { return (string)GetValue(JSharpContentProperty); } }
-
-        //C#语言内容
-        public static ExtendProperty CSharpContentProperty = RegisterProperty<MainViewModel>(v => v.CSharpContent);
-        public string CSharpContent { set { SetValue(CSharpContentProperty, value); } get { return (string)GetValue(CSharpContentProperty); } }
-
-        public static ExtendProperty OpenContentProperty = RegisterProperty<MainViewModel>(v => v.OpenContent);
-        public string OpenContent { set { SetValue(OpenContentProperty, value); } get { return (string)GetValue(OpenContentProperty); } }
-
+        public static ExtendProperty OpenDocumentsProperty = RegisterProperty<MainViewModel>(v => v.OpenDocuments);
+        /// <summary>
+        /// 打开文档数据源
+        /// </summary>
+        public ObservableCollection<DocumentInfo> OpenDocuments { set { SetValue(OpenDocumentsProperty, value); } get { return (ObservableCollection<DocumentInfo>)GetValue(OpenDocumentsProperty); } }
+        
+        #endregion
         private Session session;
 
 
@@ -59,13 +59,26 @@ namespace jinxapp
             return "RoslynEditor - C#";
         }
 
-        public override void OnLoad()
+        public override async void OnLoad()
         {
-            var docID = InteractiveManager.DocumentList[0];
-            InteractiveManager.SetCurrentDocumentByID(docID);
-            var mv = this.View as IMainView;
+            mv = this.View as IMainView;
             Formatter = mv.Formatter;
             ApplicationService.Services.Add<Editor.ObjectFormatter>(Formatter);
+
+           
+            CurrentDocument = this.newDocument(null);
+            OpenDocuments.Add(CurrentDocument);
+            mv.AddDocument(CurrentDocument.Editor);
+        }
+
+   
+        void editor_EditorTextChanged(object sender, EventArgs e)
+        {
+            if (CurrentDocument != null)
+            {
+                var doc = InteractiveManager.GetDocumentByID(CurrentDocument.DocumentID);
+                mv.DisplayTree((SyntaxTree)doc.GetSyntaxTree());
+            }
         }
 
         private bool CompileCode(ref string error)
@@ -93,9 +106,11 @@ namespace jinxapp
             {
                 try
                 {
+                    var doc = InteractiveManager.GetCurrentDocument();
+                    string CSharpContent = doc.GetText().ToString();
                     var scriptEngine = InteractiveManager.GetScriptEngine();
                     session = scriptEngine.CreateSession();
-                    session.Execute(this.CSharpContent);
+                    session.Execute(CSharpContent);
                     Formatter.WriteObject("Make all success." + DateTime.Now.ToString());
                 }
                 catch (Exception ex)
@@ -115,8 +130,8 @@ namespace jinxapp
         //构建Javascript
         public void Build()
         {
-            string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
-            this.JSharpContent = js;
+            //string js = JavaScriptCompiler.EmitJs(this.CSharpContent);
+            //this.JSharpContent = js;
 
         }
      
@@ -129,24 +144,53 @@ namespace jinxapp
             {
                 string fileName = odf.FileName;
                 string content = File.ReadAllText(fileName, Encoding.UTF8);
-                OpenContent = content;
+               
             }
         }
 
         //新建文件
         public void New()
         {
-            if (MessageBox.Show("新建文件会覆盖现有内容，要继续操作吗？", "提示"
+            if (MessageBox.Show("新建文件，要继续操作吗？", "提示"
                                     , MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 string content = File.ReadAllText("NewFile.cs", Encoding.UTF8);
-                OpenContent = content;
+                var doc = this.newDocument(content);
+                OpenDocuments.Add(doc);
+                mv.AddDocument(doc.Editor);
             }
         }
 
+        private DocumentInfo newDocument(string text)
+        {
+            mv = this.View as IMainView;
+            var editor = mv.CreateEditor(text);
+            var document = new DocumentInfo();
+            var id = document.DocumentID = InteractiveManager.CreateAndOpenDocument(editor.TextContainer);
+            editor.DocumentID = id;
+            editor.EditorTextChanged += editor_EditorTextChanged;
+            document.Editor = editor;
+            return document;
+        }
 
+        public bool CloseDocument(DocumentId id)
+        {
+            if (OpenDocuments.Count > 0)
+            {
+                var docInfo = OpenDocuments.First(d => d.DocumentID == id);
+                docInfo.Editor.EditorTextChanged -= editor_EditorTextChanged;
+                OpenDocuments.Remove(docInfo);
+                CurrentDocument = OpenDocuments[0];
+                return true;
+            }
+            return false;
+        }
 
-
+        public void SetCurrentDocument(DocumentId id)
+        {
+            CurrentDocument = OpenDocuments.First(d => d.DocumentID == id);
+            InteractiveManager.SetCurrentDocumentByID(id);
+        }
 
     }
 }

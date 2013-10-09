@@ -15,6 +15,9 @@ using ExtendPropertyLib;
 using System.Windows.Media.Animation;
 using ExtendPropertyLib.WPF;
 using jinx.RoslynEditor;
+using Roslyn.Compilers.CSharp;
+using jinx.RoslynEditor.SyntaxVisualizer;
+using Xceed.Wpf.AvalonDock.Layout;
 
 
 namespace jinxapp
@@ -25,6 +28,7 @@ namespace jinxapp
     /// </summary>
     public partial class MainView : MahApps.Metro.Controls.MetroWindow,IMainView
     {
+        private MainViewModel viewmodel = null;
         private readonly ObjectFormatter _formatter;
         public ObjectFormatter Formatter
         {
@@ -39,7 +43,7 @@ namespace jinxapp
 
             var document = new FlowDocument { FontFamily = new FontFamily("Consolas"), FontSize = 14 };
             _formatter = new ObjectFormatter(document);
-            //log.Document = document;
+            log.Document = document;
 
 
         }
@@ -77,27 +81,17 @@ namespace jinxapp
             oLabelAngleAnimation.From = toMinsize ? 180 : 0;
             oLabelAngleAnimation.To = toMinsize ? 0 : 180;
 
-            oLabelAngleAnimation.Duration
-              = new Duration(new TimeSpan(0, 0, 0, 0, 500));
+            oLabelAngleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 500));
 
-            RotateTransform oTransform
-              = (RotateTransform)rotate.LayoutTransform;
-            oTransform.BeginAnimation(RotateTransform.AngleProperty,
-              oLabelAngleAnimation);
+            RotateTransform oTransform = (RotateTransform)rotate.LayoutTransform;
+            oTransform.BeginAnimation(RotateTransform.AngleProperty,oLabelAngleAnimation);
 
 
         }
 
-
-
         private void AppBarButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ShowExplorer();
-
-
-
-
-
         }
 
      
@@ -108,14 +102,85 @@ namespace jinxapp
             txtBox.ScrollToEnd();
         }
 
+       
+
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            viewmodel = this.DataContext as MainViewModel;
+            syntaxVisualizer.SyntaxNodeNavigationToSourceRequested += node => NavigateToSource(node.Span);
+            syntaxVisualizer.SyntaxTokenNavigationToSourceRequested += token => NavigateToSource(token.Span);
+            syntaxVisualizer.SyntaxTriviaNavigationToSourceRequested += trivia => NavigateToSource(trivia.Span);
         }
 
-    
-     
+        private void NavigateToSource(Roslyn.Compilers.TextSpan textSpan)
+        {
+            if (viewmodel.CurrentDocument != null && viewmodel.CurrentDocument.Editor!=null)
+            {
+                viewmodel.CurrentDocument.Editor.SelectText(textSpan.Start, textSpan.Length);
+            }
+        }
 
 
+
+        public void DisplayTree(SyntaxTree tree)
+        {
+            SyntaxTransporter transporter = new SyntaxTransporter(tree);
+
+            syntaxVisualizer.DisplaySyntaxTree(tree, transporter.SourceLanguage);
+
+            if (!syntaxVisualizer.NavigateToBestMatch(transporter.ItemSpan,
+                                                        transporter.ItemKind,
+                                                        transporter.ItemCategory,
+                                                        highlightMatch: true,
+                                                        highlightLegendDescription: "Under Inspection")) ;
+        }
+
+        public void AddDocument(IEditor editor)
+        {
+            string title = editor.DocumentID.ToString();
+            LayoutDocument layoutDocument = new LayoutDocument { Title =  title };
+
+            layoutDocument.Content = (RoslynEditor)editor;
+
+            documentPane.Children.Add(layoutDocument);
+        }
+
+
+        public IEditor CreateEditor(string text)
+        {
+            IEditor editor = new RoslynEditor() { Foreground = Brushes.White, Background = Brushes.DarkGray, EditerType = EditerType.CSharp, Text = text };
+
+            return editor;
+        }
+
+      
+
+        private void dockManager_ActiveContentChanged(object sender, EventArgs e)
+        {
+            var activeDoc = dockManager.ActiveContent as IEditor;
+            if (activeDoc != null)
+            {
+                syntaxVisualizer.Clear();
+                viewmodel.SetCurrentDocument(activeDoc.DocumentID);
+            }
+        }
+
+        private void dockManager_DocumentClosing(object sender, Xceed.Wpf.AvalonDock.DocumentClosingEventArgs e)
+        {
+            var editor = e.Document.Content as IEditor;
+            if (editor != null)
+            {
+                if (MessageBox.Show("关闭文档，要继续操作吗？", "提示"
+                                  , MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    viewmodel.CloseDocument(editor.DocumentID);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+
+            }
+        }
     }
 }

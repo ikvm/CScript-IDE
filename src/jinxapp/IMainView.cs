@@ -1,4 +1,5 @@
 ﻿using jinx.RoslynEditor;
+using Roslyn.Compilers.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,11 @@ namespace jinxapp
     interface IMainView
     {
         ObjectFormatter Formatter { get; }
+
+        IEditor CreateEditor(string text);
+
+        void DisplayTree(SyntaxTree tree);
+
+        void AddDocument(IEditor editor);
     }
 }

@@ -99,7 +99,7 @@ namespace jinx.RoslynEditor.RoslynExtensions
 
         #region Documents
 
-        public DocumentId SetDocument(ITextContainer textContainer)
+        public DocumentId CreateAndOpenDocument(ITextContainer textContainer)
         {
             IProject project;
             ISolution currentSolution = _workspace.CurrentSolution;
@@ -114,27 +114,21 @@ namespace jinx.RoslynEditor.RoslynExtensions
             project = CreateSubmissionProject(currentSolution);
             var currentDocument = SetSubmissionDocument(textContainer, project);
             _currentDocumenId = currentDocument.Id;
-            _documentList.Add(_currentDocumenId);
+
             return _currentDocumenId;
         }
 
-        private List<DocumentId> _documentList = new List<DocumentId>();
+    
 
-        public List<DocumentId> DocumentList
+        public void OpenDocument(DocumentId id , ITextContainer container)
         {
-            get
-            {
-                return _documentList;
-            }
+            _workspace.OpenDocument(id, container);
         }
 
-
-        //private static IText CreateUsingText()
-        //{
-        //    return
-        //        new StringText(string.Join(Environment.NewLine,
-        //                                   _assemblyTypes.Select(t => string.Format("using {0};", t.Namespace))));
-        //}
+        public IDocument GetDocumentByID(DocumentId id)
+        {
+            return _workspace.CurrentSolution.GetDocument(id);
+        }
 
         private IDocument SetSubmissionDocument(ITextContainer textContainer, IProject project)
         {

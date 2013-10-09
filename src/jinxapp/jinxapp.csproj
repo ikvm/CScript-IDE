@@ -161,6 +161,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationService.cs" />
+    <Compile Include="DocumentInfo.cs" />
     <Compile Include="DomainServices\GrammarDefinition\GrammarDefinition.cs" />
     <Compile Include="DomainServices\GrammarDefinition\GrammarDefinitionService.cs" />
     <Compile Include="DomainServices\GrammarType.cs" />

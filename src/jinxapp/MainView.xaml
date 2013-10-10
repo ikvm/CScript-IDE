@@ -15,11 +15,10 @@
         xmlns:Control ="clr-namespace:jinx.RoslynEditor.SyntaxVisualizer"
         x:Class="jinxapp.MainView"
         Height="768" Width="1024"
-   
         ShowTitleBar="True"
         TextOptions.TextRenderingMode="ClearType"
         ShowIconOnTitleBar="true" 
-        Icon="Images/window.png" Loaded="MetroWindow_Loaded" WindowState="Maximized" BorderBrush="#FF7C25D3"
+        Icon="Images/window.png" Loaded="MetroWindow_Loaded" 
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
@@ -42,9 +41,9 @@
             <Grid Grid.Row="0" Height="22" >
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF1F1F1F" Offset="0"/>
-                        <GradientStop Color="#FF303030" Offset="0.518"/>
-                        <GradientStop Color="#FF474747" Offset="1"/>
+                        <GradientStop Color="#FF383838" Offset="0.01"/>
+                        <GradientStop Color="#FF2C2C2C" Offset="0.518"/>
+                        <GradientStop Color="#FF2E2E2E" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
                 <Menu  Foreground="White" VerticalAlignment="Center" Background="{x:Null}">
@@ -169,7 +168,7 @@
                                             <avalonDock:LayoutAnchorablePane  >
                                                 <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
                                                     <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
-                                                         Foreground="White" Background="#FF4D4D4D" BorderBrush="#FF404040"  
+                                                         Foreground="White" Background="#FF252526" BorderBrush="#FF404040"  
                                                          FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" />
                                                 </avalonDock:LayoutAnchorable>
                                                 <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
@@ -196,7 +195,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Height="22" Background="#FF6E1C95" />
+            <Grid Grid.Row="2" Height="22" Background="#FF3399FF" />
         </Grid>
 
     </Controls:MetroContentControl>

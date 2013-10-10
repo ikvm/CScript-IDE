@@ -8,29 +8,19 @@
              d:DesignHeight="600" d:DesignWidth="300">
     <Grid Name="grid1">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+        
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" BorderThickness="1,1,1,0" BorderBrush="#FF828790" Background="#FF2470A4">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" VerticalAlignment="Center" Content="Syntax Tree" FontWeight="Bold"/>
-              
-            </Grid>
-        </Border>
-        <TreeView Grid.Row="1" Name="treeView" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown" ContextMenuOpening="TreeView_ContextMenuOpening"  Background="White">
+    
+        <TreeView Grid.Row="0" Name="treeView" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown" ContextMenuOpening="TreeView_ContextMenuOpening"  Background="#FF303030">
             <TreeView.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue" Opacity=".9"/>
                 <ContextMenu x:Key="treeViewItemContextMenu">
                     <MenuItem Name="directedSyntaxGraphMenuItem" Header="Directed Syntax Graph" Click="DirectedSyntaxGraphMenuItem_Click">
                         <MenuItem.Icon>
-                            <Image Height="16" Width="16" Source="/jinxapp;component/Images/SyntaxGraph.ico" />
+                            <Image Height="16" Width="16" Source="/RoslynEditor;component/Images/SyntaxGraph.ico" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
@@ -47,29 +37,11 @@
             </TreeView.ItemContainerStyle>
           
         </TreeView>
-        <GridSplitter Grid.Row="2" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
-        <Grid Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" BorderThickness="1,1,1,0" BorderBrush="#FF828790" Background="#FF2470A4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="1" Grid.Column="0" Name="typeTextLabel"  Content="Syntax Node Property:" Padding="0,0,0,5" FontWeight="Bold"/>
-                    <Label Grid.Row="2" Grid.Column="0" Name="kindTextLabel" Visibility="Hidden" Content="Kind" Padding="5,2,5,2" Margin="20,0,0,0"/>
-                    <Label Grid.Row="2" Grid.Column="1" Name="kindValueLabel" Padding="5,2,5,2"/>
-                </Grid>
-            </Border>
-            <WPG:PropertyGrid Name="propertyGrid" Grid.Row="1"/>
+        <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3" Background="#FF4F4F4F"/>
+        <Grid Grid.Row="2">
+         
+         
+            <WPG:PropertyGrid Name="propertyGrid" Grid.Row="0" Background="#FF232323"/>
         
         </Grid>
     </Grid>

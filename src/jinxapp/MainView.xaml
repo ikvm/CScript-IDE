@@ -19,7 +19,7 @@
         ShowTitleBar="True"
         TextOptions.TextRenderingMode="ClearType"
         ShowIconOnTitleBar="true" 
-        Icon="Images/window.png" Loaded="MetroWindow_Loaded"
+        Icon="Images/window.png" Loaded="MetroWindow_Loaded" WindowState="Maximized" BorderBrush="#FF7C25D3"
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
@@ -32,8 +32,14 @@
     </Controls:MetroWindow.Resources>
 
     <Controls:MetroContentControl>
-        <DockPanel>
-            <Grid DockPanel.Dock="Top" Height="22" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="66*"/>
+                <RowDefinition Height="22"/>
+
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="22" >
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF1F1F1F" Offset="0"/>
@@ -51,7 +57,7 @@
                     <MenuItem Header="HELP"/>
                 </Menu>
             </Grid>
-            <Grid x:Name="LeftBar">
+            <Grid x:Name="LeftBar" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5" />
                     <ColumnDefinition />
@@ -163,7 +169,7 @@
                                             <avalonDock:LayoutAnchorablePane  >
                                                 <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
                                                     <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
-                                                         Foreground="White" Background="#FF464646" BorderBrush="#FF404040"  
+                                                         Foreground="White" Background="#FF4D4D4D" BorderBrush="#FF404040"  
                                                          FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" />
                                                 </avalonDock:LayoutAnchorable>
                                                 <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
@@ -172,7 +178,7 @@
                                             </avalonDock:LayoutAnchorablePane>
                                         </avalonDock:LayoutAnchorablePaneGroup>
                                     </avalonDock:LayoutPanel>
-                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="300"    Orientation="Horizontal"  >
+                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="235"    Orientation="Horizontal"  >
                                         <avalonDock:LayoutAnchorablePane >
                                             <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
                                                 <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />
@@ -190,7 +196,9 @@
                     </Grid>
                 </Grid>
             </Grid>
-        </DockPanel>
+            <Grid Grid.Row="2" Height="22" Background="#FF6E1C95" />
+        </Grid>
+
     </Controls:MetroContentControl>
 
 </Controls:MetroWindow>

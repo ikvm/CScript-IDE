@@ -23,32 +23,8 @@
                 <ResourceDictionary Source="Resources/Business Data.xaml"/>
                 <ResourceDictionary Source="Resources/Windows Application.xaml"/>
                 <ResourceDictionary Source="Resources/Must Have.xaml"/>
-                <ResourceDictionary>
-                    <Style x:Key="{x:Type ae:CompletionListBox }" TargetType="{x:Type ae:CompletionListBox}">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <SolidColorBrush Color="#FF303030"/>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="BorderThickness">
-                            <Setter.Value>
-                                0
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <Style x:Key="{x:Type ae:CompletionList }" TargetType="{x:Type ae:CompletionList}">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <SolidColorBrush Color="#FF303030"/>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="BorderThickness">
-                            <Setter.Value>
-                                0
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ResourceDictionary>
+                <ResourceDictionary Source="Resources/AvalonEditStyle.xaml"/>
+                <ResourceDictionary Source="/WPG;component/Themes/ExpressionBlend.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

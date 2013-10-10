@@ -20,6 +20,9 @@ using System.Windows.Threading;
 using jinxapp;
 using Roslyn.Services;
 using System.Threading.Tasks;
+using ICSharpCode.AvalonEdit;
+using System.IO;
+using System.Xml;
 
 namespace jinx.RoslynEditor
 {
@@ -62,6 +65,10 @@ namespace jinx.RoslynEditor
         /// 编辑器对应文档ID
         /// </summary>
         DocumentId DocumentID { set; get; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        string Title { set; get; }
     }
 
     /// <summary>
@@ -88,7 +95,8 @@ namespace jinx.RoslynEditor
             if (EditerType == EditerType.CSharp)
             {
 
-                Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                //Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                setSyntaxHightlight(Editor);
                 Editor.TextArea.TextEntering += OnTextEntering;
                 Editor.TextArea.TextEntered += OnTextEntered;
                 Editor.TextChanged += Editor_TextChanged;
@@ -128,7 +136,22 @@ namespace jinx.RoslynEditor
             _completionWindow = null;
         }
 
+        private void setSyntaxHightlight(TextEditor editor)
+        {
+            IHighlightingDefinition customHighlighting;
+            using (Stream s = typeof(RoslynEditor).Assembly.GetManifestResourceStream("jinxapp.RoslynEditor.Resources.CSharp-Mode.xshd"))
+            {
+                if (s == null)
+                    throw new InvalidOperationException("Could not find embedded resource");
+                using (XmlReader reader = new XmlTextReader(s))
+                {
+                    customHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.
+                        HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                }
+            }
 
+            editor.SyntaxHighlighting = customHighlighting;
+        }
     
 
         #region SyntaxVisualizer
@@ -175,8 +198,11 @@ namespace jinx.RoslynEditor
                         EditorTextChanged(this, null);
 
                     var definitions = _interactiveManager.GetGrammarDefinitionList();
-                    this.childrenDropDown.ItemsSource = null;
-                    this.definitionDropDown.ItemsSource = definitions;
+                    if (definitions != null)
+                    {
+                        this.childrenDropDown.ItemsSource = null;
+                        this.definitionDropDown.ItemsSource = definitions;
+                    }
                 }
             }
         }
@@ -207,22 +233,25 @@ namespace jinx.RoslynEditor
                 {
                     var position = Editor.CaretOffset;
                     var completions = _interactiveManager.GetCompletion(endOfWord - 1);
-
-                    var comp = completions.FirstOrDefault(c => c.DisplayText == msg);
-                    if (comp == null)
+                    if (completions != null)
                     {
-                        completions = _interactiveManager.GetCompletion(position);
-                        comp = completions.FirstOrDefault(c => c.DisplayText == msg);
-                    }
+                        var comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                        if (comp == null)
+                        {
+                            completions = _interactiveManager.GetCompletion(position);
+                            if(completions!=null)
+                                comp = completions.FirstOrDefault(c => c.DisplayText == msg);
+                        }
 
 
-                    if (comp != null)
-                    {
-                        CompletionDescription cd = new CompletionDescription();
-                        
-                        cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
-                        toolTip.Content = cd;
-                        toolTip.IsOpen = true;
+                        if (comp != null)
+                        {
+                            CompletionDescription cd = new CompletionDescription();
+
+                            cd.DataContext = Roslyn.Compilers.SymbolDisplayExtensions.ToDisplayString(comp.GetDescription());
+                            toolTip.Content = cd;
+                            toolTip.IsOpen = true;
+                        }
                     }
                 }
                
@@ -401,7 +430,8 @@ namespace jinx.RoslynEditor
             if ((EditerType)(e.NewValue) == EditerType.CSharp)
             {
 
-                that.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                //that.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                that.setSyntaxHightlight(that.Editor);
                 that.Editor.TextArea.TextEntering -= that.OnTextEntering;
                 that.Editor.TextArea.TextEntered -= that.OnTextEntered;
                 that.Editor.TextArea.TextEntering += that.OnTextEntering;
@@ -492,6 +522,13 @@ namespace jinx.RoslynEditor
         }
 
         public event EventHandler EditorTextChanged;
+
+        public string Title
+        {
+            set;
+            get;
+        }
+
         #endregion
 
         #region Folding
@@ -534,5 +571,8 @@ namespace jinx.RoslynEditor
             Editor.MouseHover -= Editor_MouseHover;
             Editor.MouseHoverStopped -= Editor_MouseHoverStopped;
         }
+
+
+       
     }
 }

@@ -135,12 +135,12 @@ namespace jinxapp
                                                         highlightLegendDescription: "Under Inspection")) ;
         }
 
-        public void AddDocument(IEditor editor)
+        public void AddDocument(DocumentInfo document)
         {
-            string title = editor.DocumentID.ToString();
+            string title = document.Title;
             LayoutDocument layoutDocument = new LayoutDocument { Title =  title };
 
-            layoutDocument.Content = (RoslynEditor)editor;
+            layoutDocument.Content = (RoslynEditor)document.Editor;
 
             documentPane.Children.Add(layoutDocument);
         }

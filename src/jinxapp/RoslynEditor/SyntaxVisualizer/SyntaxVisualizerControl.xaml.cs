@@ -92,8 +92,7 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             root = new TreeViewItem()
             {
                 IsExpanded = true,
-                Foreground = Brushes.DarkSlateBlue,
-                FontSize = 10,
+                Foreground = Brushes.LightCoral,
                 Header = "Root"
             };
             treeView.Items.Add(root);
@@ -114,10 +113,10 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
                 propertyGrid.Instance = null;
             }
             catch { }
-            typeTextLabel.Visibility = Visibility.Hidden;
-            kindTextLabel.Visibility = Visibility.Hidden;
+            //typeTextLabel.Visibility = Visibility.Hidden;
+            //kindTextLabel.Visibility = Visibility.Hidden;
     
-            kindValueLabel.Content = string.Empty;
+            //kindValueLabel.Content = string.Empty;
         
         }
 
@@ -362,9 +361,9 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 Tag = tag,
                 IsExpanded = false,
-                Foreground = Brushes.Blue,
+                Foreground = Brushes.LightBlue,
                 FontSize=13,
-                Background = node.ContainsDiagnostics ? Brushes.Pink : Brushes.AliceBlue,
+                //Background = node.ContainsDiagnostics ? Brushes.Pink : Brushes.AliceBlue,
                 Header = tag.Kind + " " + node.Span.ToString()
             };
 
@@ -383,10 +382,10 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 isNavigatingFromTreeToSource = true;
 
-                typeTextLabel.Visibility = Visibility.Visible;
-                kindTextLabel.Visibility = Visibility.Visible;
+                //typeTextLabel.Visibility = Visibility.Visible;
+                //kindTextLabel.Visibility = Visibility.Visible;
               
-                kindValueLabel.Content = kind;
+                //kindValueLabel.Content = kind;
   
                 item.IsExpanded = true;
 
@@ -463,8 +462,8 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 Tag = tag,
                 IsExpanded = false,
-                Foreground = Brushes.DarkGreen,
-                Background = token.ContainsDiagnostics ? Brushes.Pink : Brushes.White,
+                Foreground = Brushes.LightGreen,
+                //Background = token.ContainsDiagnostics ? Brushes.Pink : Brushes.White,
                 Header = tag.Kind + " " + token.Span.ToString()
             };
 
@@ -483,10 +482,10 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 isNavigatingFromTreeToSource = true;
 
-                typeTextLabel.Visibility = Visibility.Visible;
-                kindTextLabel.Visibility = Visibility.Visible;
+                //typeTextLabel.Visibility = Visibility.Visible;
+                //kindTextLabel.Visibility = Visibility.Visible;
          
-                kindValueLabel.Content = kind;
+                //kindValueLabel.Content = kind;
                 try
                 {
                     propertyGrid.Instance = token;
@@ -573,8 +572,8 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 Tag = tag,
                 IsExpanded = false,
-                Foreground = Brushes.Maroon,
-                Background = trivia.ContainsDiagnostics ? Brushes.Pink : Brushes.White,
+                Foreground = Brushes.LightPink,
+                //Background = trivia.ContainsDiagnostics ? Brushes.Pink : Brushes.White,
                 Header = (isLeadingTrivia ? "Lead: " : "Trail: ") + tag.Kind + " " + trivia.Span.ToString()
             };
 
@@ -593,10 +592,10 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
             {
                 isNavigatingFromTreeToSource = true;
 
-                typeTextLabel.Visibility = Visibility.Visible;
-                kindTextLabel.Visibility = Visibility.Visible;
+                //typeTextLabel.Visibility = Visibility.Visible;
+                //kindTextLabel.Visibility = Visibility.Visible;
              
-                kindValueLabel.Content = kind;
+                //kindValueLabel.Content = kind;
                 try
                 {
                     propertyGrid.Instance = trivia;
@@ -629,9 +628,9 @@ namespace jinx.RoslynEditor.SyntaxVisualizer
                 parentItem.Items.Clear();
                 parentItem.Items.Add(item);
                 parentItem.IsExpanded = true;
-                typeTextLabel.Visibility = Visibility.Hidden;
-                kindTextLabel.Visibility = Visibility.Hidden;
-                kindValueLabel.Content = string.Empty;
+                //typeTextLabel.Visibility = Visibility.Hidden;
+                //kindTextLabel.Visibility = Visibility.Hidden;
+                //kindValueLabel.Content = string.Empty;
             }
             else
             {

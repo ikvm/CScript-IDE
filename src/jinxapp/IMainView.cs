@@ -17,6 +17,6 @@ namespace jinxapp
 
         void DisplayTree(SyntaxTree tree);
 
-        void AddDocument(IEditor editor);
+        void AddDocument(DocumentInfo document);
     }
 }

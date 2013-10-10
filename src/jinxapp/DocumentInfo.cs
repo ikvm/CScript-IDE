@@ -32,5 +32,10 @@ namespace jinxapp
         /// 文档接口
         /// </summary>
         public IDocument Document { set; get; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { set; get; }
+
     }
 }

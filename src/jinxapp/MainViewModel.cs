@@ -53,6 +53,7 @@ namespace jinxapp
         #endregion
         private Session session;
 
+        private int documentNum=0;
 
         public override string GetViewTitle()
         {
@@ -65,10 +66,10 @@ namespace jinxapp
             Formatter = mv.Formatter;
             ApplicationService.Services.Add<Editor.ObjectFormatter>(Formatter);
 
-           
-            CurrentDocument = this.newDocument(null);
+            string docTitle = "New Document.cs";
+            CurrentDocument = this.newDocument(null,docTitle);
             OpenDocuments.Add(CurrentDocument);
-            mv.AddDocument(CurrentDocument.Editor);
+            mv.AddDocument(CurrentDocument);
         }
 
    
@@ -77,7 +78,8 @@ namespace jinxapp
             if (CurrentDocument != null)
             {
                 var doc = InteractiveManager.GetDocumentByID(CurrentDocument.DocumentID);
-                mv.DisplayTree((SyntaxTree)doc.GetSyntaxTree());
+                if(doc!=null)
+                    mv.DisplayTree((SyntaxTree)doc.GetSyntaxTree());
             }
         }
 
@@ -85,16 +87,18 @@ namespace jinxapp
         {
             bool compileSuccess = true;
             var model = InteractiveManager.GetCurrentDocumentSymbol();
-            Diagnostic[] dg = model.GetDiagnostics().ToArray();
-            
-            if (dg.Length > 0)
+            if (model != null)
             {
-                error = "The following compile error occured:\r\n";
-                foreach (Diagnostic d in dg)
-                    error += "Info: " + d.Info + "\n";
-                compileSuccess = false;
-            }
+                Diagnostic[] dg = model.GetDiagnostics().ToArray();
 
+                if (dg.Length > 0)
+                {
+                    error = "The following compile error occured:\r\n";
+                    foreach (Diagnostic d in dg)
+                        error += "Info: " + d.Info + "\n";
+                    compileSuccess = false;
+                }
+            }
             return compileSuccess;
         }
 
@@ -144,7 +148,11 @@ namespace jinxapp
             {
                 string fileName = odf.FileName;
                 string content = File.ReadAllText(fileName, Encoding.UTF8);
-               
+                string documentTitle = System.IO.Path.GetFileName(fileName);
+                var doc = this.newDocument(content,documentTitle,false);
+                doc.Title = documentTitle;
+                OpenDocuments.Add(doc);
+                mv.AddDocument(doc);
             }
         }
 
@@ -155,19 +163,30 @@ namespace jinxapp
                                     , MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 string content = File.ReadAllText("NewFile.cs", Encoding.UTF8);
-                var doc = this.newDocument(content);
+                string docTitle = string.Format("Document_{0}",documentNum++);
+                var doc = this.newDocument(content, docTitle);
                 OpenDocuments.Add(doc);
-                mv.AddDocument(doc.Editor);
+                mv.AddDocument(doc);
             }
         }
 
-        private DocumentInfo newDocument(string text)
+        private DocumentInfo newDocument(string text,string title = null,bool addProject = true)
         {
             mv = this.View as IMainView;
             var editor = mv.CreateEditor(text);
             var document = new DocumentInfo();
-            var id = document.DocumentID = InteractiveManager.CreateAndOpenDocument(editor.TextContainer);
-            editor.DocumentID = id;
+
+            if (!string.IsNullOrEmpty(title))
+                document.Title = title;
+
+            if (addProject)
+            {
+                var id = document.DocumentID = InteractiveManager.CreateAndOpenDocument(editor.TextContainer);
+                editor.DocumentID = id;
+
+                if (string.IsNullOrEmpty(document.Title))
+                    document.Title = id.ToString();
+            }
             editor.EditorTextChanged += editor_EditorTextChanged;
             document.Editor = editor;
             return document;

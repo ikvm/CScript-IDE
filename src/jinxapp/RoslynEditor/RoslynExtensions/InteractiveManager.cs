@@ -51,8 +51,8 @@ namespace jinx.RoslynEditor.RoslynExtensions
         {
             _workspace = new InteractiveWorkspace(DefaultServices.WorkspaceServicesFactory.CreateWorkspaceServiceProvider("RoslynEditor"));
 
-            _parseOptions = new ParseOptions(CompatibilityMode.None, LanguageVersion.CSharp6, true, SourceCodeKind.Interactive);
-            _compilationOptions = new CompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            _parseOptions = new ParseOptions(CompatibilityMode.ECMA2, LanguageVersion.CSharp6, true, SourceCodeKind.Regular);
+            _compilationOptions = new CompilationOptions(OutputKind.ConsoleApplication);
 
             var metadataFileProvider = _workspace.CurrentSolution.MetadataFileProvider;
             _references = _assemblyTypes.Select(t =>

@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using ICSharpCode.AvalonEdit;
 using System.IO;
 using System.Xml;
+using jinxapp.RoslynEditor;
 
 namespace jinx.RoslynEditor
 {
@@ -96,6 +97,7 @@ namespace jinx.RoslynEditor
             {
 
                 //Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+                //Editor.TextArea.LeftMargins.Insert(0, new BreakPointMargin());
                 setSyntaxHightlight(Editor);
                 Editor.TextArea.TextEntering += OnTextEntering;
                 Editor.TextArea.TextEntered += OnTextEntered;

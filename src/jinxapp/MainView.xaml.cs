@@ -140,7 +140,7 @@ namespace jinxapp
             string title = document.Title;
             LayoutDocument layoutDocument = new LayoutDocument { Title =  title };
 
-            layoutDocument.Content = (RoslynEditor)document.Editor;
+            layoutDocument.Content = (jinx.RoslynEditor.RoslynEditor)document.Editor;
 
             documentPane.Children.Add(layoutDocument);
         }
@@ -148,7 +148,7 @@ namespace jinxapp
 
         public IEditor CreateEditor(string text)
         {
-            IEditor editor = new RoslynEditor() { Foreground = Brushes.White, Background = Brushes.DarkGray, EditerType = EditerType.CSharp, Text = text };
+            IEditor editor = new jinx.RoslynEditor.RoslynEditor() { Foreground = Brushes.White, Background = Brushes.DarkGray, EditerType = EditerType.CSharp, Text = text };
 
             return editor;
         }

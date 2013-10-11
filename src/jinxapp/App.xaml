@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="Resources/Windows Application.xaml"/>
                 <ResourceDictionary Source="Resources/Must Have.xaml"/>
                 <ResourceDictionary Source="Resources/AvalonEditStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Drak.xaml"/>
                 <ResourceDictionary Source="/WPG;component/Themes/ExpressionBlend.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

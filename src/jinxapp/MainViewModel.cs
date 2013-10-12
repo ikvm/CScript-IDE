@@ -95,7 +95,11 @@ namespace jinxapp
                 {
                     error = "The following compile error occured:\r\n";
                     foreach (Diagnostic d in dg)
-                        error += "Info: " + d.Info + "\n";
+                    {
+                        var loc = d.Location;
+                        error += string.Format("Info:{0},Location:{1} \n Error Line number:{2}\n",
+                            d.Info, loc.ToString() ,loc.GetLineSpan(false).StartLinePosition.Line ) ;
+                    }
                     compileSuccess = false;
                 }
             }

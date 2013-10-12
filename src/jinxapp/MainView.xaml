@@ -18,7 +18,7 @@
         ShowTitleBar="True"
         TextOptions.TextRenderingMode="ClearType"
         ShowIconOnTitleBar="true" 
-        Icon="Images/window.png" Loaded="MetroWindow_Loaded" 
+        Icon="Images/window.png" Loaded="MetroWindow_Loaded" Background="#FF444444" 
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
@@ -164,7 +164,7 @@
                                             </avalonDock:LayoutDocumentPane>
 
                                         </avalonDock:LayoutDocumentPaneGroup>
-                                        <avalonDock:LayoutAnchorablePaneGroup DockHeight="100"   Orientation="Horizontal"  >
+                                        <avalonDock:LayoutAnchorablePaneGroup DockHeight="200"   Orientation="Horizontal"  >
                                             <avalonDock:LayoutAnchorablePane  >
                                                 <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
                                                     <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
@@ -177,12 +177,13 @@
                                             </avalonDock:LayoutAnchorablePane>
                                         </avalonDock:LayoutAnchorablePaneGroup>
                                     </avalonDock:LayoutPanel>
-                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="235"    Orientation="Horizontal"  >
+                                    
+                                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="200"    Orientation="Horizontal"   >
                                         <avalonDock:LayoutAnchorablePane >
-                                            <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree"  CanClose="False" CanHide="False">
+                                            <avalonDock:LayoutAnchorable Title="Code Syntax Tree" ToolTip="Code Syntax Tree" IsActive="False" CanAutoHide="True"  CanClose="False" CanHide="False">
                                                 <Control:SyntaxVisualizerControl x:Name="syntaxVisualizer" />
                                             </avalonDock:LayoutAnchorable>
-                                            <avalonDock:LayoutAnchorable Title="Property" ToolTip="Property"  CanClose="False" CanHide="False"></avalonDock:LayoutAnchorable>
+                                            <avalonDock:LayoutAnchorable Title="Property" ToolTip="Property" IsActive="False"  CanAutoHide="True"  CanClose="False" CanHide="False"></avalonDock:LayoutAnchorable>
                                         </avalonDock:LayoutAnchorablePane>
                                     </avalonDock:LayoutAnchorablePaneGroup>
                                 </avalonDock:LayoutPanel>
@@ -195,7 +196,12 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Height="22" Background="#FF3399FF" />
+            <Border Grid.Row="2" Height="22" Margin="0,0.5,0,0"  Background="#FF175A9C" >
+                <StackPanel>
+                    <TextBlock Text="Ready" Foreground="WhiteSmoke" FontSize="14"/>
+                </StackPanel>
+            </Border>
+           
         </Grid>
 
     </Controls:MetroContentControl>

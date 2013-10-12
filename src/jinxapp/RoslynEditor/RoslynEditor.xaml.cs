@@ -134,6 +134,9 @@ namespace jinx.RoslynEditor
                     foldingManager = null;
                 }
             }
+            toolTip.FontSize = 13;
+            toolTip.Foreground = Brushes.DeepSkyBlue;
+
             _completionWindow = new CompletionWindow(Editor.TextArea);
             _completionWindow = null;
         }
@@ -222,6 +225,9 @@ namespace jinx.RoslynEditor
             if (pos != null)
             {
                 toolTip.PlacementTarget = this; // required for property inheritance
+
+                #region completion
+
                 var docLine = Editor.TextArea.Document.Lines[pos.Value.Line - 1];
                 int startOfWord = TextUtilities.GetNextCaretPosition(Editor.TextArea.Document, docLine.Offset + pos.Value.Column, LogicalDirection.Backward, CaretPositioningMode.WordBorderOrSymbol);
 
@@ -256,7 +262,34 @@ namespace jinx.RoslynEditor
                         }
                     }
                 }
-               
+
+                #endregion
+
+                #region Folding
+
+                int off = Editor.Document.GetOffset(pos.Value.Line, pos.Value.Column);
+
+                foreach (var fld in foldingManager.AllFoldings)
+                {
+
+                    if (fld.StartOffset <= off && off <= fld.EndOffset && fld.IsFolded)
+                    {
+
+                        toolTip.PlacementTarget = this;
+
+                        toolTip.Content = Editor.Document.Text.Substring(fld.StartOffset,
+
+                                                                             fld.EndOffset - fld.StartOffset);
+
+                        toolTip.IsOpen = true;
+
+                        e.Handled = true;
+
+                    }
+                }
+                #endregion
+
+
                 e.Handled = true;
             }
         }

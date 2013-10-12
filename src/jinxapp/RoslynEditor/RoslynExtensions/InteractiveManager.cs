@@ -233,17 +233,19 @@ namespace jinx.RoslynEditor.RoslynExtensions
                 var invocationSyntaxQuery = from syntaxNode in invocationSyntaxList
                                             where postion >= syntaxNode.Span.Start && postion <= syntaxNode.Span.End
                                             select syntaxNode;
-
-                int maxPostion = invocationSyntaxQuery.Max(s => s.Span.Start);
-                var invocationSyntax = invocationSyntaxQuery.FirstOrDefault(s => s.Span.Start == maxPostion);
-
-                var symbolInfo = model.GetSymbolInfo(invocationSyntax);
-                var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
-                if (methodSymbol != null)
+                if (invocationSyntaxQuery != null && invocationSyntaxQuery.Count() > 0)
                 {
-                    foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
+                    int maxPostion = invocationSyntaxQuery.Max(s => s.Span.Start);
+                    var invocationSyntax = invocationSyntaxQuery.FirstOrDefault(s => s.Span.Start == maxPostion);
+
+                    var symbolInfo = model.GetSymbolInfo(invocationSyntax);
+                    var methodSymbol = (MethodSymbol)symbolInfo.Symbol;
+                    if (methodSymbol != null)
                     {
-                        itemList.Add(new InsightItemData(methodSymbol.Name, overload.ToDisplayString()));
+                        foreach (MethodSymbol overload in methodSymbol.ContainingType.GetMembers(methodSymbol.Name))
+                        {
+                            itemList.Add(new InsightItemData(methodSymbol.Name, overload.ToDisplayString()));
+                        }
                     }
                 }
             }

@@ -24,6 +24,9 @@ namespace jinx.RoslynEditor
         public string openingBraceStr = "#region";
         public string closingBraceStr = "#endregion";
 
+        private int firstUsing = -1 ,lastUsing =  -1;
+        private DocumentLine firstUsingline, lastUsingline;
+
 		/// <summary>
 		/// Creates a new BraceFoldingStrategy.
 		/// </summary>
@@ -94,6 +97,38 @@ namespace jinx.RoslynEditor
                         }
                     }
                 }
+               
+                var doc = (TextDocument)document;
+                var sline = doc.GetLineByOffset(i);
+                string lineStr = doc.GetText(sline.Offset,sline.Length);
+                if (lineStr.StartsWith("using") || lineStr.StartsWith("#r"))
+                {
+                    if (firstUsing == -1)
+                    {
+                        firstUsing = sline.LineNumber;
+                        firstUsingline = sline;
+                    }
+                    else if (lastUsing != firstUsing)
+                    {
+                        lastNewLineOffset = sline.LineNumber;
+                        lastUsingline = sline;
+                    }
+
+
+                }
+                else
+                {
+                    if (firstUsing != -1 && firstUsingline.Offset < lastUsingline.EndOffset)
+                    {
+                        
+                        var folding = new NewFolding(firstUsingline.Offset, lastUsingline.EndOffset);
+                        folding.Name = "using";
+                        newFoldings.Add(folding);
+                    }
+                }
+              
+                
+
 
 
                 if (c == '\n' || c == '\r')
@@ -105,7 +140,7 @@ namespace jinx.RoslynEditor
 
 			}
 
-
+      
 			newFoldings.Sort((a,b) => a.StartOffset.CompareTo(b.StartOffset));
 			return newFoldings;
 		}

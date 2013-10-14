@@ -1,8 +1,10 @@
 ﻿using ExtendPropertyLib;
 using jinx.RoslynEditor;
+using jinx.RoslynEditor.RoslynExtensions;
 using Roslyn.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,11 +33,34 @@ namespace jinxapp
         /// <summary>
         /// 文档接口
         /// </summary>
-        public IDocument Document { set; get; }
+        public IDocument Document { 
+            get
+            {
+                var im = ApplicationService.Services.Take<InteractiveManager>();
+                return im.GetDocumentByID(this.DocumentID);
+            }
+        
+        }
         /// <summary>
         /// 标题
         /// </summary>
         public string Title { set; get; }
+
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public string FileName { set; get; }
+
+        /// <summary>
+        /// 是否在文件系统中保存过
+        /// </summary>
+        [DefaultValue(false)]
+        public bool IsFileSystemSaved { set; get; }
+        /// <summary>
+        /// 目前文档的保存状态，指是否再次编辑过，当前的编辑状态。
+        /// </summary>
+         [DefaultValue(false)]
+        public bool IsSaving { set; get; }
 
     }
 }

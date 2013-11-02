@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
     
-        <TreeView Grid.Row="0" Name="treeView" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown" ContextMenuOpening="TreeView_ContextMenuOpening"  Background="#FF303030">
+        <TreeView Grid.Row="0" Name="treeView" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown" ContextMenuOpening="TreeView_ContextMenuOpening"  Background="#FF303030" BorderThickness="0">
             <TreeView.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue" Opacity=".9"/>
                 <ContextMenu x:Key="treeViewItemContextMenu">

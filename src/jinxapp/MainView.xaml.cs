@@ -60,17 +60,17 @@ namespace jinxapp
             var grid = this.FindName("LeftBar") as Grid;
 
             GridLengthAnimation animation = new GridLengthAnimation();
-            animation.From = new GridLength(this.toMinsize ? grid.ColumnDefinitions[0].Width.Value : 0.5, GridUnitType.Pixel);
+            animation.From = new GridLength(this.toMinsize ? grid.ColumnDefinitions[0].Width.Value : 0.0, GridUnitType.Pixel);
             if (this.toMinsize)
             {
                 width = grid.ColumnDefinitions[0].Width;
-                animation.To = new GridLength(0.5, GridUnitType.Pixel);
+                animation.To = new GridLength(0.0, GridUnitType.Pixel);
             }
             else
                 animation.To = width;
 
             animation.FillBehavior = FillBehavior.Stop;
-            animation.Duration = new Duration(TimeSpan.FromSeconds(0.2));
+            animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
             grid.ColumnDefinitions[0].Width = animation.To;
             grid.ColumnDefinitions[0].BeginAnimation(ColumnDefinition.WidthProperty, animation);
 

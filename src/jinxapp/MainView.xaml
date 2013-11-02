@@ -41,9 +41,9 @@
             <Grid Grid.Row="0" Height="22" >
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF383838" Offset="0.01"/>
-                        <GradientStop Color="#FF2C2C2C" Offset="0.518"/>
-                        <GradientStop Color="#FF2E2E2E" Offset="1"/>
+                        <GradientStop Color="#FF494949" Offset="0.01"/>
+                        <GradientStop Color="#FF494949" Offset="0.518"/>
+                        <GradientStop Color="#FF4D4D4D" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
                 <Menu  Foreground="White" VerticalAlignment="Center" Background="{x:Null}">
@@ -58,7 +58,7 @@
             </Grid>
             <Grid x:Name="LeftBar" Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5" />
+                    <ColumnDefinition Width="0" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0"  >
@@ -100,7 +100,7 @@
                     </Border>
 
                 </Grid>
-                <GridSplitter Background="Transparent"  BorderThickness="0"  Width="2" Grid.Column="0"/>
+                <GridSplitter Background="Transparent"  BorderThickness="0"  Width="1" Grid.Column="0"/>
                 <Grid Grid.Column="1" Margin="2,0,0,0" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="45"/>
@@ -109,11 +109,11 @@
 
 
 
-                    <Border Grid.Column="0" CornerRadius="3" BorderBrush="#FF8D8D8D" BorderThickness="0.7,0.7,0.7,0.7">
+                    <Border Grid.Column="0" Margin="1,4,0,4" CornerRadius="3" BorderBrush="#FF8D8D8D" BorderThickness="0.7,0.7,0.7,0.7">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                <GradientStop Color="#FF383838" Offset="0" />
-                                <GradientStop Color="#FF242020" Offset="1" />
+                                <GradientStop Color="#FF4D4D4D" Offset="0" />
+                                <GradientStop Color="#FF383737" Offset="1" />
                             </LinearGradientBrush>
                         </Border.Background>
                         <StackPanel>

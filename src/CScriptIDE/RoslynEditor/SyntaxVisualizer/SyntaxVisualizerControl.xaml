@@ -20,7 +20,7 @@
                 <ContextMenu x:Key="treeViewItemContextMenu">
                     <MenuItem Name="directedSyntaxGraphMenuItem" Header="Directed Syntax Graph" Click="DirectedSyntaxGraphMenuItem_Click">
                         <MenuItem.Icon>
-                            <Image Height="16" Width="16" Source="/RoslynEditor;component/Images/SyntaxGraph.ico" />
+                            <Image Height="16" Width="16" Source="/CScriptIDE;component/Images/SyntaxGraph.ico" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinx", "jinx\jinx.csproj", "{9BC56AFB-9013-4C0A-8DC5-DF439D31CC1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinxc", "jinxc\jinxc.csproj", "{9D18A700-1923-4B6E-8B88-D767B8FD5178}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinx.types", "jinx.types\jinx.types.csproj", "{028FBE67-FF48-43DD-A1FA-A2FBA6B0F7F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jinxapp", "jinxapp\jinxapp.csproj", "{372235C2-6A61-402B-9542-D0435EC5FCF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CScriptIDE", "jinxapp\CScriptIDE.csproj", "{372235C2-6A61-402B-9542-D0435EC5FCF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

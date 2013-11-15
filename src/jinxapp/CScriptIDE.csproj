@@ -8,8 +8,8 @@
     <ProjectGuid>{372235C2-6A61-402B-9542-D0435EC5FCF6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>jinxapp</RootNamespace>
-    <AssemblyName>RoslynEditor</AssemblyName>
+    <RootNamespace>CScriptIDE</RootNamespace>
+    <AssemblyName>CScriptIDE</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

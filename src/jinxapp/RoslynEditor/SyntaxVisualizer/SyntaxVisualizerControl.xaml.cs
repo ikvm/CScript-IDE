@@ -27,7 +27,7 @@ using System.Windows.Media;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using System;
-using jinxapp.DomainServices;
+using CScriptIDE.DomainServices;
 
 namespace jinx.RoslynEditor.SyntaxVisualizer
 {

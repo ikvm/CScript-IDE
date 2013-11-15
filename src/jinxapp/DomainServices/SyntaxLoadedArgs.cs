@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.DomainServices
+namespace CScriptIDE.DomainServices
 {
     /// <summary>
     /// 语法树加载完成事件参数

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 
-namespace jinxapp
+namespace CScriptIDE
 {
     interface IMainView
     {

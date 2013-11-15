@@ -4,7 +4,7 @@ using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using jinx.RoslynEditor.SyntaxVisualizer;
 using jinx.RoslynEditor.RoslynExtensions;
-using jinxapp.DomainServices.GrammarDefinition;
+using CScriptIDE.DomainServices.GrammarDefinition;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
@@ -17,13 +17,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using jinxapp;
+using CScriptIDE;
 using Roslyn.Services;
 using System.Threading.Tasks;
 using ICSharpCode.AvalonEdit;
 using System.IO;
 using System.Xml;
-using jinxapp.RoslynEditor;
+using CScriptIDE.RoslynEditor;
 
 namespace jinx.RoslynEditor
 {
@@ -144,7 +144,7 @@ namespace jinx.RoslynEditor
         private void setSyntaxHightlight(TextEditor editor)
         {
             IHighlightingDefinition customHighlighting;
-            using (Stream s = typeof(RoslynEditor).Assembly.GetManifestResourceStream("jinxapp.RoslynEditor.Resources.CSharp-Mode.xshd"))
+            using (Stream s = typeof(RoslynEditor).Assembly.GetManifestResourceStream("CScriptIDE.RoslynEditor.Resources.CSharp-Mode.xshd"))
             {
                 if (s == null)
                     throw new InvalidOperationException("Could not find embedded resource");

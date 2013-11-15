@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace jinxapp.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     public class BreakPointMargin : AbstractMargin
     {

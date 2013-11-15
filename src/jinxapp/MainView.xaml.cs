@@ -20,7 +20,7 @@ using jinx.RoslynEditor.SyntaxVisualizer;
 using Xceed.Wpf.AvalonDock.Layout;
 
 
-namespace jinxapp
+namespace CScriptIDE
 {
 
     /// <summary>

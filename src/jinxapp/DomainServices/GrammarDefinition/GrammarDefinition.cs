@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.DomainServices.GrammarDefinition
+namespace CScriptIDE.DomainServices.GrammarDefinition
 {
     public sealed class GrammarDefinition
     {

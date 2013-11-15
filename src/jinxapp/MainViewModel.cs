@@ -8,7 +8,6 @@ using System.ComponentModel.Composition;
 using MaxZhang.EasyEntities.Dynamic.Aop;
 using System.Windows.Input;
 using Roslyn.Scripting;
-using jinx;
 using Microsoft.Win32;
 using System.IO;
 using Roslyn.Scripting.CSharp;
@@ -21,7 +20,7 @@ using System.Windows;
 using jinx.RoslynEditor.RoslynExtensions;
 using Editor = jinx.RoslynEditor;
 using System.Collections.ObjectModel;
-namespace jinxapp
+namespace CScriptIDE
 {
     [Export(typeof(IShell))]
     public class MainViewModel : ViewModelBase<MainViewFormModel>, IShell

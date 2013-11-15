@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.DomainServices.GrammarDefinition
+namespace CScriptIDE.DomainServices.GrammarDefinition
 {
     /// <summary>
     /// 得到所有语法树中关于类的定义

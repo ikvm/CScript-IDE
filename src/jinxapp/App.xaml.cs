@@ -8,7 +8,7 @@ using ExtendPropertyLib;
 using MaxZhang.EasyEntities.Dynamic.Aop;
 using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
-namespace jinxapp
+namespace CScriptIDE
 {
     /// <summary>
     /// Interaction logic for App.xaml

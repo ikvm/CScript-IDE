@@ -1,4 +1,4 @@
-﻿using jinxapp;
+﻿using CScriptIDE;
 using System.Windows;
 
 namespace jinx.RoslynEditor.Runtime

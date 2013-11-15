@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jinxapp.DomainServices
+namespace CScriptIDE.DomainServices
 {
     /// <summary>
     /// 文法结构类型

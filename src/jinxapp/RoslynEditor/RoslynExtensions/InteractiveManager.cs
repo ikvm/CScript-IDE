@@ -10,7 +10,7 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using jinxapp.DomainServices.GrammarDefinition;
+using CScriptIDE.DomainServices.GrammarDefinition;
 using jinx.RoslynEditor.Runtime;
 
 namespace jinx.RoslynEditor.RoslynExtensions

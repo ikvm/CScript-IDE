@@ -1,4 +1,4 @@
-﻿<Window x:Class="jinxapp.SplashScreen"
+﻿<Window x:Class="CScriptIDE.SplashScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SplashScreen" Height="540" Width="500" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None">

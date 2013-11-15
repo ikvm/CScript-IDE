@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace jinxapp
+namespace CScriptIDE
 {
     /// <summary>
     /// Interaction logic for SplashScreen.xaml

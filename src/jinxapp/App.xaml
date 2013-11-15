@@ -1,4 +1,4 @@
-﻿<Application x:Class="jinxapp.App"
+﻿<Application x:Class="CScriptIDE.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mywpf="clr-namespace:ExtendPropertyLib.WPF;assembly=ExtendPropertyLib.WPF"

@@ -6,7 +6,7 @@ using System.Text;
 using ExtendPropertyLib;
 using ExtendPropertyLib.WPF;
 
-namespace jinxapp
+namespace CScriptIDE
 {
     public class MainViewFormModel : BusinessInfoBase<MainViewFormModel>
     {

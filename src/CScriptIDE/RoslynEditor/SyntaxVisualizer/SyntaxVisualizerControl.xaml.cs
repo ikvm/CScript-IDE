@@ -695,6 +695,7 @@ namespace CScriptIDE.RoslynEditor.SyntaxVisualizer
         {
             if (!DirectedSyntaxGraphContextMenuEnabled)
             {
+              
                 e.Handled = true;
             }
         }

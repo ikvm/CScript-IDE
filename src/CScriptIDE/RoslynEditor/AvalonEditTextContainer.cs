@@ -3,7 +3,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using Roslyn.Compilers;
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     class AvalonEditTextContainer : ITextContainer
     {

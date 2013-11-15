@@ -29,7 +29,7 @@ using Roslyn.Compilers.Common;
 using System;
 using CScriptIDE.DomainServices;
 
-namespace jinx.RoslynEditor.SyntaxVisualizer
+namespace CScriptIDE.RoslynEditor.SyntaxVisualizer
 {
     public enum SyntaxCategory
     {

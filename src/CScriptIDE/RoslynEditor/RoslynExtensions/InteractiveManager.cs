@@ -11,9 +11,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using CScriptIDE.DomainServices.GrammarDefinition;
-using jinx.RoslynEditor.Runtime;
+using CScriptIDE.RoslynEditor.Runtime;
 
-namespace jinx.RoslynEditor.RoslynExtensions
+namespace CScriptIDE.RoslynEditor.RoslynExtensions
 {
     public class InteractiveManager
     {

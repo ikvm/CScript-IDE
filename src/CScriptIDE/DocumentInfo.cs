@@ -1,6 +1,6 @@
 ﻿using ExtendPropertyLib;
-using jinx.RoslynEditor;
-using jinx.RoslynEditor.RoslynExtensions;
+using CScriptIDE.RoslynEditor;
+using CScriptIDE.RoslynEditor.RoslynExtensions;
 using Roslyn.Services;
 using System;
 using System.Collections.Generic;

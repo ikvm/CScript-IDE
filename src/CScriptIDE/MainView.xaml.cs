@@ -14,9 +14,9 @@ using System.ComponentModel.Composition;
 using ExtendPropertyLib;
 using System.Windows.Media.Animation;
 using ExtendPropertyLib.WPF;
-using jinx.RoslynEditor;
+using CScriptIDE.RoslynEditor;
 using Roslyn.Compilers.CSharp;
-using jinx.RoslynEditor.SyntaxVisualizer;
+using CScriptIDE.RoslynEditor.SyntaxVisualizer;
 using Xceed.Wpf.AvalonDock.Layout;
 
 
@@ -140,7 +140,7 @@ namespace CScriptIDE
             string title = document.Title;
             LayoutDocument layoutDocument = new LayoutDocument { Title =  title };
 
-            layoutDocument.Content = (jinx.RoslynEditor.RoslynEditor)document.Editor;
+            layoutDocument.Content = (CScriptIDE.RoslynEditor.RoslynEditor)document.Editor;
 
             documentPane.Children.Add(layoutDocument);
         }
@@ -148,7 +148,7 @@ namespace CScriptIDE
 
         public IEditor CreateEditor(string text)
         {
-            IEditor editor = new jinx.RoslynEditor.RoslynEditor() { Foreground = Brushes.White, Background = Brushes.DarkGray, EditerType = EditerType.CSharp, Text = text };
+            IEditor editor = new CScriptIDE.RoslynEditor.RoslynEditor() { Foreground = Brushes.White, Background = Brushes.DarkGray, EditerType = EditerType.CSharp, Text = text };
 
             return editor;
         }

@@ -3,7 +3,7 @@ using System.Threading;
 using Roslyn.Compilers;
 using Roslyn.Services;
 
-namespace jinx.RoslynEditor.RoslynExtensions
+namespace CScriptIDE.RoslynEditor.RoslynExtensions
 {
     internal interface ICompletionService
     {

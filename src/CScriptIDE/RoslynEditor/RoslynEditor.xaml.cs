@@ -2,8 +2,8 @@
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
-using jinx.RoslynEditor.SyntaxVisualizer;
-using jinx.RoslynEditor.RoslynExtensions;
+using CScriptIDE.RoslynEditor.SyntaxVisualizer;
+using CScriptIDE.RoslynEditor.RoslynExtensions;
 using CScriptIDE.DomainServices.GrammarDefinition;
 using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
@@ -25,7 +25,7 @@ using System.IO;
 using System.Xml;
 using CScriptIDE.RoslynEditor;
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     public enum EditerType
     {

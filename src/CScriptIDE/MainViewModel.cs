@@ -17,8 +17,8 @@ using Roslyn.Services;
 using Roslyn.Compilers.Common;
 using System.Reflection;
 using System.Windows;
-using jinx.RoslynEditor.RoslynExtensions;
-using Editor = jinx.RoslynEditor;
+using CScriptIDE.RoslynEditor.RoslynExtensions;
+using Editor = CScriptIDE.RoslynEditor;
 using System.Collections.ObjectModel;
 namespace CScriptIDE
 {

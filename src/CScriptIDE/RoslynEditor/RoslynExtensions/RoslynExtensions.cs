@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using Roslyn.Services;
-using jinx.RoslynEditor.Utilities;
+using CScriptIDE.RoslynEditor.Utilities;
 
 
-namespace jinx.RoslynEditor.RoslynExtensions
+namespace CScriptIDE.RoslynEditor.RoslynExtensions
 {
     internal static class RoslynExtensions
     {

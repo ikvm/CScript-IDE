@@ -1,7 +1,7 @@
 ﻿using CScriptIDE;
 using System.Windows;
 
-namespace jinx.RoslynEditor.Runtime
+namespace CScriptIDE.RoslynEditor.Runtime
 {
     public static class ObjectExtensions
     {

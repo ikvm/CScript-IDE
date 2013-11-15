@@ -7,9 +7,9 @@ using System.Threading;
 using Roslyn.Compilers;
 using Roslyn.Services;
 using System.Linq;
-using jinx.RoslynEditor.Utilities;
+using CScriptIDE.RoslynEditor.Utilities;
 
-namespace jinx.RoslynEditor.RoslynExtensions
+namespace CScriptIDE.RoslynEditor.RoslynExtensions
 {
     class CompletionServiceWrapper : ICompletionService
     {

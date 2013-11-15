@@ -1,4 +1,4 @@
-﻿using jinx.RoslynEditor.Utilities;
+﻿using CScriptIDE.RoslynEditor.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     public class ObjectFormatter
     {

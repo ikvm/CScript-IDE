@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit;
 using Roslyn.Compilers;
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     public static class EditorExtensions
     {

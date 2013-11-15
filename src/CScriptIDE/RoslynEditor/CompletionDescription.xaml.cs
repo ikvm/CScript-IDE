@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
     /// <summary>
     /// Interaction logic for CompletionDescription.xaml

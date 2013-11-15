@@ -1,4 +1,4 @@
-﻿using jinx.RoslynEditor;
+﻿using CScriptIDE.RoslynEditor;
 using Roslyn.Compilers.CSharp;
 using System;
 using System.Collections.Generic;

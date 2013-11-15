@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 
-namespace jinx.RoslynEditor
+namespace CScriptIDE.RoslynEditor
 {
 	/// <summary>
 	/// Allows producing foldings from a document based on braces.

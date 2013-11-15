@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace jinx.RoslynEditor.Utilities
+namespace CScriptIDE.RoslynEditor.Utilities
 {
     public static class StaticReflection
     {

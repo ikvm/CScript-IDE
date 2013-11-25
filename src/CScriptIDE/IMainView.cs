@@ -18,5 +18,7 @@ namespace CScriptIDE
         void DisplayTree(SyntaxTree tree);
 
         void AddDocument(DocumentInfo document);
+
+        void ShowOnState(int state);
     }
 }

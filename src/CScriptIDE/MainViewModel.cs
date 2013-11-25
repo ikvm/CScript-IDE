@@ -62,6 +62,7 @@ namespace CScriptIDE
         public override async void OnLoad()
         {
             mv = this.View as IMainView;
+         
             Formatter = mv.Formatter;
             ApplicationService.Services.Add<Editor.ObjectFormatter>(Formatter);
 

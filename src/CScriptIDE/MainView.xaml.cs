@@ -36,8 +36,11 @@ namespace CScriptIDE
         }
         public MainView()
         {
-          
+            SplashScreen screen = new SplashScreen() { WindowStartupLocation= System.Windows.WindowStartupLocation.CenterScreen, ShowInTaskbar = false};
+            screen.Show();
             InitializeComponent();
+         
+            this.Visibility = System.Windows.Visibility.Visible;
             width = new GridLength(260, GridUnitType.Pixel);
             this.Closed += MainView_Closed;
 
@@ -181,6 +184,21 @@ namespace CScriptIDE
                 }
 
             }
+        }
+
+
+        public void ShowOnState(int state)
+        {
+          switch(state)
+          {
+              case 0:
+                  this.Show();
+                  break;
+              case -1:
+                  this.Hide();
+                  break;
+
+          }
         }
     }
 }

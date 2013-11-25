@@ -118,7 +118,7 @@
                         </Border.Background>
                         <StackPanel>
                             <Grid Height="45" Width="45" Margin="0,8,0,0">
-                                <Controls:AppBarButton x:Name="rotate" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="33" Width="33" MetroImageSource="{DynamicResource Previous}" Click="AppBarButton_Click"   ToolTip="说明:将元数据列表 dock left for hide。">
+                                <Controls:AppBarButton x:Name="rotate" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="33" Width="33" MetroImageSource="{DynamicResource Previous}" Click="AppBarButton_Click"   ToolTip="FileSystem and more">
                                     <Controls:AppBarButton.LayoutTransform>
                                         <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180" />
                                     </Controls:AppBarButton.LayoutTransform>

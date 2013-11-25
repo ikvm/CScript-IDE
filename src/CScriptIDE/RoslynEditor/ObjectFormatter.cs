@@ -57,6 +57,14 @@ namespace CScriptIDE.RoslynEditor
                 }
             }
 
+            if(o is UIElement)
+            {
+                blocks.Add(CreatePara(new Figure( new BlockUIContainer((UIElement)o) )));
+                return;
+            }
+
+
+
             WriteProperties(blocks, objects, o);
         }
 

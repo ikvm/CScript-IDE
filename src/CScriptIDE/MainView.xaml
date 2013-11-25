@@ -17,8 +17,8 @@
         Height="768" Width="1024"
         ShowTitleBar="True"
         TextOptions.TextRenderingMode="ClearType"
-        ShowIconOnTitleBar="true" 
-        Icon="Images/window.png" Loaded="MetroWindow_Loaded" Background="#FF444444" 
+        ShowIconOnTitleBar="true"  
+        Icon="Images/window.png" Loaded="MetroWindow_Loaded" Background="#FF444444" WindowState="Minimized" 
     >
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
@@ -167,9 +167,16 @@
                                         <avalonDock:LayoutAnchorablePaneGroup DockHeight="200"   Orientation="Horizontal"  >
                                             <avalonDock:LayoutAnchorablePane  >
                                                 <avalonDock:LayoutAnchorable Title="Log and Result" CanClose="False" CanHide="False" >
-                                                    <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  
+                                                    <RichTextBox Name="log"  VerticalScrollBarVisibility="Visible"   AcceptsReturn="True"  IsDocumentEnabled="True"
                                                          Foreground="White" Background="#FF252526" BorderBrush="#FF404040"  
-                                                         FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" />
+                                                         FontFamily="Microsoft YaHei" FontSize="12" TextChanged="log_TextChanged" SelectionBrush="#FF343434" >
+
+                                                        <RichTextBox.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="Clear All" Click="MenuItem_Click" />
+                                                            </ContextMenu>
+                                                        </RichTextBox.ContextMenu>
+                                                    </RichTextBox>
                                                 </avalonDock:LayoutAnchorable>
                                                 <avalonDock:LayoutAnchorable Title="Debug" CanClose="False" CanHide="False">
 

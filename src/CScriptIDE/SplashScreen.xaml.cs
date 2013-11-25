@@ -20,6 +20,8 @@ namespace CScriptIDE
     /// </summary>
     public partial class SplashScreen : Window
     {
+        public MainView MainView { set; get; }
+
         public SplashScreen()
         {
             InitializeComponent();
@@ -33,6 +35,9 @@ namespace CScriptIDE
         {
             var that = sender as DispatcherTimer;
             that.Stop();
+
+    
+            MainView.WindowState = System.Windows.WindowState.Maximized;
             this.Close();
         }
     }

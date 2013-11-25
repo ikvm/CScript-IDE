@@ -37,10 +37,11 @@ namespace CScriptIDE
         public MainView()
         {
             SplashScreen screen = new SplashScreen() { WindowStartupLocation= System.Windows.WindowStartupLocation.CenterScreen, ShowInTaskbar = false};
+            screen.MainView = this;
             screen.Show();
             InitializeComponent();
+           
          
-            this.Visibility = System.Windows.Visibility.Visible;
             width = new GridLength(260, GridUnitType.Pixel);
             this.Closed += MainView_Closed;
 
@@ -199,6 +200,11 @@ namespace CScriptIDE
                   break;
 
           }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _formatter.Clear();
         }
     }
 }

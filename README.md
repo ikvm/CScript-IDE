@@ -1,4 +1,4 @@
-CScript IDE - A C# Script IDE and Converter to-JavaScript cross-compiler
+CScript IDE - A C# Script IDE Power by Roslyn
 =======
 
 # LICENSE
